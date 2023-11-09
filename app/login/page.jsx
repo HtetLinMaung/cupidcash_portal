@@ -32,7 +32,7 @@ export default function LoginPage() {
           timer: 5000,
         });
       }
-      localStorage.setItem("cupidcash_token", res.data.data.token);
+      localStorage.setItem("cupidcash_token", res.data.token);
       setErrorMessage(null);
       router.push("/dashboard/users");
     } catch (err) {
