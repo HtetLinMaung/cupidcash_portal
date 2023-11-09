@@ -11,7 +11,7 @@ export default function LoginPage() {
   const [errorMessage, setErrorMessage] = useState(null);
 
   useEffect(() => {
-    const token = localStorage.getItem("watchwonder_token");
+    const token = localStorage.getItem("cupidcash_token");
     if (token) {
       router.push("/dashboard");
     }
@@ -32,7 +32,7 @@ export default function LoginPage() {
           timer: 5000,
         });
       }
-      localStorage.setItem("watchwonder_token", res.data.data.token);
+      localStorage.setItem("cupidcash_token", res.data.data.token);
       setErrorMessage(null);
       router.push("/dashboard/users");
     } catch (err) {
@@ -47,7 +47,7 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="p-8 bg-white shadow-lg rounded-lg">
-        <h1 className="text-2xl font-bold mb-4">Watch Wonder Portal</h1>
+        <h1 className="text-2xl font-bold mb-4">POS Portal</h1>
         <div className="mb-4">
           <label
             className="block text-sm font-medium text-gray-600 mb-2"

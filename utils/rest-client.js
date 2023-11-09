@@ -4,7 +4,7 @@ import Swal from "sweetalert2";
 
 export async function httpPost(url, body, config = {}) {
   const headers = {
-    Authorization: `Bearer ${localStorage.getItem("watchwonder_token")}`,
+    Authorization: `Bearer ${localStorage.getItem("cupidcash_token")}`,
   };
   console.log(`[${url}] method: POST`);
   console.log(`[${url}] config: ${JSON.stringify(config)}`);
@@ -20,7 +20,7 @@ export async function httpPost(url, body, config = {}) {
 
 export async function httpPut(url, body, config = {}) {
   const headers = {
-    Authorization: `Bearer ${localStorage.getItem("watchwonder_token")}`,
+    Authorization: `Bearer ${localStorage.getItem("cupidcash_token")}`,
   };
   console.log(`[${url}] method: PUT`);
   console.log(`[${url}] config: ${JSON.stringify(config)}`);
@@ -36,7 +36,7 @@ export async function httpPut(url, body, config = {}) {
 
 export async function httpPatch(url, body, config = {}) {
   const headers = {
-    Authorization: `Bearer ${localStorage.getItem("watchwonder_token")}`,
+    Authorization: `Bearer ${localStorage.getItem("cupidcash_token")}`,
   };
   console.log(`[${url}] method: PATCH`);
   console.log(`[${url}] config: ${JSON.stringify(config)}`);
@@ -52,7 +52,7 @@ export async function httpPatch(url, body, config = {}) {
 
 export async function httpGet(url, config = {}) {
   const headers = {
-    Authorization: `Bearer ${localStorage.getItem("watchwonder_token")}`,
+    Authorization: `Bearer ${localStorage.getItem("cupidcash_token")}`,
   };
   console.log(`[${url}] method: GET`);
   console.log(`[${url}] config: ${JSON.stringify(config)}`);
@@ -67,7 +67,7 @@ export async function httpGet(url, config = {}) {
 
 export async function httpDelete(url, config = {}) {
   const headers = {
-    Authorization: `Bearer ${localStorage.getItem("watchwonder_token")}`,
+    Authorization: `Bearer ${localStorage.getItem("cupidcash_token")}`,
   };
   console.log(`[${url}] method: DELETE`);
   console.log(`[${url}] config: ${JSON.stringify(config)}`);
@@ -88,7 +88,7 @@ export const handleError = (err, router) => {
       message == "invalid token" ||
       message == "invalid authorization header format"
     ) {
-      localStorage.setItem("watchwonder_token", "");
+      localStorage.setItem("cupidcash_token", "");
       router.push("/login");
       Swal.fire({
         title: "Session Expired",
