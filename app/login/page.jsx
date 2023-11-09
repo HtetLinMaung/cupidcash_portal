@@ -23,7 +23,7 @@ export default function LoginPage() {
         username,
         password,
       });
-      if (res.data.data.role != "admin") {
+      if (res.data.role != "admin") {
         return Swal.fire({
           // icon: "error",
           title: "Unauthorized Access",
