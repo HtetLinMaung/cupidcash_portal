@@ -12,7 +12,7 @@ export default function OrderCard({
         backgroundColor: isActive ? "#3C82F6" : "#fff",
       }}
       onClick={onClick}
-      className={`bg-white rounded-md shadow p-4`}
+      className={`bg-white rounded-md shadow p-4 cursor-pointer`}
     >
       <p
         className="font-bold text-gray-800"

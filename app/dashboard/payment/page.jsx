@@ -90,7 +90,15 @@ export default function Payment() {
       </div>
 
       {/* Right section */}
-      <div className="flex flex-col w-96 bg-gray-800 text-white p-8">
+      <div
+        className="flex flex-col w-96 bg-gray-800 text-white p-8"
+        style={{
+          width: selectedOrder == 0 ? 0 : "24rem",
+          maxWidth: selectedOrder == 0 ? 0 : "24rem",
+          padding: selectedOrder == 0 ? 0 : "2rem",
+          opacity: selectedOrder == 0 ? 0 : 1,
+        }}
+      >
         {/* Payment history button */}
 
         <div className="flex-grow overflow-y-auto"></div>
