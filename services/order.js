@@ -9,3 +9,7 @@ export const getOrders = async (params = {}) => {
     },
   });
 };
+
+export const getOrderDetails = async (id) => {
+  return httpGet(`/api/orders/${id}/details`);
+};

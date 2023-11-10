@@ -1,7 +1,8 @@
 "use client";
 import Breadcrumb from "@/components/Breadcrumb";
 import OrderCard from "@/components/OrderCard";
-import { getOrders } from "@/services/order";
+import { server_domain } from "@/constants";
+import { getOrderDetails, getOrders } from "@/services/order";
 import { handleError } from "@/utils/rest-client";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -14,11 +15,39 @@ const breadcrumbItems = [
 export default function Payment() {
   const router = useRouter();
   const [orders, setOrders] = useState([]);
+  const [order, setOrder] = useState({
+    waiter_name: "",
+    table_number: "",
+    created_at: new Date().toISOString(),
+    items: [],
+  });
+  const [subTotal, setSubTotal] = useState(0);
   const [search, setSearch] = useState("");
-  // const [page, setPage] = useState(1);
-  // const [perPage, setPerPage] = useState(999);
-
   const [selectedOrder, setSelectedOrder] = useState(0);
+
+  useEffect(() => {
+    if (selectedOrder) {
+      getOrderDetails(selectedOrder)
+        .then((res) => {
+          if (res.data.code != 200) {
+            return Swal.fire({
+              title: "",
+              text: res.data.message || "Something went wrong!",
+              showConfirmButton: false,
+              timer: 5000,
+            });
+          }
+
+          setOrder(res.data.data);
+          let total = 0;
+          for (const item of res.data.data.items) {
+            total += item.price;
+          }
+          setSubTotal(total);
+        })
+        .catch((err) => handleError(err, router));
+    }
+  }, [selectedOrder]);
 
   useEffect(() => {
     getOrders({ search })
@@ -63,7 +92,7 @@ export default function Payment() {
             </div>
 
             {/* Card grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
               {/* Repeat this div for each card, use a map function for real data */}
               {orders.map((order) => (
                 <OrderCard
@@ -91,33 +120,59 @@ export default function Payment() {
 
       {/* Right section */}
       <div
-        className="flex flex-col w-96 bg-gray-800 text-white p-8"
+        className="flex flex-col w-96 bg-gray-800 text-white py-8"
         style={{
           width: selectedOrder == 0 ? 0 : "24rem",
           maxWidth: selectedOrder == 0 ? 0 : "24rem",
-          padding: selectedOrder == 0 ? 0 : "2rem",
+          padding: selectedOrder == 0 ? 0 : "2rem 0",
           opacity: selectedOrder == 0 ? 0 : 1,
         }}
       >
-        {/* Payment history button */}
+        {/* Display order information */}
+        <div className="mb-8 px-8">
+          <h3 className="text-lg font-bold">Order Details</h3>
+          <p>Waiter: {order.waiter_name}</p>
+          <p>Table: {order.table_number}</p>
+          <p>Time: {new Date(order.created_at).toLocaleString()}</p>
+        </div>
 
-        <div className="flex-grow overflow-y-auto"></div>
+        <div className="flex-grow overflow-y-auto pl-8">
+          {/* Loop over items array */}
+          {order.items.map((item, index) => (
+            <div key={index} className="mb-4 flex">
+              <img
+                src={server_domain + item.image_url}
+                alt={item.item_name}
+                className="h-20 w-20 flex-none bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden"
+              />
+              <div className="px-4 flex flex-col justify-between leading-normal">
+                <h5 className="text-md font-bold">{item.item_name}</h5>
+                <p className="text-sm">{item.description}</p>
+                <p className="text-sm">Qty: {item.quantity}</p>
+                {item.special_instructions && (
+                  <p className="text-sm">Notes: {item.special_instructions}</p>
+                )}
+                <p className="text-md">{item.price.toFixed(2)} Ks</p>
+              </div>
+            </div>
+          ))}
+        </div>
         {/* Summary section */}
-        <div className="mb-4">
-          <div className="mb-2">
+        <div className="mb-4 px-8">
+          <div className="mb-2 pt-4">
             <p>
-              Sub Total <span className="float-right">$20</span>
+              Sub Total <span className="float-right">{subTotal} Ks</span>
             </p>
             <p>
               Discount <span className="float-right">-</span>
             </p>
             <p>
-              Tax <span className="float-right">$3</span>
+              Tax <span className="float-right">-</span>
             </p>
           </div>
           <div className="mb-4">
             <p>
-              Total <span className="float-right">$23</span>
+              Total <span className="float-right">{subTotal} Ks</span>
             </p>
           </div>
           <div className="mb-4">
@@ -134,9 +189,11 @@ export default function Payment() {
         </div> */}
 
         {/* Checkout button */}
-        <button className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-          CHECKOUT
-        </button>
+        <div className="px-8">
+          <button className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            CHECKOUT
+          </button>
+        </div>
       </div>
     </div>
   );
