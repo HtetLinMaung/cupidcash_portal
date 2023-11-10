@@ -1,4 +1,10 @@
+"use client";
 import Breadcrumb from "@/components/Breadcrumb";
+import OrderCard from "@/components/OrderCard";
+import { getOrders } from "@/services/order";
+import { handleError } from "@/utils/rest-client";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 const breadcrumbItems = [
   { label: "Home", href: "/dashboard" },
@@ -6,6 +12,34 @@ const breadcrumbItems = [
 ];
 
 export default function Payment() {
+  const router = useRouter();
+  const [orders, setOrders] = useState([]);
+  const [search, setSearch] = useState("");
+  // const [page, setPage] = useState(1);
+  // const [perPage, setPerPage] = useState(999);
+
+  const [selectedOrder, setSelectedOrder] = useState(0);
+
+  useEffect(() => {
+    getOrders({ search })
+      .then((res) => {
+        if (res.data.code != 200) {
+          return Swal.fire({
+            title: "",
+            text: res.data.message || "Something went wrong!",
+            showConfirmButton: false,
+            timer: 5000,
+          });
+        }
+
+        setOrders(res.data.data);
+        // if (res.data.data.length) {
+        //   setSelectedOrder(res.data.data[0]);
+        // }
+      })
+      .catch((err) => handleError(err, router));
+  }, [search, router]);
+
   return (
     <div className="flex h-screen">
       <div className="flex-grow bg-gray-100 pt-8">
@@ -20,6 +54,8 @@ export default function Payment() {
             {/* Search bar */}
             <div className="mb-4">
               <input
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
                 type="text"
                 placeholder="Type to search..."
                 className="w-full p-4 rounded-md"
@@ -29,11 +65,24 @@ export default function Payment() {
             {/* Card grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {/* Repeat this div for each card, use a map function for real data */}
-              <div className="bg-white rounded-md shadow p-4">
+              {orders.map((order) => (
+                <OrderCard
+                  key={order.id}
+                  id={order.id}
+                  tableNumber={order.table_number}
+                  waiterName={order.waiter_name}
+                  isActive={selectedOrder == order.id}
+                  onClick={() => {
+                    console.log("click");
+                    setSelectedOrder(order.id);
+                  }}
+                />
+              ))}
+              {/* <div className="bg-white rounded-md shadow p-4">
                 <p>DN-0012A</p>
                 <p>A10 - 1st Floor</p>
                 <p>Difana Wilson</p>
-              </div>
+              </div> */}
               {/* ... other cards */}
             </div>
           </div>
