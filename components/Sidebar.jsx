@@ -8,8 +8,12 @@ export default function Sidebar() {
                       bg-gray-900 text-white shadow-lg"
     >
       <SidebarIcon icon={<HomeIcon />} text="Home" href="/dashboard" />
-      <SidebarIcon icon={<OrderIcon />} text="Order" href="/dashboard/order" />
-      
+      <SidebarIcon
+        icon={<OrderIcon />}
+        text="Payment"
+        href="/dashboard/payment"
+      />
+
       {/* ... other icons */}
     </div>
   );

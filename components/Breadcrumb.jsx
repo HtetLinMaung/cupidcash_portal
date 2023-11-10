@@ -1,7 +1,7 @@
 // components/Breadcrumb.js
 function Breadcrumb({ items }) {
   return (
-    <nav className="text-gray-500 text-sm mb-6">
+    <nav className="text-gray-500 text-sm mb-0">
       {items.map((item, index) => (
         <span key={item.label}>
           {index > 0 && " > "}

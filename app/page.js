@@ -15,5 +15,9 @@ export default function Home() {
     }
   }, [router]);
 
-  return <div></div>;
+  return (
+    <div className="flex justify-center items-center h-screen">
+      <h1 style={{ fontSize: "4rem" }}>Welcome from POS Portal</h1>
+    </div>
+  );
 }

@@ -6,7 +6,7 @@ export default function DashboardLayout({ children }) {
       <body>
         <div className="flex">
           <Sidebar />
-          <div className="pl-16">{children}</div>
+          <div className="pl-20 flex-grow bg-gray-100">{children}</div>
         </div>
       </body>
     </html>
