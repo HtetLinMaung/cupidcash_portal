@@ -6,8 +6,8 @@ import Swal from "sweetalert2";
 
 export default function LoginPage() {
   const router = useRouter();
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("admin");
+  const [password, setPassword] = useState("User@123");
   const [errorMessage, setErrorMessage] = useState(null);
 
   useEffect(() => {
@@ -23,7 +23,7 @@ export default function LoginPage() {
         username,
         password,
       });
-      if (res.data.role != "admin") {
+      if (res.data.role != "Admin") {
         return Swal.fire({
           // icon: "error",
           title: "Unauthorized Access",
@@ -34,7 +34,7 @@ export default function LoginPage() {
       }
       localStorage.setItem("cupidcash_token", res.data.token);
       setErrorMessage(null);
-      router.push("/dashboard/users");
+      router.push("/dashboard");
     } catch (err) {
       if (err.response) {
         setErrorMessage(err.response.data.message);

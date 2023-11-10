@@ -33,3 +33,12 @@ body {
   transition: transform 0.3s ease-in-out;
   group-hover: scale-100;
 }
+
+/* for debugging purposes */
+/* * {
+  outline: 2px solid #6632a8 !important;
+}
+
+*:hover {
+  outline: 2px solid green !important;
+} */
