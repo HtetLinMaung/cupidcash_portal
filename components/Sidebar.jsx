@@ -1,5 +1,5 @@
 // components/Sidebar.js
-
+"use client";
 export default function Sidebar() {
   return (
     <div
@@ -21,7 +21,7 @@ export default function Sidebar() {
 
 function SidebarIcon({ icon, text = "tooltip 💡", href = "/" }) {
   return (
-    <a href={href}>
+    <a href={href} onClick={() => console.log(`click ${text}`)}>
       <div className="sidebar-icon group">
         {icon}
         <span className="sidebar-tooltip group-hover:scale-100">{text}</span>

@@ -55,11 +55,13 @@
     },
     "windows": [
       {
-        "fullscreen": true,
-        "height": 600,
+        "fullscreen": false,
+        "height": 768,
         "resizable": true,
         "title": "POS Portal",
-        "width": 800
+        "width": 1024,
+        "minWidth": 800,
+        "minHeight": 600
       }
     ]
   }

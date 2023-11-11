@@ -5,7 +5,9 @@ import { server_domain } from "@/constants";
 import { getOrderDetails, getOrders } from "@/services/order";
 import { handleError } from "@/utils/rest-client";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import money from "mm-money";
+import { paymentContext } from "@/providers/PaymentProvider";
 
 const breadcrumbItems = [
   { label: "Home", href: "/dashboard" },
@@ -14,16 +16,18 @@ const breadcrumbItems = [
 
 export default function Payment() {
   const router = useRouter();
-  const [orders, setOrders] = useState([]);
-  const [order, setOrder] = useState({
-    waiter_name: "",
-    table_number: "",
-    created_at: new Date().toISOString(),
-    items: [],
-  });
-  const [subTotal, setSubTotal] = useState(0);
-  const [search, setSearch] = useState("");
-  const [selectedOrder, setSelectedOrder] = useState(0);
+  const {
+    orders,
+    setOrders,
+    order,
+    setOrder,
+    subTotal,
+    setSubTotal,
+    search,
+    setSearch,
+    selectedOrder,
+    setSelectedOrder,
+  } = useContext(paymentContext);
 
   useEffect(() => {
     if (selectedOrder) {
@@ -92,7 +96,7 @@ export default function Payment() {
             </div>
 
             {/* Card grid */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {/* Repeat this div for each card, use a map function for real data */}
               {orders.map((order) => (
                 <OrderCard
@@ -102,7 +106,6 @@ export default function Payment() {
                   waiterName={order.waiter_name}
                   isActive={selectedOrder == order.id}
                   onClick={() => {
-                    console.log("click");
                     setSelectedOrder(order.id);
                   }}
                 />
@@ -130,10 +133,10 @@ export default function Payment() {
       >
         {/* Display order information */}
         <div className="mb-8 px-8">
-          <h3 className="text-lg font-bold">Order Details</h3>
+          <h3 className="text-lg font-bold">#{order.id}</h3>
           <p>Waiter: {order.waiter_name}</p>
           <p>Table: {order.table_number}</p>
-          <p>Time: {new Date(order.created_at).toLocaleString()}</p>
+          <p>Time: {new Date(order.created_at + "Z").toLocaleString()}</p>
         </div>
 
         <div className="flex-grow overflow-y-auto pl-8">
@@ -152,7 +155,7 @@ export default function Payment() {
                 {item.special_instructions && (
                   <p className="text-sm">Notes: {item.special_instructions}</p>
                 )}
-                <p className="text-md">{item.price.toFixed(2)} Ks</p>
+                <p className="text-md">{money.format(item.price)} Ks</p>
               </div>
             </div>
           ))}
@@ -161,7 +164,8 @@ export default function Payment() {
         <div className="mb-4 px-8">
           <div className="mb-2 pt-4">
             <p>
-              Sub Total <span className="float-right">{subTotal} Ks</span>
+              Sub Total{" "}
+              <span className="float-right">{money.format(subTotal)} Ks</span>
             </p>
             <p>
               Discount <span className="float-right">-</span>
@@ -172,7 +176,8 @@ export default function Payment() {
           </div>
           <div className="mb-4">
             <p>
-              Total <span className="float-right">{subTotal} Ks</span>
+              Total
+              <span className="float-right">{money.format(subTotal)} Ks</span>
             </p>
           </div>
           <div className="mb-4">
