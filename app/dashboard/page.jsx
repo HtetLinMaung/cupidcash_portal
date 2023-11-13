@@ -4,6 +4,7 @@ import TableCard from "@/components/TableCard";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { getTables } from "@/services/table";
+import { handleError } from "@/utils/rest-client";
 
 const breadcrumbItems = [
   { label: "Home", href: "/dashboard" },
@@ -37,7 +38,7 @@ export default function Dashboard() {
   }, [search, router]);
 
   return (
-    <div className="flex full-screen">
+    <div className="flex h-screen overflow-hidden">
       <div className="flex-grow bg-gray-100 pt-8">
         <Breadcrumb items={breadcrumbItems} />
         <div className="flex-grow overflow-auto">
