@@ -6,23 +6,12 @@ import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import moment from "moment";
 import Pagination from "@/components/Pagination";
-import { httpGet } from "@/utils/rest-client";
+import { handleError, httpGet } from "@/utils/rest-client";
 
 const breadcrumbItems = [
   { label: "Home", href: "/dashboard" },
   { label: "Category" },
 ];
-
-// export default function Category() {
-//   return (
-//     <div className="flex h-screen overflow-hidden">
-//       <div className="flex-grow bg-gray-100 pt-8">
-//         <Breadcrumb items={breadcrumbItems} />
-//       </div>
-//     </div>
-
-//   );
-// }
 
 export default function CategoriesList() {
   const [categories, setCategories] = useState([]);
