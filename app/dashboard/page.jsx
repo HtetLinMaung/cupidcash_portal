@@ -6,9 +6,7 @@ import { useEffect, useState } from "react";
 import { getTables } from "@/services/table";
 import { handleError } from "@/utils/rest-client";
 
-const breadcrumbItems = [
-  { label: "Home", href: "/dashboard" },
-];
+const breadcrumbItems = [{ label: "Home", href: "/dashboard" }];
 
 export default function Dashboard() {
   const router = useRouter();
@@ -38,7 +36,7 @@ export default function Dashboard() {
   }, [search, router]);
 
   return (
-    <div className="flex h-screen overflow-hidden">
+    <div className="pl-2 flex h-screen overflow-hidden">
       <div className="flex-grow bg-gray-100 pt-8">
         <Breadcrumb items={breadcrumbItems} />
         <div className="flex-grow overflow-auto">
@@ -130,9 +128,12 @@ export default function Dashboard() {
           Reserve
         </button>
         {/* Cancel button */}
-        <button className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4" onClick={() => {
-          setSelectedTable(0);
-        }}>
+        <button
+          className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
+          onClick={() => {
+            setSelectedTable(0);
+          }}
+        >
           CANCEL
         </button>
       </div>

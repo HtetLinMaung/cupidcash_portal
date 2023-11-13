@@ -74,7 +74,7 @@ export default function Payment() {
   }, [search, router]);
 
   return (
-    <div className="flex h-screen overflow-hidden">
+    <div className="pl-2 flex h-screen overflow-hidden">
       <div className="flex-grow bg-gray-100 pt-8">
         <Breadcrumb items={breadcrumbItems} />
         <div className="flex-grow overflow-auto">
