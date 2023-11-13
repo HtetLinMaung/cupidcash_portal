@@ -18,6 +18,9 @@ export default function Sidebar() {
         text="Category"
         href="/dashboard/category"
       />
+      <SidebarIcon icon={<CategoryIcon />} text="User" href="/dashboard/user" />
+      <SidebarIcon icon={<CategoryIcon />} text="Shop" href="/dashboard/shop" />
+      <SidebarIcon icon={<CategoryIcon />} text="Item" href="/dashboard/item" />
 
       {/* ... other icons */}
     </div>
