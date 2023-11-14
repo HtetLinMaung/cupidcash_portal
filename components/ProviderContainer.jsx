@@ -3,6 +3,7 @@ import PaymentProvider from "@/providers/PaymentProvider";
 import AppProvider from "@/providers/AppProvider";
 import UserProvider from "@/providers/UserProvider";
 import ItemProvider from "@/providers/ItemProvider";
+import ShopProvider from "@/providers/ShopProvider";
 
 export default function ProviderContainer({ children }) {
   return (
@@ -10,7 +11,9 @@ export default function ProviderContainer({ children }) {
       <UserProvider>
         <CategoryProvider>
           <PaymentProvider>
-            <ItemProvider>{children}</ItemProvider>
+            <ShopProvider>
+              <ItemProvider>{children}</ItemProvider>
+            </ShopProvider>
           </PaymentProvider>
         </CategoryProvider>
       </UserProvider>
