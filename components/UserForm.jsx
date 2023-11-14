@@ -104,17 +104,7 @@ function UserForm({
               id="role_id"
               name="role_id"
               value={formData.role_id}
-              onChange={(e) => {
-                handleChange(e);
-                const role = roles.find((r) => r.value == e.target.value);
-                if (role) {
-                  if (role.label == "Admin") {
-                    setShowShopSelector(false);
-                  } else {
-                    setShowShopSelector(true);
-                  }
-                }
-              }}
+              onChange={handleChange}
               required
             >
               <option value="0">Select a Role</option>
