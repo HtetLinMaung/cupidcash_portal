@@ -7,6 +7,7 @@ import Swal from "sweetalert2";
 import CategoryForm from "@/components/CategoryForm";
 import { getShops } from "@/services/shop";
 import { categoryContext } from "@/providers/CategoryProvider";
+import { appContext } from "@/providers/AppProvider";
 
 const breadcrumbItems = [
   { label: "Home", href: "/dashboard" },
@@ -15,6 +16,7 @@ const breadcrumbItems = [
 ];
 
 export default function CategoryCreateForm() {
+  const { setLoading } = useContext(appContext);
   const router = useRouter();
   const { shops, setShops } = useContext(categoryContext);
 
@@ -23,17 +25,27 @@ export default function CategoryCreateForm() {
     // if (!token) {
     //   router.push("/login");
     // }
+    setLoading(true);
     getShops()
       .then((res) => {
+        setLoading(false);
         setShops(res.data.data.map((s) => ({ value: s.id, label: s.name })));
       })
-      .catch((err) => handleError(err, router));
+      .catch((err) => {
+        setLoading(false);
+        handleError(err, router);
+      });
   }, [router]);
 
   const createCategory = async (data) => {
     try {
+      setLoading(true);
       data.shop_id = parseInt(data.shop_id);
+      if (!data.shop_id) {
+        throw new Error("Invalid shop!");
+      }
       const res = await httpPost("/api/categories", data);
+      setLoading(false);
       Swal.fire({
         icon: "success",
         text: res.data.message,
@@ -42,6 +54,7 @@ export default function CategoryCreateForm() {
       });
       router.push("/dashboard/category");
     } catch (err) {
+      setLoading(false);
       handleError(err, router);
     }
   };

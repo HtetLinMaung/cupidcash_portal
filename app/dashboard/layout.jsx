@@ -1,13 +1,15 @@
 "use client";
 
+import LoadingBar from "@/components/LoadingBar";
+
 import Sidebar from "@/components/Sidebar";
 import { socketio_domain } from "@/constants";
-import CategoryProvider from "@/providers/CategoryProvider";
-import PaymentProvider from "@/providers/PaymentProvider";
-import { useEffect } from "react";
+import { appContext } from "@/providers/AppProvider";
+import { useContext, useEffect } from "react";
 import { io } from "socket.io-client";
 
 export default function DashboardLayout({ children }) {
+  const { loading } = useContext(appContext);
   useEffect(() => {
     const socket = io(socketio_domain);
 
@@ -20,17 +22,14 @@ export default function DashboardLayout({ children }) {
   }, []);
 
   return (
-    <CategoryProvider>
-      <PaymentProvider>
-        <html lang="en">
-          <body>
-            <div className="flex">
-              <Sidebar />
-              <div className="pl-20 flex-grow bg-gray-100">{children}</div>
-            </div>
-          </body>
-        </html>
-      </PaymentProvider>
-    </CategoryProvider>
+    <html lang="en">
+      <body>
+        {loading ? <LoadingBar /> : null}
+        <div className="flex">
+          <Sidebar />
+          <div className="pl-20 flex-grow bg-gray-100">{children}</div>
+        </div>
+      </body>
+    </html>
   );
 }

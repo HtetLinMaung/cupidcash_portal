@@ -5,9 +5,10 @@ import { server_domain } from "@/constants";
 import { getOrderDetails, getOrders } from "@/services/order";
 import { handleError } from "@/utils/rest-client";
 import { useRouter } from "next/navigation";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import money from "mm-money";
 import { paymentContext } from "@/providers/PaymentProvider";
+import { appContext } from "@/providers/AppProvider";
 
 const breadcrumbItems = [
   { label: "Home", href: "/dashboard" },
@@ -16,6 +17,7 @@ const breadcrumbItems = [
 
 export default function Payment() {
   const router = useRouter();
+  const { setLoading } = useContext(appContext);
   const {
     orders,
     setOrders,
@@ -54,8 +56,10 @@ export default function Payment() {
   }, [selectedOrder]);
 
   useEffect(() => {
+    setLoading(true);
     getOrders({ search })
       .then((res) => {
+        setLoading(false);
         if (res.data.code != 200) {
           return Swal.fire({
             title: "",
@@ -70,7 +74,10 @@ export default function Payment() {
         //   setSelectedOrder(res.data.data[0]);
         // }
       })
-      .catch((err) => handleError(err, router));
+      .catch((err) => {
+        setLoading(false);
+        handleError(err, router);
+      });
   }, [search, router]);
 
   return (

@@ -14,7 +14,7 @@ const initState = {
   selectedOrder: 0,
 };
 
-export const paymentContext = createContext(null);
+export const paymentContext = createContext(initState);
 
 export default function PaymentProvider({ children }) {
   return (

@@ -3,11 +3,13 @@
 import Breadcrumb from "@/components/Breadcrumb";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import moment from "moment";
 import Pagination from "@/components/Pagination";
 import { handleError, httpDelete, httpGet } from "@/utils/rest-client";
 import Swal from "sweetalert2";
+import { categoryContext } from "@/providers/CategoryProvider";
+import { appContext } from "@/providers/AppProvider";
 
 const breadcrumbItems = [
   { label: "Home", href: "/dashboard" },
@@ -15,15 +17,25 @@ const breadcrumbItems = [
 ];
 
 export default function CategoriesList() {
-  const [categories, setCategories] = useState([]);
-  const [search, setSearch] = useState("");
-  const [page, setPage] = useState(1);
-  const [perPage, setPerPage] = useState(10);
-  const [pageCounts, setPageCounts] = useState(0);
-  const [total, setTotal] = useState(0);
+  const { setLoading } = useContext(appContext);
+  const {
+    categories,
+    setCategories,
+    search,
+    setSearch,
+    page,
+    setPage,
+    perPage,
+    setPerPage,
+    pageCounts,
+    setPageCounts,
+    total,
+    setTotal,
+  } = useContext(categoryContext);
   const router = useRouter();
 
   const fetchCategories = useCallback(() => {
+    setLoading(true);
     httpGet("/api/categories", {
       params: {
         page,
@@ -32,11 +44,13 @@ export default function CategoriesList() {
       },
     })
       .then((res) => {
+        setLoading(false);
         setTotal(res.data.total);
         setPageCounts(res.data.page_counts);
         setCategories(res.data.data);
       })
       .catch((err) => {
+        setLoading(false);
         handleError(err, router);
       });
   }, [page, perPage, router, search]);
@@ -59,8 +73,10 @@ export default function CategoriesList() {
       confirmButtonText: "Delete",
     }).then((result) => {
       if (result.isConfirmed) {
+        setLoading(true);
         httpDelete(`/api/categories/${category_id}`)
           .then((res) => {
+            setLoading(false);
             Swal.fire({
               text: res.data.message,
               icon: "success",
@@ -70,6 +86,7 @@ export default function CategoriesList() {
             fetchCategories();
           })
           .catch((err) => {
+            setLoading(false);
             handleError(err, router);
           });
       }

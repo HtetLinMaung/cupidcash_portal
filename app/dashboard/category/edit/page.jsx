@@ -8,8 +8,10 @@ import Swal from "sweetalert2";
 import CategoryForm from "@/components/CategoryForm";
 import { categoryContext } from "@/providers/CategoryProvider";
 import { getShops } from "@/services/shop";
+import { appContext } from "@/providers/AppProvider";
 
 export default function CategoryEditForm() {
+  const { setLoading } = useContext(appContext);
   const { shops, setShops } = useContext(categoryContext);
   const params = useSearchParams();
   console.log(params);
@@ -26,30 +28,37 @@ export default function CategoryEditForm() {
     // if (!token) {
     //   router.push("/login");
     // }
-
+    setLoading(true);
     getShops()
       .then((res) => {
         setShops(res.data.data.map((s) => ({ value: s.id, label: s.name })));
         httpGet(`/api/categories/${params.get("category_id")}`)
           .then((res) => {
+            setLoading(false);
             res.data.data.shop_id = res.data.data.shop_id + "";
             setCategory(res.data.data);
           })
           .catch((err) => {
+            setLoading(false);
             handleError(err, router);
           });
       })
-      .catch((err) => handleError(err, router));
+      .catch((err) => {
+        setLoading(false);
+        handleError(err, router);
+      });
   }, [router, params.get("category_id")]);
 
   const updateCategory = async (data) => {
-    console.log(data);
-    data.shop_id = parseInt(data.shop_id);
     try {
+      setLoading(true);
+      console.log(data);
+      data.shop_id = parseInt(data.shop_id);
       const res = await httpPut(
         `/api/categories/${params.get("category_id")}`,
         data
       );
+      setLoading(false);
       Swal.fire({
         icon: "success",
         text: res.data.message,
@@ -58,6 +67,7 @@ export default function CategoryEditForm() {
       });
       router.push("/dashboard/category");
     } catch (err) {
+      setLoading(false);
       handleError(err, router);
     }
   };
