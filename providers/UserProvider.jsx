@@ -2,29 +2,22 @@ import useData from "@/hooks/use-data";
 import { createContext } from "react";
 
 const initState = {
+  shops: [],
+  roles: [],
   users: [],
-  user: {
-    name: "",
-    username: "",
-    password: "",
-    role_id: "",
-    role_name: "",
-    shop_id: "",
-    shop_name: "",
-    created_at: new Date().toISOString(),
-    items: [],
-  },
-  subTotal: 0,
   search: "",
-  selectedOrder: 0,
+  page: 1,
+  perPage: 10,
+  pageCounts: 0,
+  total: 0,
 };
 
-export const paymentContext = createContext(initState);
+export const userContext = createContext(initState);
 
 export default function UserProvider({ children }) {
   return (
-    <paymentContext.Provider value={useData(initState)}>
+    <userContext.Provider value={useData(initState)}>
       {children}
-    </paymentContext.Provider>
+    </userContext.Provider>
   );
 }

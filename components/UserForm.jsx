@@ -1,10 +1,18 @@
 import { useState } from "react";
 
-function CategoryForm({ category = {}, shops = [], onSubmit, onBackClick }) {
+function UserForm({
+  shops = [],
+  user = {},
+  roles = [],
+  onSubmit,
+  onBackClick,
+}) {
   const [formData, setFormData] = useState({
-    name: category.name || "",
-    description: category.description || "",
-    shop_id: category.shop_id || "0",
+    name: user.name || "",
+    username: user.username || "",
+    password: user.password || "",
+    role_id: user.role_id || "0",
+    shop_id: user.shop_id || "0",
   });
 
   const handleChange = (e) => {
@@ -47,20 +55,65 @@ function CategoryForm({ category = {}, shops = [], onSubmit, onBackClick }) {
           <div className="flex-1">
             <label
               className="block text-gray-700 text-sm font-bold mb-2"
-              htmlFor="description"
+              htmlFor="username"
             >
-              Description
+              Username
             </label>
-            <textarea
+            <input
               className="w-full p-2 border rounded-lg"
-              id="description"
-              name="description"
-              cols="30"
-              rows="10"
-              value={formData.description}
+              id="username"
+              type="text"
+              name="username"
+              value={formData.username}
               onChange={handleChange}
               required
-            ></textarea>
+            />
+          </div>
+        </div>
+
+        <div className="flex space-x-6">
+          <div className="flex-1">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="password"
+            >
+              Password
+            </label>
+            <input
+              className="w-full p-2 border rounded-lg"
+              id="password"
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              required
+            />
+          </div>
+        </div>
+
+        <div className="flex space-x-6">
+          <div className="flex-1">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="role_id"
+            >
+              Role
+            </label>
+            <select
+              className="w-full p-2 border rounded-lg"
+              id="role_id"
+              name="role_id"
+              value={formData.role_id}
+              onChange={handleChange}
+              required
+            >
+              <option value="0">Select a Role</option>
+              {roles.map((role) => (
+                <option key={role.value} value={role.value}>
+                  {role.label}
+                </option>
+              ))}
+            </select>
           </div>
         </div>
 
@@ -104,7 +157,7 @@ function CategoryForm({ category = {}, shops = [], onSubmit, onBackClick }) {
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline"
             type="submit"
           >
-            {category.id ? "Update" : "Create"}
+            {user.id ? "Update" : "Create"}
           </button>
         </div>
       </form>
@@ -112,4 +165,4 @@ function CategoryForm({ category = {}, shops = [], onSubmit, onBackClick }) {
   );
 }
 
-export default CategoryForm;
+export default UserForm;

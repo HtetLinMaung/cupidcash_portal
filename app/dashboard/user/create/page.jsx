@@ -4,21 +4,22 @@ import Breadcrumb from "@/components/Breadcrumb";
 import { handleError, httpPost } from "@/utils/rest-client";
 import { useContext, useEffect } from "react";
 import Swal from "sweetalert2";
-import CategoryForm from "@/components/CategoryForm";
 import { getShops } from "@/services/shop";
-import { categoryContext } from "@/providers/CategoryProvider";
 import { appContext } from "@/providers/AppProvider";
+import { userContext } from "@/providers/UserProvider";
+import { getRoles } from "@/services/role";
+import UserForm from "@/components/UserForm";
 
 const breadcrumbItems = [
   { label: "Home", href: "/dashboard" },
-  { label: "Category", href: "/dashboard/category" },
-  { label: "Category Form" },
+  { label: "User", href: "/dashboard/user" },
+  { label: "User Form" },
 ];
 
-export default function CategoryCreateForm() {
+export default function UserCreateForm() {
   const { setLoading } = useContext(appContext);
   const router = useRouter();
-  const { shops, setShops } = useContext(categoryContext);
+  const { shops, setShops, roles, setRoles } = useContext(userContext);
 
   useEffect(() => {
     // const token = localStorage.getItem("cupidcash_token");
@@ -26,10 +27,15 @@ export default function CategoryCreateForm() {
     //   router.push("/login");
     // }
     setLoading(true);
-    getShops()
-      .then((res) => {
+    Promise.all([getShops(), getRoles()])
+      .then(([shopsRes, rolesRes]) => {
         setLoading(false);
-        setShops(res.data.data.map((s) => ({ value: s.id, label: s.name })));
+        setShops(
+          shopsRes.data.data.map((s) => ({ value: s.id, label: s.name }))
+        );
+        setRoles(
+          rolesRes.data.data.map((r) => ({ value: r.id, label: r.role_name }))
+        );
       })
       .catch((err) => {
         setLoading(false);
@@ -37,14 +43,18 @@ export default function CategoryCreateForm() {
       });
   }, [router]);
 
-  const createCategory = async (data) => {
+  const createUser = async (data) => {
     try {
+      data.role_id = parseInt(data.role_id);
       data.shop_id = parseInt(data.shop_id);
+      if (!data.role_id) {
+        throw new Error("Invalid role!");
+      }
       if (!data.shop_id) {
         throw new Error("Invalid shop!");
       }
       setLoading(true);
-      const res = await httpPost("/api/categories", data);
+      const res = await httpPost("/api/users", data);
       setLoading(false);
       Swal.fire({
         icon: "success",
@@ -52,7 +62,7 @@ export default function CategoryCreateForm() {
         showConfirmButton: false,
         timer: 5000,
       });
-      router.push("/dashboard/category");
+      router.push("/dashboard/user");
     } catch (err) {
       setLoading(false);
       handleError(err, router);
@@ -68,9 +78,10 @@ export default function CategoryCreateForm() {
       <div className="flex-grow bg-gray-100 pt-8 mb-6">
         <Breadcrumb items={breadcrumbItems} />
       </div>
-      <CategoryForm
+      <UserForm
         shops={shops}
-        onSubmit={createCategory}
+        roles={roles}
+        onSubmit={createUser}
         onBackClick={handleBackClick}
       />
     </div>
