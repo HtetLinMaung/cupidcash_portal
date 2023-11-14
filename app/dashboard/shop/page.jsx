@@ -105,7 +105,7 @@ export default function ShopsList() {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             type="text"
-            placeholder="Search categories..."
+            placeholder="Search Shop..."
             className="p-2 border rounded-lg"
           />
         </div>
