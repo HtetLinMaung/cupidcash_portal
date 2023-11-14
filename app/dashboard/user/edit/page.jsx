@@ -31,7 +31,6 @@ export default function UserEditForm() {
     setLoading(true);
     Promise.all([getShops(), getRoles()])
       .then(([shopsRes, rolesRes]) => {
-        setLoading(false);
         setShops(
           shopsRes.data.data.map((s) => ({ value: s.id, label: s.name }))
         );
@@ -61,6 +60,7 @@ export default function UserEditForm() {
       setLoading(true);
       console.log(data);
       data.shop_id = parseInt(data.shop_id);
+      data.role_id = parseInt(data.role_id);
       const res = await httpPut(`/api/users/${params.get("user_id")}`, data);
       setLoading(false);
       Swal.fire({

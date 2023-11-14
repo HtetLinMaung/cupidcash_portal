@@ -5,9 +5,10 @@ import { useRouter } from "next/navigation";
 import { useCallback, useContext, useEffect } from "react";
 import moment from "moment";
 import Pagination from "@/components/Pagination";
-import { handleError, httpGet } from "@/utils/rest-client";
+import { handleError, httpDelete, httpGet } from "@/utils/rest-client";
 import { userContext } from "@/providers/UserProvider";
 import { appContext } from "@/providers/AppProvider";
+import Swal from "sweetalert2";
 const breadcrumbItems = [
   { label: "Home", href: "/dashboard" },
   { label: "User" },
@@ -121,6 +122,7 @@ export default function UsersList() {
         <thead className="bg-gray-200">
           <tr className=" text-left">
             <th className="py-2 px-4 border-b">ID</th>
+            <th className="py-2 px-4 border-b">Name</th>
             <th className="py-2 px-4 border-b">Username</th>
             <th className="py-2 px-4 border-b">Role</th>
             <th className="py-2 px-4 border-b">Shop</th>
@@ -133,6 +135,7 @@ export default function UsersList() {
             <tr key={user.id} className="hover:bg-gray-50">
               <td className="py-2 px-4 border-b">{user.id}</td>
               <td className="py-2 px-4 border-b">{user.name}</td>
+              <td className="py-2 px-4 border-b">{user.username}</td>
               <td className="py-2 px-4 border-b">{user.role_name}</td>
               <td className="py-2 px-4 border-b">{user.shop_name}</td>
               <td className="py-2 px-4 border-b">

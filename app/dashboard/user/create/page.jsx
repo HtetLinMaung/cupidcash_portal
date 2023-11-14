@@ -45,8 +45,14 @@ export default function UserCreateForm() {
 
   const createUser = async (data) => {
     try {
+      const role = roles.find((r) => r.value == data.role_id);
+      if (role == "Admin") {
+        data.shop_id = 0;
+      } else {
+        data.shop_id = parseInt(data.shop_id);
+      }
       data.role_id = parseInt(data.role_id);
-      data.shop_id = parseInt(data.shop_id);
+
       if (!data.role_id) {
         throw new Error("Invalid role!");
       }
