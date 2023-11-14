@@ -7,9 +7,6 @@ function UserForm({
   onSubmit,
   onBackClick,
 }) {
-  const [showShopSelector, setShowShopSelector] = useState(
-    user.role_name == "Admin" ? false : true
-  );
   const [formData, setFormData] = useState({
     name: user.name || "",
     username: user.username || "",
@@ -130,33 +127,31 @@ function UserForm({
           </div>
         </div>
 
-        {showShopSelector ? (
-          <div className="flex space-x-6">
-            <div className="flex-1">
-              <label
-                className="block text-gray-700 text-sm font-bold mb-2"
-                htmlFor="shop_id"
-              >
-                Shop
-              </label>
-              <select
-                className="w-full p-2 border rounded-lg"
-                id="shop_id"
-                name="shop_id"
-                value={formData.shop_id}
-                onChange={handleChange}
-                required
-              >
-                <option value="0">Select a Shop</option>
-                {shops.map((shop) => (
-                  <option key={shop.value} value={shop.value}>
-                    {shop.label}
-                  </option>
-                ))}
-              </select>
-            </div>
+        <div className="flex space-x-6">
+          <div className="flex-1">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="shop_id"
+            >
+              Shop
+            </label>
+            <select
+              className="w-full p-2 border rounded-lg"
+              id="shop_id"
+              name="shop_id"
+              value={formData.shop_id}
+              onChange={handleChange}
+              required
+            >
+              <option value="0">Select a Shop</option>
+              {shops.map((shop) => (
+                <option key={shop.value} value={shop.value}>
+                  {shop.label}
+                </option>
+              ))}
+            </select>
           </div>
-        ) : null}
+        </div>
 
         <div className="flex justify-end mt-6">
           <button
