@@ -46,7 +46,7 @@ export default function UserCreateForm() {
   const createUser = async (data) => {
     try {
       const role = roles.find((r) => r.value == data.role_id);
-      if (role == "Admin") {
+      if (role.label == "Admin") {
         data.shop_id = 0;
       } else {
         data.shop_id = parseInt(data.shop_id);
@@ -56,7 +56,7 @@ export default function UserCreateForm() {
       if (!data.role_id) {
         throw new Error("Invalid role!");
       }
-      if (!data.shop_id && role != "Admin") {
+      if (!data.shop_id && role.label != "Admin") {
         throw new Error("Invalid shop!");
       }
       setLoading(true);
