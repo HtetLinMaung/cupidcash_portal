@@ -32,6 +32,7 @@ export default function CategoryCreateForm() {
 
   const createCategory = async (data) => {
     try {
+      data.shop_id = parseInt(data.shop_id);
       const res = await httpPost("/api/categories", data);
       Swal.fire({
         icon: "success",
@@ -50,8 +51,10 @@ export default function CategoryCreateForm() {
   };
 
   return (
-    <div className="container mx-auto p-4">
-      <Breadcrumb items={breadcrumbItems} />
+    <div className="px-2 pr-6 h-screen overflow-hidden">
+      <div className="flex-grow bg-gray-100 pt-8 mb-6">
+        <Breadcrumb items={breadcrumbItems} />
+      </div>
       <CategoryForm
         shops={shops}
         onSubmit={createCategory}

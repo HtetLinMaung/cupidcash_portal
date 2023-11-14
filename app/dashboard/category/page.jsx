@@ -6,7 +6,8 @@ import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import moment from "moment";
 import Pagination from "@/components/Pagination";
-import { handleError, httpGet } from "@/utils/rest-client";
+import { handleError, httpDelete, httpGet } from "@/utils/rest-client";
+import Swal from "sweetalert2";
 
 const breadcrumbItems = [
   { label: "Home", href: "/dashboard" },
@@ -129,14 +130,14 @@ export default function CategoriesList() {
               <td className="py-2 px-4 border-b">
                 <Link
                   className="text-blue-500 hover:underline"
-                  href={`/dashboard/category/edit/${category.id}`}
+                  href={`/dashboard/category/edit?category_id=${category.id}`}
                 >
                   Edit
                 </Link>
                 {/* Add delete functionality */}
                 <button
                   className="ml-2 text-red-500 hover:underline"
-                  onClick={() => handleDelete(category.category_id)}
+                  onClick={() => handleDelete(category.id)}
                 >
                   Delete
                 </button>
