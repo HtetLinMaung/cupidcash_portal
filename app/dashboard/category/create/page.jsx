@@ -2,9 +2,11 @@
 import { useRouter } from "next/navigation";
 import Breadcrumb from "@/components/Breadcrumb";
 import { handleError, httpPost } from "@/utils/rest-client";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import Swal from "sweetalert2";
 import CategoryForm from "@/components/CategoryForm";
+import { getShops } from "@/services/shop";
+import { categoryContext } from "@/providers/CategoryProvider";
 
 const breadcrumbItems = [
   { label: "Home", href: "/dashboard" },
@@ -14,12 +16,18 @@ const breadcrumbItems = [
 
 export default function CategoryCreateForm() {
   const router = useRouter();
+  const { shops, setShops } = useContext(categoryContext);
 
   useEffect(() => {
-    const token = localStorage.getItem("cupidcash_token");
-    if (!token) {
-      router.push("/login");
-    }
+    // const token = localStorage.getItem("cupidcash_token");
+    // if (!token) {
+    //   router.push("/login");
+    // }
+    getShops()
+      .then((res) => {
+        setShops(res.data.data.map((s) => ({ value: s.id, label: s.name })));
+      })
+      .catch((err) => handleError(err, router));
   }, [router]);
 
   const createCategory = async (data) => {
@@ -44,7 +52,11 @@ export default function CategoryCreateForm() {
   return (
     <div className="container mx-auto p-4">
       <Breadcrumb items={breadcrumbItems} />
-      <CategoryForm onSubmit={createCategory} onBackClick={handleBackClick} />
+      <CategoryForm
+        shops={shops}
+        onSubmit={createCategory}
+        onBackClick={handleBackClick}
+      />
     </div>
   );
 }

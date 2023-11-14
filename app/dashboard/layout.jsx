@@ -2,6 +2,7 @@
 
 import Sidebar from "@/components/Sidebar";
 import { socketio_domain } from "@/constants";
+import CategoryProvider from "@/providers/CategoryProvider";
 import PaymentProvider from "@/providers/PaymentProvider";
 import { useEffect } from "react";
 import { io } from "socket.io-client";
@@ -19,15 +20,17 @@ export default function DashboardLayout({ children }) {
   }, []);
 
   return (
-    <PaymentProvider>
-      <html lang="en">
-        <body>
-          <div className="flex">
-            <Sidebar />
-            <div className="pl-20 flex-grow bg-gray-100">{children}</div>
-          </div>
-        </body>
-      </html>
-    </PaymentProvider>
+    <CategoryProvider>
+      <PaymentProvider>
+        <html lang="en">
+          <body>
+            <div className="flex">
+              <Sidebar />
+              <div className="pl-20 flex-grow bg-gray-100">{children}</div>
+            </div>
+          </body>
+        </html>
+      </PaymentProvider>
+    </CategoryProvider>
   );
 }

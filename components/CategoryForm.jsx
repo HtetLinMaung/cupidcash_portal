@@ -1,10 +1,10 @@
 import { useState } from "react";
 
-function CategoryForm({ category = {}, onSubmit, onBackClick }) {
+function CategoryForm({ category = {}, shops = [], onSubmit, onBackClick }) {
   const [formData, setFormData] = useState({
     name: category.name || "",
     description: category.description || "",
-    shop_id: category.shop_id || "",
+    shop_id: category.shop_id || "0",
   });
 
   const handleChange = (e) => {
@@ -74,18 +74,18 @@ function CategoryForm({ category = {}, onSubmit, onBackClick }) {
             </label>
             <select
               className="w-full p-2 border rounded-lg"
-              id="shop"
-              name="shop"
-              value={formData.shop}
+              id="shop_id"
+              name="shop_id"
+              value={formData.shop_id}
               onChange={handleChange}
               required
             >
-              {/* Replace these options with actual shop data */}
-              <option value="">Select a Shop</option>
-              <option value="shop1">Shop 1</option>
-              <option value="shop2">Shop 2</option>
-              <option value="shop3">Shop 3</option>
-              {/* Add more options as needed */}
+              <option value="0">Select a Shop</option>
+              {shops.map((shop) => (
+                <option key={shop.value} value={shop.value}>
+                  {shop.label}
+                </option>
+              ))}
             </select>
           </div>
         </div>
