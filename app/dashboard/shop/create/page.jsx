@@ -3,44 +3,26 @@ import { useRouter } from "next/navigation";
 import Breadcrumb from "@/components/Breadcrumb";
 import { handleError, httpPost } from "@/utils/rest-client";
 import { useContext, useEffect } from "react";
-import Swal from "sweetalert2";
-import CategoryForm from "@/components/CategoryForm";
-import { getShops } from "@/services/shop";
-import { categoryContext } from "@/providers/CategoryProvider";
+import ShopForm from "@/components/ShopForm";
+import { shopContext } from "@/providers/ShopProvider";
 import { appContext } from "@/providers/AppProvider";
-
+import Swal from "sweetalert2";
 const breadcrumbItems = [
   { label: "Home", href: "/dashboard" },
-  { label: "Category", href: "/dashboard/category" },
-  { label: "Category Form" },
+  { label: "Shop", href: "/dashboard/shop" },
+  { label: "Shop Form" },
 ];
 
-export default function CategoryCreateForm() {
+export default function ShopCreateForm() {
   const { setLoading } = useContext(appContext);
   const router = useRouter();
-  const { shops, setShops } = useContext(categoryContext);
+  const { shops, setShops } = useContext(shopContext);
 
-  useEffect(() => {
-    setLoading(true);
-    getShops()
-      .then((res) => {
-        setLoading(false);
-        setShops(res.data.data.map((s) => ({ value: s.id, label: s.name })));
-      })
-      .catch((err) => {
-        setLoading(false);
-        handleError(err, router);
-      });
-  }, [router]);
-
-  const createCategory = async (data) => {
+  const createShop = async (data) => {
     try {
       data.shop_id = parseInt(data.shop_id);
-      if (!data.shop_id) {
-        throw new Error("Invalid shop!");
-      }
       setLoading(true);
-      const res = await httpPost("/api/categories", data);
+      const res = await httpPost("/api/shops", data);
       setLoading(false);
       Swal.fire({
         icon: "success",
@@ -48,7 +30,7 @@ export default function CategoryCreateForm() {
         showConfirmButton: false,
         timer: 5000,
       });
-      router.push("/dashboard/category");
+      router.push("/dashboard/shop");
     } catch (err) {
       setLoading(false);
       handleError(err, router);
@@ -64,9 +46,9 @@ export default function CategoryCreateForm() {
       <div className="flex-grow bg-gray-100 pt-8 mb-6">
         <Breadcrumb items={breadcrumbItems} />
       </div>
-      <CategoryForm
+      <ShopForm
         shops={shops}
-        onSubmit={createCategory}
+        onSubmit={createShop}
         onBackClick={handleBackClick}
       />
     </div>
