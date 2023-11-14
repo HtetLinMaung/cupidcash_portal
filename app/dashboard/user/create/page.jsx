@@ -56,7 +56,7 @@ export default function UserCreateForm() {
       if (!data.role_id) {
         throw new Error("Invalid role!");
       }
-      if (!data.shop_id) {
+      if (!data.shop_id && role != "Admin") {
         throw new Error("Invalid shop!");
       }
       setLoading(true);
