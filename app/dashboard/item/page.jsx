@@ -110,8 +110,8 @@ export default function ItemsList() {
             className="p-2 border rounded-lg"
           />
         </div>
-        {/* Create Category Button */}
-        <Link href="/dashboard/category/create">
+
+        <Link href="/dashboard/item/create">
           <button className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
             Create Item
           </button>

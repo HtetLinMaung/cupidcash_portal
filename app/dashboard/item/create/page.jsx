@@ -9,6 +9,7 @@ import { getShops } from "@/services/shop";
 import { appContext } from "@/providers/AppProvider";
 import { itemContext } from "@/providers/ItemProvider";
 import { getCategories } from "@/services/category";
+import ItemForm from "@/components/ItemForm";
 
 const breadcrumbItems = [
   { label: "Home", href: "/dashboard" },
@@ -71,11 +72,12 @@ export default function ItemCreateForm() {
   };
 
   return (
-    <div className="px-2 pr-6 h-screen overflow-hidden">
+    <div className="px-2 pr-6 mb-10 overflow-hidden">
       <div className="flex-grow bg-gray-100 pt-8 mb-6">
         <Breadcrumb items={breadcrumbItems} />
       </div>
-      <CategoryForm
+      <ItemForm
+        categories={categories}
         shops={shops}
         onSubmit={createItem}
         onBackClick={handleBackClick}
