@@ -1,7 +1,6 @@
 export default function TableCard({
     id,
-    tableNumber,
-    waiterName,
+    table_number,
     isActive,
     onClick = () => {},
   }) {
@@ -21,10 +20,7 @@ export default function TableCard({
           #{id}
         </p>
         <p style={{ color: isActive ? "#fff" : "" }} className="text-gray-600">
-          {tableNumber}
-        </p>
-        <p style={{ color: isActive ? "#fff" : "" }} className="text-gray-600">
-          {waiterName}
+          {table_number}
         </p>
       </div>
     );

@@ -26,7 +26,7 @@ export default function Dashboard() {
             timer: 5000,
           });
         }
-
+        console.log(res.data.data);
         setTables(res.data.data);
         // if (res.data.data.length) {
         //   setSelectedOrder(res.data.data[0]);
@@ -53,14 +53,13 @@ export default function Dashboard() {
             </div>
 
             {/* Card grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-9 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4">
               {/* Repeat this div for each card, use a map function for real data */}
               {tables.map((table) => (
                 <TableCard
                   key={table.id}
                   id={table.id}
-                  tableNumber={table.description}
-                  waiterName={table.description}
+                  table_number={table.table_number}
                   isActive={selectedTable == table.id}
                   onClick={() => {
                     console.log("click");
