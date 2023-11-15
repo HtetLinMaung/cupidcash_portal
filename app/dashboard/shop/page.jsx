@@ -3,24 +3,24 @@
 import Breadcrumb from "@/components/Breadcrumb";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useCallback, useContext, useEffect } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import moment from "moment";
 import Pagination from "@/components/Pagination";
 import { handleError, httpDelete, httpGet } from "@/utils/rest-client";
 import Swal from "sweetalert2";
-import { categoryContext } from "@/providers/CategoryProvider";
+import { shopContext } from "@/providers/ShopProvider";
 import { appContext } from "@/providers/AppProvider";
 
 const breadcrumbItems = [
   { label: "Home", href: "/dashboard" },
-  { label: "Category" },
+  { label: "Shop" },
 ];
 
-export default function CategoriesList() {
+export default function ShopsList() {
   const { setLoading } = useContext(appContext);
   const {
-    categories,
-    setCategories,
+    shops,
+    setShops,
     search,
     setSearch,
     page,
@@ -31,12 +31,12 @@ export default function CategoriesList() {
     setPageCounts,
     total,
     setTotal,
-  } = useContext(categoryContext);
+  } = useContext(shopContext);
   const router = useRouter();
 
-  const fetchCategories = useCallback(() => {
+  const fetchShops= useCallback(() => {
     setLoading(true);
-    httpGet("/api/categories", {
+    httpGet("/api/shops", {
       params: {
         page,
         per_page: perPage,
@@ -47,7 +47,7 @@ export default function CategoriesList() {
         setLoading(false);
         setTotal(res.data.total);
         setPageCounts(res.data.page_counts);
-        setCategories(res.data.data);
+        setShops(res.data.data);
       })
       .catch((err) => {
         setLoading(false);
@@ -60,10 +60,10 @@ export default function CategoriesList() {
     if (!token) {
       router.push("/login");
     }
-    fetchCategories();
-  }, [page, perPage, search, router, fetchCategories]);
+    fetchShops();
+  }, [page, perPage, search, router, fetchShops]);
 
-  const handleDelete = (category_id) => {
+  const handleDelete = (shop_id) => {
     Swal.fire({
       text: "Are you sure you want to delete?",
       icon: "warning",
@@ -74,7 +74,7 @@ export default function CategoriesList() {
     }).then((result) => {
       if (result.isConfirmed) {
         setLoading(true);
-        httpDelete(`/api/categories/${category_id}`)
+        httpDelete(`/api/shops/${shop_id}`)
           .then((res) => {
             setLoading(false);
             Swal.fire({
@@ -83,7 +83,7 @@ export default function CategoriesList() {
               showConfirmButton: false,
               timer: 5000,
             });
-            fetchCategories();
+            fetchShops();
           })
           .catch((err) => {
             setLoading(false);
@@ -105,20 +105,20 @@ export default function CategoriesList() {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             type="text"
-            placeholder="Search categories..."
+            placeholder="Search Shop..."
             className="p-2 border rounded-lg"
           />
         </div>
-        {/* Create Category Button */}
-        <Link href="/dashboard/category/create">
+        {/* Create Shop Button */}
+        <Link href="/dashboard/shop/create">
           <button className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
-            Create Category
+            Create Shop
           </button>
         </Link>
       </div>
       {/* Total Rows Section */}
       <div className="my-4">
-        <span className="text-gray-600 font-medium">Total Categories: </span>
+        <span className="text-gray-600 font-medium">Total Shops: </span>
         <span className="text-black font-bold">{total}</span>
       </div>
       <table className="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
@@ -126,35 +126,34 @@ export default function CategoriesList() {
           <tr className=" text-left">
             <th className="py-2 px-4 border-b">ID</th>
             <th className="py-2 px-4 border-b">Name</th>
-            <th className="py-2 px-4 border-b">Description</th>
-            <th className="py-2 px-4 border-b">Shop Name</th>
+            <th className="py-2 px-4 border-b">Address</th>
             <th className="py-2 px-4 border-b">Time</th>
             <th className="py-2 px-4 border-b">Actions</th>
           </tr>
         </thead>
         <tbody>
-          {categories.map((category) => (
-            <tr key={category.id} className="hover:bg-gray-50">
-              <td className="py-2 px-4 border-b">{category.id}</td>
-              <td className="py-2 px-4 border-b">{category.name}</td>
-              <td className="py-2 px-4 border-b">{category.description}</td>
-              <td className="py-2 px-4 border-b">{category.shop_name}</td>
+          {shops.map((shop) => (
+            <tr key={shop.id} className="hover:bg-gray-50">
+              <td className="py-2 px-4 border-b">{shop.id}</td>
+              <td className="py-2 px-4 border-b">{shop.name}</td>
+              <td className="py-2 px-4 border-b">{shop.address}</td>
+         
               <td className="py-2 px-4 border-b">
-                {moment(category.created_at + "Z").format(
+                {moment(shop.created_at + "Z").format(
                   "DD/MM/YYYY hh:mm:ss a"
                 )}
               </td>
               <td className="py-2 px-4 border-b">
                 <Link
                   className="text-blue-500 hover:underline"
-                  href={`/dashboard/category/edit?category_id=${category.id}`}
+                  href={`/dashboard/shop/edit?shop_id=${shop.id}`}
                 >
                   Edit
                 </Link>
                 {/* Add delete functionality */}
                 <button
                   className="ml-2 text-red-500 hover:underline"
-                  onClick={() => handleDelete(category.id)}
+                  onClick={() => handleDelete(shop.id)}
                 >
                   Delete
                 </button>
