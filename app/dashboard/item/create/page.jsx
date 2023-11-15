@@ -1,7 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
 import Breadcrumb from "@/components/Breadcrumb";
-import { handleError, httpPost } from "@/utils/rest-client";
+import { handleError, httpPost, uploadFile } from "@/utils/rest-client";
 import { useContext, useEffect } from "react";
 import Swal from "sweetalert2";
 import { getShops } from "@/services/shop";
@@ -47,6 +47,8 @@ export default function ItemCreateForm() {
 
   const createItem = async (data) => {
     try {
+      let res = null;
+
       data.shop_id = parseInt(data.shop_id);
       data.price = money.parseNumber(
         data.price.toString().replaceAll("[a-zA-Z]+", "")
@@ -54,8 +56,15 @@ export default function ItemCreateForm() {
       if (!data.shop_id) {
         throw new Error("Invalid shop!");
       }
+
       setLoading(true);
-      const res = await httpPost("/api/items", {
+      if (data.file) {
+        res = await uploadFile("/api/image/upload", data.file);
+        data.image_url = res.data.url;
+      }
+      delete data.file;
+
+      res = await httpPost("/api/items", {
         ...data,
         categories: data.categories.map((c) => parseInt(c.value)),
       });
