@@ -4,12 +4,12 @@ import Breadcrumb from "@/components/Breadcrumb";
 import { handleError, httpPost } from "@/utils/rest-client";
 import { useContext, useEffect } from "react";
 import Swal from "sweetalert2";
-import CategoryForm from "@/components/CategoryForm";
 import { getShops } from "@/services/shop";
 import { appContext } from "@/providers/AppProvider";
 import { itemContext } from "@/providers/ItemProvider";
 import { getCategories } from "@/services/category";
 import ItemForm from "@/components/ItemForm";
+import money from "mm-money";
 
 const breadcrumbItems = [
   { label: "Home", href: "/dashboard" },
@@ -48,11 +48,17 @@ export default function ItemCreateForm() {
   const createItem = async (data) => {
     try {
       data.shop_id = parseInt(data.shop_id);
+      data.price = money.parseNumber(
+        data.price.toString().replaceAll("[a-zA-Z]+", "")
+      );
       if (!data.shop_id) {
         throw new Error("Invalid shop!");
       }
       setLoading(true);
-      const res = await httpPost("/api/items", data);
+      const res = await httpPost("/api/items", {
+        ...data,
+        categories: data.categories.map((c) => parseInt(c.value)),
+      });
       setLoading(false);
       Swal.fire({
         icon: "success",

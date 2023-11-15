@@ -1,4 +1,5 @@
 import { useState } from "react";
+import money from "mm-money";
 
 function ItemForm({
   shops = [],
@@ -10,14 +11,14 @@ function ItemForm({
   const [formData, setFormData] = useState({
     name: item.name || "",
     description: item.description || "",
-    price: item.price || "",
+    price: item.price || "0.00",
     categories: item.categories || [],
     image_url: item.image_url || "",
     shop_id: item.shop_id || "0",
     file: null,
   });
 
-  const [image, setImage] = useState(item.image_url || "/avatar.jpeg");
+  const [image, setImage] = useState(item.image_url || "/default-product.png");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -43,6 +44,29 @@ function ItemForm({
     }
   };
 
+  const handleAddCategory = (e) => {
+    const found = formData.categories.find((c) => c.value == e.target.value);
+    if (!found) {
+      const category = categories.find((c) => c.value == e.target.value);
+
+      setFormData({
+        ...formData,
+        categories: [...formData.categories, category],
+      });
+    }
+
+    // e.target.value = ""; // Clear the input after adding a category
+  };
+
+  const handleRemoveCategory = (categoryToRemove) => {
+    setFormData({
+      ...formData,
+      categories: formData.categories.filter(
+        (category) => category.value !== categoryToRemove.value
+      ),
+    });
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     onSubmit(formData);
@@ -54,12 +78,22 @@ function ItemForm({
         <div className="flex space-x-6">
           <div className="relative">
             <img
+              onClick={() => {
+                document.getElementById("image").click();
+              }}
               src={image}
               alt="Item Image"
-              className="h-24 w-24 rounded-lg"
+              className=" h-48 w-48 rounded-3xl border-2 cursor-pointer"
             />
-            <label className="absolute bottom-0 right-0 bg-blue-500 text-white p-1 rounded-full cursor-pointer hover:bg-blue-600 w-8 h-8 flex justify-center items-center">
+            <input
+              id="image"
+              type="file"
+              className="hidden"
+              onChange={handleImageChange}
+            />
+            {/* <label className="absolute bottom-0 right-0 bg-blue-500 text-white p-1 rounded-full cursor-pointer hover:bg-blue-600 w-8 h-8 flex justify-center items-center">
               <input
+                id="image"
                 type="file"
                 className="hidden"
                 onChange={handleImageChange}
@@ -77,7 +111,7 @@ function ItemForm({
                   fill="white"
                 />
               </svg>
-            </label>
+            </label> */}
           </div>
         </div>
         <div className="flex space-x-6">
@@ -130,6 +164,12 @@ function ItemForm({
               Price
             </label>
             <input
+              onBlur={(e) =>
+                setFormData({
+                  ...formData,
+                  price: money.format(e.target.value),
+                })
+              }
               className="w-full p-2 border rounded-lg"
               id="price"
               type="text"
@@ -139,9 +179,6 @@ function ItemForm({
               required
             />
           </div>
-        </div>
-
-        <div className="flex space-x-6">
           <div className="flex-1">
             <label
               className="block text-gray-700 text-sm font-bold mb-2"
@@ -161,6 +198,43 @@ function ItemForm({
               {shops.map((shop) => (
                 <option key={shop.value} value={shop.value}>
                   {shop.label}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+
+        <div className="flex flex-col space-y-4">
+          <label className="block text-sm font-bold text-gray-700 mb-2">
+            Categories
+          </label>
+          <div className="flex flex-wrap items-center border border-gray-300 rounded-lg p-2">
+            {formData.categories.map((category, index) => (
+              <div
+                key={index}
+                className="flex items-center bg-blue-500 text-white text-xs px-2 py-1 rounded-full mr-2 mb-2"
+              >
+                {category.label}
+                <button
+                  type="button"
+                  onClick={() => handleRemoveCategory(category)}
+                  className="bg-white text-blue-500 ml-2 rounded-full p-1 px-2 focus:outline-none"
+                >
+                  &times;
+                </button>
+              </div>
+            ))}
+            <select
+              className="flex-1 border-0 focus:ring-0 rounded-lg outline-none h-full"
+              onChange={handleAddCategory}
+              value=""
+            >
+              <option value="" disabled>
+                Add a category
+              </option>
+              {categories.map((category) => (
+                <option key={category.value} value={category.value}>
+                  {category.label}
                 </option>
               ))}
             </select>

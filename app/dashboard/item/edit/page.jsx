@@ -5,21 +5,24 @@ import Breadcrumb from "@/components/Breadcrumb";
 import { handleError, httpGet, httpPut } from "@/utils/rest-client";
 import { useContext, useEffect, useState } from "react";
 import Swal from "sweetalert2";
-import CategoryForm from "@/components/CategoryForm";
-import { categoryContext } from "@/providers/CategoryProvider";
 import { getShops } from "@/services/shop";
 import { appContext } from "@/providers/AppProvider";
+import { itemContext } from "@/providers/ItemProvider";
+import { getCategories } from "@/services/category";
+import ItemForm from "@/components/ItemForm";
+import money from "mm-money";
 
 export default function CategoryEditForm() {
   const { setLoading } = useContext(appContext);
-  const { shops, setShops } = useContext(categoryContext);
+  const { shops, setShops, categories, setCategories } =
+    useContext(itemContext);
   const params = useSearchParams();
   console.log(params);
-  const [category, setCategory] = useState({});
+  const [item, setItem] = useState({});
   const breadcrumbItems = [
     { label: "Home", href: "/dashboard" },
-    { label: "Category", href: "/dashboard/category" },
-    { label: params.get("category_id") },
+    { label: "Item", href: "/dashboard/item" },
+    { label: params.get("item_id") },
   ];
   const router = useRouter();
 
@@ -29,14 +32,25 @@ export default function CategoryEditForm() {
     //   router.push("/login");
     // }
     setLoading(true);
-    getShops()
-      .then((res) => {
-        setShops(res.data.data.map((s) => ({ value: s.id, label: s.name })));
-        httpGet(`/api/categories/${params.get("category_id")}`)
+    Promise.all([getShops(), getCategories()])
+      .then(([shopRes, categoryRes]) => {
+        setShops(
+          shopRes.data.data.map((s) => ({ value: s.id, label: s.name }))
+        );
+        const categoryList = categoryRes.data.data.map((c) => ({
+          value: c.id,
+          label: c.name,
+        }));
+        setCategories(categoryList);
+        httpGet(`/api/items/${params.get("item_id")}`)
           .then((res) => {
             setLoading(false);
             res.data.data.shop_id = res.data.data.shop_id + "";
-            setCategory(res.data.data);
+            res.data.data.categories = res.data.data.categories.map((c) =>
+              categoryList.find((cat) => c.id == cat.value)
+            );
+            res.data.data.price = money.format(res.data.data.price);
+            setItem(res.data.data);
           })
           .catch((err) => {
             setLoading(false);
@@ -47,17 +61,22 @@ export default function CategoryEditForm() {
         setLoading(false);
         handleError(err, router);
       });
-  }, [router, params.get("category_id")]);
+  }, [router, params.get("item_id")]);
 
-  const updateCategory = async (data) => {
+  const updateItem = async (data) => {
     try {
-      setLoading(true);
-      console.log(data);
-      data.shop_id = parseInt(data.shop_id);
-      const res = await httpPut(
-        `/api/categories/${params.get("category_id")}`,
-        data
+      data.categories = data.shop_id = parseInt(data.shop_id);
+      data.price = money.parseNumber(
+        data.price.toString().replaceAll("[a-zA-Z]+", "")
       );
+      if (!data.shop_id) {
+        throw new Error("Invalid shop!");
+      }
+      setLoading(true);
+      const res = await httpPut(`/api/items/${params.get("item_id")}`, {
+        ...data,
+        categories: data.categories.map((c) => parseInt(c.value)),
+      });
       setLoading(false);
       Swal.fire({
         icon: "success",
@@ -65,7 +84,7 @@ export default function CategoryEditForm() {
         showConfirmButton: false,
         timer: 5000,
       });
-      router.push("/dashboard/category");
+      router.push("/dashboard/item");
     } catch (err) {
       setLoading(false);
       handleError(err, router);
@@ -77,16 +96,17 @@ export default function CategoryEditForm() {
   };
 
   return (
-    <div className="px-2 pr-6 h-screen overflow-hidden">
+    <div className="px-2 pr-6 mb-6 overflow-hidden">
       <div className="flex-grow bg-gray-100 pt-8 mb-6">
         <Breadcrumb items={breadcrumbItems} />
       </div>
-      {Object.keys(category).length ? (
-        <CategoryForm
+      {Object.keys(item).length ? (
+        <ItemForm
+          categories={categories}
           shops={shops}
-          onSubmit={updateCategory}
+          onSubmit={updateItem}
           onBackClick={handleBackClick}
-          category={{ ...category }}
+          item={{ ...item }}
         />
       ) : null}
     </div>
