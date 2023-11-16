@@ -11,6 +11,8 @@
 body {
   font-family: "Poppins" !important;
   font-size: 12px;
+  --tw-bg-opacity: 1;
+  background-color: rgb(243 244 246 / var(--tw-bg-opacity));
 }
 
 /* styles.css or your CSS file */

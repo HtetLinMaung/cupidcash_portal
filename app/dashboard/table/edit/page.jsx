@@ -54,10 +54,7 @@ export default function TableEditForm() {
       setLoading(true);
       console.log(data);
       data.shop_id = parseInt(data.shop_id);
-      const res = await httpPut(
-        `/api/tables/${params.get("table_id")}`,
-        data
-      );
+      const res = await httpPut(`/api/tables/${params.get("table_id")}`, data);
       setLoading(false);
       Swal.fire({
         icon: "success",
@@ -77,7 +74,7 @@ export default function TableEditForm() {
   };
 
   return (
-    <div className="px-2 pr-6 h-screen overflow-hidden">
+    <div className="px-2 pr-6 pb-6">
       <div className="flex-grow bg-gray-100 pt-8 mb-6">
         <Breadcrumb items={breadcrumbItems} />
       </div>

@@ -90,7 +90,7 @@ export default function ItemCreateForm() {
   };
 
   return (
-    <div className="px-2 pr-6 mb-10 overflow-hidden">
+    <div className="px-2 pr-6 pb-6 overflow-hidden">
       <div className="flex-grow bg-gray-100 pt-8 mb-6">
         <Breadcrumb items={breadcrumbItems} />
       </div>

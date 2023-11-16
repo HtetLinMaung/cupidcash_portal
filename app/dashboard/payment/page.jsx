@@ -81,8 +81,11 @@ export default function Payment() {
   }, [search, router]);
 
   return (
-    <div className="pl-2 flex h-screen overflow-hidden">
-      <div className="flex-grow bg-gray-100 pt-8">
+    <div className="pl-2 flex">
+      <div
+        className="flex-grow bg-gray-100 pt-8"
+        style={{ paddingRight: selectedOrder == 0 ? 0 : "24rem" }}
+      >
         <Breadcrumb items={breadcrumbItems} />
         <div className="flex-grow overflow-auto">
           <div className="m-8">
@@ -130,7 +133,7 @@ export default function Payment() {
 
       {/* Right section */}
       <div
-        className="flex flex-col w-96 bg-gray-800 text-white py-8"
+        className="flex flex-col w-96 bg-gray-800 text-white py-8 fixed top-0 bottom-0 right-0"
         style={{
           width: selectedOrder == 0 ? 0 : "24rem",
           maxWidth: selectedOrder == 0 ? 0 : "24rem",

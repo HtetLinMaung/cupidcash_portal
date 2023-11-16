@@ -18,7 +18,7 @@ export default function CategoryEditForm() {
   const { shops, setShops, categories, setCategories } =
     useContext(itemContext);
   const params = useSearchParams();
-  console.log(params);
+
   const [item, setItem] = useState({});
   const breadcrumbItems = [
     { label: "Home", href: "/dashboard" },
@@ -46,6 +46,9 @@ export default function CategoryEditForm() {
         httpGet(`/api/items/${params.get("item_id")}`)
           .then((res) => {
             setLoading(false);
+            if (res.data.data.image_url) {
+              res.data.data.image_url = `${server_domain}${res.data.data.image_url}`;
+            }
             res.data.data.shop_id = res.data.data.shop_id + "";
             res.data.data.categories = res.data.data.categories.map((c) =>
               categoryList.find((cat) => c.id == cat.value)
@@ -111,7 +114,7 @@ export default function CategoryEditForm() {
   };
 
   return (
-    <div className="px-2 pr-6 mb-6 overflow-hidden">
+    <div className="px-2 pr-6 pb-6">
       <div className="flex-grow bg-gray-100 pt-8 mb-6">
         <Breadcrumb items={breadcrumbItems} />
       </div>

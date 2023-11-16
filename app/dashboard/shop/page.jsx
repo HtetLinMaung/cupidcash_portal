@@ -34,7 +34,7 @@ export default function ShopsList() {
   } = useContext(shopContext);
   const router = useRouter();
 
-  const fetchShops= useCallback(() => {
+  const fetchShops = useCallback(() => {
     setLoading(true);
     httpGet("/api/shops", {
       params: {
@@ -94,7 +94,7 @@ export default function ShopsList() {
   };
 
   return (
-    <div className="px-2 pr-6 h-screen overflow-hidden">
+    <div className="px-2 pr-6 pb-6">
       <div className="flex-grow bg-gray-100 pt-8 mb-6">
         <Breadcrumb items={breadcrumbItems} />
       </div>
@@ -137,11 +137,9 @@ export default function ShopsList() {
               <td className="py-2 px-4 border-b">{shop.id}</td>
               <td className="py-2 px-4 border-b">{shop.name}</td>
               <td className="py-2 px-4 border-b">{shop.address}</td>
-         
+
               <td className="py-2 px-4 border-b">
-                {moment(shop.created_at + "Z").format(
-                  "DD/MM/YYYY hh:mm:ss a"
-                )}
+                {moment(shop.created_at + "Z").format("DD/MM/YYYY hh:mm:ss a")}
               </td>
               <td className="py-2 px-4 border-b">
                 <Link
