@@ -69,7 +69,7 @@ export default function CategoryEditForm() {
 
   const updateItem = async (data) => {
     try {
-      data.categories = data.shop_id = parseInt(data.shop_id);
+      data.shop_id = parseInt(data.shop_id);
       data.price = money.parseNumber(
         data.price.toString().replaceAll("[a-zA-Z]+", "")
       );
