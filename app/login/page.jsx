@@ -46,7 +46,10 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="p-8 bg-white shadow-lg rounded-lg">
+      <div
+        className="p-8 bg-white shadow-lg rounded-lg"
+        style={{ minWidth: "18rem" }}
+      >
         <h1 className="text-2xl font-bold mb-4">POS Portal</h1>
         <div className="mb-4">
           <label

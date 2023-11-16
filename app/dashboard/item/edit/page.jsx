@@ -77,7 +77,10 @@ export default function CategoryEditForm() {
       setLoading(true);
       let res = null;
       if (data.file) {
-        res = await uploadFile("/api/image/upload", data.file);
+        res = await uploadFile(
+          "/api/image/upload?resolution=800x800",
+          data.file
+        );
         data.image_url = res.data.url;
       }
       delete data.file;
