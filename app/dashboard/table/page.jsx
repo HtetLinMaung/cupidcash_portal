@@ -12,24 +12,14 @@ import { tableContext } from "@/providers/TableProvider";
 import { appContext } from "@/providers/AppProvider";
 import { ToastContainer, toast } from "react-toastify";
 
-import "react-toastify/dist/ReactToastify.css";
+
 const breadcrumbItems = [
   { label: "Home", href: "/dashboard" },
   { label: "Table" },
 ];
 
 export default function TablesList() {
-  const notify = () =>
-    toast.success("🦄 Wow so easy! Wow so easy!", {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-    });
+
   const { setLoading } = useContext(appContext);
   const {
     tables,
@@ -111,21 +101,9 @@ export default function TablesList() {
       <div className="flex-grow bg-gray-100 pt-8 mb-6">
         <Breadcrumb items={breadcrumbItems} />
       </div>
-      <button onClick={notify}>Notify !</button>
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
-      {/* Same as */}
-      <ToastContainer />
+
+    
+ 
       {/* Search Box */}
       <div className="flex mb-4 justify-between">
         <div>

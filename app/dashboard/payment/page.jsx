@@ -9,6 +9,8 @@ import { useContext, useEffect } from "react";
 import money from "mm-money";
 import { paymentContext } from "@/providers/PaymentProvider";
 import { appContext } from "@/providers/AppProvider";
+import { notificationContext } from "@/providers/NotificationProvider";
+import { ToastContainer, toast } from "react-toastify";
 
 const breadcrumbItems = [
   { label: "Home", href: "/dashboard" },
@@ -16,6 +18,7 @@ const breadcrumbItems = [
 ];
 
 export default function Payment() {
+  const{orderId}= useContext(notificationContext);
   const router = useRouter();
   const { setLoading } = useContext(appContext);
   const {
@@ -53,6 +56,7 @@ export default function Payment() {
         })
         .catch((err) => handleError(err, router));
     }
+
   }, [selectedOrder]);
 
   useEffect(() => {
@@ -78,7 +82,17 @@ export default function Payment() {
         setLoading(false);
         handleError(err, router);
       });
-  }, [search, router]);
+      toast(orderId, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        });
+  }, [search, router,orderId]);
 
   return (
     <div className="pl-2 flex">
@@ -94,6 +108,7 @@ export default function Payment() {
                 VIEW PAYMENT HISTORY
               </button>
             </div>
+
             {/* Search bar */}
             <div className="mb-4">
               <input
