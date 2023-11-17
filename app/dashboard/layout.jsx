@@ -8,9 +8,14 @@ import { appContext } from "@/providers/AppProvider";
 import { notificationContext } from "@/providers/NotificationProvider";
 import { useContext, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
+import { handleError } from "@/utils/rest-client";
 import { io } from "socket.io-client";
 import "react-toastify/dist/ReactToastify.css";
+import { getOrderDetails } from "@/services/order";
+
+
 export default function DashboardLayout({ children }) {
+
   const { loading } = useContext(appContext);
   const{orderId,setOrderId}= useContext(notificationContext);
   useEffect(() => {
@@ -22,20 +27,40 @@ export default function DashboardLayout({ children }) {
       const token = localStorage.getItem("cupidcash_token");
       socket.emit("join", { token });
       socket.on("new-order", (data) => {
-        setOrderId(data.order_id);
-        toast.success(1, {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
+        // setOrderId(data.order_id);
+
+        getOrderDetails(data.order_id)
+        .then((res) => {
+          if (res.data.code != 200) {
+            return Swal.fire({
+              title: "",
+              text: res.data.message || "Something went wrong!",
+              showConfirmButton: false,
+              timer: 5000,
+            });
+          }
+          const noti='Order #' + res.data.data.id + ', placed by Waiter ' + res.data.data.waiter_name + ' for Table ' + res.data.data.table_number + ' received' ;  
+          toast.success(noti, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            });
+        })
+        .catch((err) => handleError(err));
+
       });
     });
+    return () => {
+      socket.off("new-order"); 
+      socket.disconnect(); 
+    };
   }, []);
+
 
   return (
     <html lang="en">
