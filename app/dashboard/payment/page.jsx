@@ -18,7 +18,7 @@ const breadcrumbItems = [
 ];
 
 export default function Payment() {
-  const{orderId}= useContext(notificationContext);
+  const { orderId } = useContext(notificationContext);
   const router = useRouter();
   const { setLoading } = useContext(appContext);
   const {
@@ -82,17 +82,17 @@ export default function Payment() {
         setLoading(false);
         handleError(err, router);
       });
-      toast(orderId, {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-        });
-  }, [search, router,orderId]);
+    // toast(orderId, {
+    //   position: "top-right",
+    //   autoClose: 5000,
+    //   hideProgressBar: false,
+    //   closeOnClick: true,
+    //   pauseOnHover: true,
+    //   draggable: true,
+    //   progress: undefined,
+    //   theme: "light",
+    //   });
+  }, [search, router, orderId]);
 
   return (
     <div className="pl-2 flex">
@@ -156,12 +156,19 @@ export default function Payment() {
           opacity: selectedOrder == 0 ? 0 : 1,
         }}
       >
-        {/* Display order information */}
-        <div className="mb-8 px-8">
-          <h3 className="text-lg font-bold">#{order.id}</h3>
-          <p>Waiter: {order.waiter_name}</p>
-          <p>Table: {order.table_number}</p>
-          <p>Time: {new Date(order.created_at + "Z").toLocaleString()}</p>
+        <div className="flex">
+          <div className="absolute left-[-3%] pt-1% w-31 h-31 bg-opacity-[var(--tw-bg-opacity)] bg-gray-800 p-7 border-2 border-white rounded-full">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M9 18L15 12L9 6" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          </div>
+          {/* Display order information */}
+          <div className="mb-8 px-8">
+            <h3 className="text-lg font-bold">#{order.id}</h3>
+            <p>Waiter: {order.waiter_name}</p>
+            <p>Table: {order.table_number}</p>
+            <p>Time: {new Date(order.created_at + "Z").toLocaleString()}</p>
+          </div>
         </div>
 
         <div className="flex-grow overflow-y-auto pl-8">
