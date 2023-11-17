@@ -6,7 +6,7 @@ import ItemProvider from "@/providers/ItemProvider";
 import ShopProvider from "@/providers/ShopProvider";
 import TableProvider from "@/providers/TableProvider";
 import NotificationProvider from "@/providers/NotificationProvider";
-
+import DashboardProvider from "@/providers/DashboardProvider";
 export default function ProviderContainer({ children }) {
   return (
     <AppProvider>
@@ -14,11 +14,13 @@ export default function ProviderContainer({ children }) {
         <UserProvider>
           <CategoryProvider>
             <PaymentProvider>
-              <ShopProvider>
-                <TableProvider>
-                  <ItemProvider>{children}</ItemProvider>
-                </TableProvider>
-              </ShopProvider>
+              <DashboardProvider>
+                <ShopProvider>
+                  <TableProvider>
+                    <ItemProvider>{children}</ItemProvider>
+                  </TableProvider>
+                </ShopProvider>
+              </DashboardProvider>
             </PaymentProvider>
           </CategoryProvider>
         </UserProvider>
