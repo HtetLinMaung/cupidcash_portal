@@ -11,7 +11,7 @@ import { paymentContext } from "@/providers/PaymentProvider";
 import { appContext } from "@/providers/AppProvider";
 import { notificationContext } from "@/providers/NotificationProvider";
 import { ToastContainer, toast } from "react-toastify";
-
+import Link from "next/link";
 const breadcrumbItems = [
   { label: "Home", href: "/dashboard" },
   { label: "Payment" },
@@ -50,7 +50,7 @@ export default function Payment() {
           setOrder(res.data.data);
           let total = 0;
           for (const item of res.data.data.items) {
-            total += item.price;
+            total += item.price*item.quantity;
           }
           setSubTotal(total);
         })
@@ -82,16 +82,6 @@ export default function Payment() {
         setLoading(false);
         handleError(err, router);
       });
-    // toast(orderId, {
-    //   position: "top-right",
-    //   autoClose: 5000,
-    //   hideProgressBar: false,
-    //   closeOnClick: true,
-    //   pauseOnHover: true,
-    //   draggable: true,
-    //   progress: undefined,
-    //   theme: "light",
-    //   });
   }, [search, router, orderId]);
 
   return (
@@ -104,9 +94,11 @@ export default function Payment() {
         <div className="flex-grow overflow-auto">
           <div className="m-8">
             <div className="mb-4 flex justify-end">
+            <Link href="/dashboard/paymentHistory">
               <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                 VIEW PAYMENT HISTORY
               </button>
+              </Link>
             </div>
 
             {/* Search bar */}
@@ -157,10 +149,14 @@ export default function Payment() {
         }}
       >
         <div className="flex">
-          <div className="absolute left-[-3%] pt-1% w-31 h-31 bg-opacity-[var(--tw-bg-opacity)] bg-gray-800 p-7 border-2 border-white rounded-full">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <div className="absolute left-[-3%] pt-1% w-31 h-31  bg-gray-800  rounded-full p-1 w-6 h-6 shadow-md" style={{ boxShadow: '0 0 2px 2px #696969' }}
+          onClick={() => {
+            setSelectedOrder(0);
+          }}>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none">
           <path d="M9 18L15 12L9 6" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
+         
           </div>
           {/* Display order information */}
           <div className="mb-8 px-8">

@@ -11,6 +11,10 @@ const initState = {
   },
   subTotal: 0,
   search: "",
+  page: 1,
+  perPage: 10,
+  pageCounts: 0,
+  total: 0,
   selectedOrder: 0,
 };
 
