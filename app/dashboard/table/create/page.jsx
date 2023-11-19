@@ -69,6 +69,7 @@ export default function TableCreateForm() {
         <Breadcrumb items={breadcrumbItems} />
       </div>
       <TableForm
+        shopId={0}
         shops={shops}
         onSubmit={createTable}
         onBackClick={handleBackClick}

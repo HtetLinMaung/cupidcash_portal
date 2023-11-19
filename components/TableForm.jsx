@@ -1,12 +1,12 @@
 import { useState } from "react";
 
-function TableForm({ table = {}, shops = [], onSubmit, onBackClick }) {
+function TableForm({ shopId= 0, table = {}, shops = [], onSubmit, onBackClick }) {
   const [formData, setFormData] = useState({
     table_number: table.table_number || "",
     qr_code: table.qr_code || "",
     shop_id: table.shop_id || "0",
   });
-
+  formData.shop_id = shopId;
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -19,7 +19,6 @@ function TableForm({ table = {}, shops = [], onSubmit, onBackClick }) {
     e.preventDefault();
     onSubmit(formData);
   };
-
   return (
     <div className="w-full mx-auto mt-5 p-6 bg-white shadow-md rounded-lg">
       <form onSubmit={handleSubmit} className="space-y-6">
@@ -79,7 +78,7 @@ function TableForm({ table = {}, shops = [], onSubmit, onBackClick }) {
               onChange={handleChange}
               required
             >
-              <option value="0">Select a Shop</option>
+              <option value={0}>Select a Shop</option>
               {shops.map((shop) => (
                 <option key={shop.value} value={shop.value}>
                   {shop.label}

@@ -14,7 +14,6 @@ export default function TableEditForm() {
   const { setLoading } = useContext(appContext);
   const { shops, setShops } = useContext(tableContext);
   const params = useSearchParams();
-  console.log(params);
   const [table, setTable] = useState({});
   const breadcrumbItems = [
     { label: "Home", href: "/dashboard" },
@@ -52,7 +51,6 @@ export default function TableEditForm() {
   const updateTable = async (data) => {
     try {
       setLoading(true);
-      console.log(data);
       data.shop_id = parseInt(data.shop_id);
       const res = await httpPut(`/api/tables/${params.get("table_id")}`, data);
       setLoading(false);
@@ -80,6 +78,7 @@ export default function TableEditForm() {
       </div>
       {Object.keys(table).length ? (
         <TableForm
+          shopId={0}
           shops={shops}
           onSubmit={updateTable}
           onBackClick={handleBackClick}

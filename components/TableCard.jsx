@@ -5,12 +5,11 @@ export default function TableCard({
   isActive,
   onClick = () => { },
 }) {
-  console.log;
   return (
     <div
       style={{
         backgroundColor: isActive ? "#3C82F6" : "#fff",
-        opacity: order_id == 0 ? "0.7" : "1"
+        opacity: order_id != 0 ? "0.7" : "1"
       }}
       onClick={onClick}
       className={`bg-white rounded-md shadow p-4 cursor-pointer`}

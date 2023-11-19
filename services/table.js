@@ -1,7 +1,7 @@
 import { httpGet } from "@/utils/rest-client";
 
-export const getDashboardData = async (params = {}) => {
-  return httpGet("/api/dashboard/tables", {
+export const getTables = async (params = {}) => {
+  return httpGet("/api/tables", {
     params: {
       ...params,
     },

@@ -2,7 +2,9 @@ import useData from "@/hooks/use-data";
 import { createContext } from "react";
 
 const initState = {
-    tables: [],
+    showModel: false,
+    shops: [],
+    shopTables: {},
     order: {
         waiter_name: "",
         table_number: "",
@@ -11,7 +13,8 @@ const initState = {
     },
     search: "",
     selectedOrder: 0,
-    selectedTable: 0
+    selectedTable: 0,
+    selectedShop:0
 };
 
 export const dashboardContext = createContext(initState);

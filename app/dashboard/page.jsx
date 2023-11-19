@@ -2,15 +2,20 @@
 import Breadcrumb from "@/components/Breadcrumb";
 import TableCard from "@/components/TableCard";
 import { useRouter } from "next/navigation";
-import { useEffect, useContext } from "react";
+import { useEffect, useContext, useState } from "react";
 import { server_domain } from "@/constants";
-import { getDashboardData } from "@/services/table";
+import { getTables } from "@/services/table";
 import { getOrderDetails } from "@/services/order";
-import { handleError, httpPut } from "@/utils/rest-client";
+import { handleError, httpPut, httpPost } from "@/utils/rest-client";
 import { dashboardContext } from "@/providers/DashboardProvider";
 import money from "mm-money";
 import { appContext } from "@/providers/AppProvider";
 import Swal from "sweetalert2";
+import CustomModal from "@/components/CutomModal";
+import TableForm from "@/components/TableForm";
+import { getShops } from "@/services/shop";
+import DashboardCard from "@/components/DashboardCard";
+import { tableContext } from "@/providers/TableProvider";
 
 const breadcrumbItems = [{ label: "Home", href: "/dashboard" }];
 
@@ -18,8 +23,12 @@ export default function Dashboard() {
   const { setLoading } = useContext(appContext);
   const router = useRouter();
   const {
-    tables,
-    setTables,
+    showModel,
+    setShowModel,
+    shops,
+    setShops,
+    shopTables,
+    setShopTables,
     order,
     setOrder,
     search,
@@ -27,11 +36,18 @@ export default function Dashboard() {
     selectedOrder,
     setSelectedOrder,
     selectedTable,
-    setSelectedTable
+    setSelectedTable,
+    selectedShop, 
+    setSelectedShop
   } = useContext(dashboardContext);
 
+  const {
+    tables,
+    setTables
+  } = useContext(tableContext);
+
   useEffect(() => {
-    loadDashboardData({search});
+    loadTables({ search });
   }, [search, router]);
 
   useEffect(() => {
@@ -54,8 +70,8 @@ export default function Dashboard() {
 
   }, [selectedOrder]);
 
-  const loadDashboardData = (search) =>{
-    getDashboardData(search)
+  const loadTables = (search) => {
+    getTables(search)
       .then((res) => {
         if (res.data.code != 200) {
           return Swal.fire({
@@ -66,33 +82,64 @@ export default function Dashboard() {
           });
         }
         setTables(res.data.data);
+
+        // Grouping the data by shop_id
+        setShopTables(res.data.data.reduce((acc, table) => {
+          const { shop_id, shop_name, ...rest } = table;
+          if (!acc[shop_id]) {
+            acc[shop_id] = { shop_id, shop_name, tables: [] };
+          }
+          acc[shop_id].tables.push(rest);
+          return acc;
+        }, {}))
       })
       .catch((err) => handleError(err, router));
   }
 
-  const updateOrderStatus = async (status, order_id) => {
+  const handleClose = () => {
+    setShowModel(false);
+  };
+
+  const createTable = async (data) => {
     try {
+      data.shop_id = parseInt(data.shop_id);
+      if (!data.shop_id) {
+        throw new Error("Invalid shop!");
+      }
       setLoading(true);
-      const res = await httpPut(`/api/orders/${order_id}`, { "status": status });
+      const res = await httpPost("/api/tables", data);
       setLoading(false);
       Swal.fire({
         icon: "success",
-        text: `Order ${status} Successfully.`,
+        text: res.data.message,
         showConfirmButton: false,
         timer: 5000,
       });
-      loadDashboardData({search});
-      setSelectedOrder(0);
+      setShowModel(false);
+      loadTables({ search });
     } catch (err) {
       setLoading(false);
       handleError(err, router);
     }
   };
 
+  const loadShops = (shop_id) => {
+    setLoading(true);
+    getShops()
+      .then((res) => {
+        setLoading(false);
+        setShops(res.data.data.map((s) => ({ value: s.id, label: s.name })));
+      })
+      .catch((err) => {
+        setLoading(false);
+        handleError(err, router);
+      });
+  };
+
   return (
     <div className="pl-2 flex">
       <div className="flex-grow bg-gray-100 pt-8"
-        style={{ paddingRight: selectedOrder == 0 ? 0 : "24rem" }}
+        style={{ paddingRight: selectedTable == 0 ? 0 : "24rem" }}
       >
         <Breadcrumb items={breadcrumbItems} />
         <div className="flex-grow overflow-auto">
@@ -108,31 +155,39 @@ export default function Dashboard() {
               />
             </div>
 
-            {/* Card grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-9 gap-4">
-              {/* Repeat this div for each card, use a map function for real data */}
-              {tables.map((table) => (
-                <TableCard
-                  key={table.id + "&" + table.order_id}
-                  id={table.id}
-                  order_id={table.order_id}
-                  table_number={table.table_number}
-                  isActive={selectedOrder == table.order_id && selectedTable == table.id}
-                  onClick={() => {
-                    if (table.order_id) {
-                      setSelectedOrder(table.order_id);
-                      setSelectedTable(table.id);
-                    }
-                  }}
-                />
+
+            {// Loop through the hash map
+              Object.values(shopTables).map((shop) => (
+                <DashboardCard key={shop.shop_id} shopName={shop.shop_name}>
+                  {/* Repeat this div for each card, use a map function for real data */}
+                  {shop.tables.map((table) => (
+                    <TableCard
+                      key={table.id + "&" + table.order_id}
+                      id={table.id}
+                      order_id={table.order_id}
+                      table_number={table.table_number}
+                      isActive={selectedOrder === table.order_id && selectedTable === table.id}
+                      onClick={() => {
+                        setSelectedOrder(table.order_id);
+                        setSelectedTable(table.id);
+                      }}
+                    />
+                  ))}
+                  {/* "ADD TABLE" button */}
+                  <div className={`bg-transparent pt-6 pb-6 cursor-pointer`}>
+                    <p className="font-bold text-blue-500 ml-auto mr-auto" onClick={() => { setShowModel(true); loadShops(); setSelectedShop(shop.shop_id) }}>
+                      + ADD TABLE
+                    </p>
+                  </div>
+                </DashboardCard>
               ))}
-              {/* <div className="bg-white rounded-md shadow p-4">
+
+            {/* <div className="bg-white rounded-md shadow p-4">
                 <p>DN-0012A</p>
                 <p>A10 - 1st Floor</p>
                 <p>Difana Wilson</p>
               </div> */}
-              {/* ... other cards */}
-            </div>
+            {/* ... other cards */}
           </div>
         </div>
       </div>
@@ -141,10 +196,10 @@ export default function Dashboard() {
       <div
         className="flex flex-col w-96 bg-gray-800 text-white py-8 fixed top-0 bottom-0 right-0"
         style={{
-          width: selectedOrder == 0 ? 0 : "24rem",
-          maxWidth: selectedOrder == 0 ? 0 : "24rem",
-          padding: selectedOrder == 0 ? 0 : "2rem 0",
-          opacity: selectedOrder == 0 ? 0 : 1,
+          width: selectedTable == 0 ? 0 : "24rem",
+          maxWidth: selectedTable == 0 ? 0 : "24rem",
+          padding: selectedTable == 0 ? 0 : "2rem 0",
+          opacity: selectedTable == 0 ? 0 : 1,
         }}
       >
         {/* Display order information */}
@@ -178,21 +233,29 @@ export default function Dashboard() {
           ))}
         </div>
 
-        {/* Serve button */}
+        {/* Reserve button */}
         <div className="px-8">
-          <button className={`w-full text-white font-bold py-2 px-4 bg-blue-500 hover:bg-blue-700 rounded ${order.status=="Served" ? 'opacity-50 pointer-events-none' : ''}`}
-            onClick={() => { updateOrderStatus("Served", selectedOrder) }}>
-            SERVE
+          <button className={`w-full text-white font-bold py-2 px-4 bg-blue-500 hover:bg-blue-700 rounded ${order.status == "Served" ? 'opacity-50 pointer-events-none' : ''}`}
+            onClick={() => { console.log("reserve") }}>
+            RESERVE
           </button>
         </div>
         {/* Cancel button */}
         <div className="px-8 mt-3">
           <button className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-            onClick={() => { updateOrderStatus("Canceled", selectedOrder) }}>
+            onClick={() => { console.log("reserve cancel"); setSelectedTable(0) }}>
             CANCEL
           </button>
         </div>
       </div>
-    </div>
+      <CustomModal showModel={showModel} handleClose={handleClose}>
+        <TableForm
+          shopId={selectedShop}
+          shops={shops}
+          onSubmit={createTable}
+          onBackClick={handleClose}
+        />
+      </CustomModal>
+    </div >
   );
 }
