@@ -27,7 +27,7 @@ export default function DashboardLayout({ children }) {
       const token = localStorage.getItem("cupidcash_token");
       socket.emit("join", { token });
       socket.on("new-order", (data) => {
-        // setOrderId(data.order_id);
+        setOrderId(data.order_id);
 
         getOrderDetails(data.order_id)
         .then((res) => {
