@@ -16,11 +16,13 @@ import TableForm from "@/components/TableForm";
 import { getShops } from "@/services/shop";
 import DashboardCard from "@/components/DashboardCard";
 import { tableContext } from "@/providers/TableProvider";
+import { notificationContext } from "@/providers/NotificationProvider";
 
 const breadcrumbItems = [{ label: "Home", href: "/dashboard" }];
 
 export default function Dashboard() {
   const { setLoading } = useContext(appContext);
+  const { orderId } = useContext(notificationContext);
   const router = useRouter();
   const {
     showModel,
@@ -48,7 +50,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     loadTables({ search });
-  }, [search, router]);
+  }, [search, router, orderId]);
 
   useEffect(() => {
     if (selectedOrder) {
