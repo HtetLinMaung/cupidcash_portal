@@ -37,7 +37,7 @@ export default function Dashboard() {
     setSelectedOrder,
     selectedTable,
     setSelectedTable,
-    selectedShop, 
+    selectedShop,
     setSelectedShop
   } = useContext(dashboardContext);
 
@@ -52,8 +52,10 @@ export default function Dashboard() {
 
   useEffect(() => {
     if (selectedOrder) {
+      setLoading(true);
       getOrderDetails(selectedOrder)
         .then((res) => {
+          setLoading(false);
           if (res.data.code != 200) {
             return Swal.fire({
               title: "",
@@ -65,14 +67,16 @@ export default function Dashboard() {
 
           setOrder(res.data.data);
         })
-        .catch((err) => handleError(err, router));
+        .catch((err) => { setLoading(false); handleError(err, router) });
     }
 
   }, [selectedOrder]);
 
   const loadTables = (search) => {
+    setLoading(true);
     getTables(search)
       .then((res) => {
+        setLoading(false);
         if (res.data.code != 200) {
           return Swal.fire({
             title: "",
@@ -93,7 +97,7 @@ export default function Dashboard() {
           return acc;
         }, {}))
       })
-      .catch((err) => handleError(err, router));
+      .catch((err) => { setLoading(false); handleError(err, router) });
   }
 
   const handleClose = () => {
