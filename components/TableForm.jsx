@@ -6,7 +6,7 @@ function TableForm({ shopId= 0, table = {}, shops = [], onSubmit, onBackClick })
     qr_code: table.qr_code || "",
     shop_id: table.shop_id || "0",
   });
-  //formData.shop_id = shopId;
+  formData.shop_id = shopId;
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
