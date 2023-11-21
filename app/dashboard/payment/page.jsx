@@ -84,6 +84,11 @@ export default function Payment() {
       });
   }, [search, router, orderId]);
 
+ const changeStatus=()=>
+  {
+    console.log("Hello World");
+  }
+  
   return (
     <div className="pl-2 flex">
       <div
@@ -223,7 +228,7 @@ export default function Payment() {
 
         {/* Checkout button */}
         <div className="px-8">
-          <button className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+          <button className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={changeStatus}>
             CHECKOUT
           </button>
         </div>
