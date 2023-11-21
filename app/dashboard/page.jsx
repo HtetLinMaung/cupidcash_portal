@@ -174,8 +174,12 @@ export default function Dashboard() {
                       table_number={table.table_number}
                       isActive={selectedOrder === table.order_id && selectedTable === table.id}
                       onClick={() => {
-                        setSelectedOrder(table.order_id);
-                        setSelectedTable(table.id);
+                        if(table.order_id){
+                          setSelectedOrder(table.order_id);
+                          setSelectedTable(table.id);
+                        }else{
+                          setSelectedTable(0);
+                        }
                       }}
                     />
                   ))}
@@ -240,19 +244,19 @@ export default function Dashboard() {
         </div>
 
         {/* Reserve button */}
-        <div className="px-8">
+        {/* <div className="px-8">
           <button className={`w-full text-white font-bold py-2 px-4 bg-blue-500 hover:bg-blue-700 rounded ${order.status == "Served" ? 'opacity-50 pointer-events-none' : ''}`}
             onClick={() => { console.log("reserve") }}>
             RESERVE
           </button>
-        </div>
+        </div> */}
         {/* Cancel button */}
-        <div className="px-8 mt-3">
+        {/* <div className="px-8 mt-3">
           <button className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
             onClick={() => { console.log("reserve cancel"); setSelectedTable(0) }}>
             CANCEL
           </button>
-        </div>
+        </div> */}
       </div>
       <CustomModal showModel={showModel} handleClose={handleClose}>
         <TableForm
