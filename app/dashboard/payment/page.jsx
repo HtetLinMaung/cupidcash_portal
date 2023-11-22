@@ -3,21 +3,23 @@ import Breadcrumb from "@/components/Breadcrumb";
 import OrderCard from "@/components/OrderCard";
 import { server_domain } from "@/constants";
 import { getOrderDetails, getOrders } from "@/services/order";
-import { handleError } from "@/utils/rest-client";
+import { handleError, httpPut } from "@/utils/rest-client";
 import { useRouter } from "next/navigation";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import money from "mm-money";
 import { paymentContext } from "@/providers/PaymentProvider";
 import { appContext } from "@/providers/AppProvider";
 import { notificationContext } from "@/providers/NotificationProvider";
 import { ToastContainer, toast } from "react-toastify";
 import Link from "next/link";
+import Swal from "sweetalert2";
 const breadcrumbItems = [
   { label: "Home", href: "/dashboard" },
   { label: "Payment" },
 ];
 
 export default function Payment() {
+  const [tax, setTax] = useState("-");
   const { orderId } = useContext(notificationContext);
   const router = useRouter();
   const { setLoading } = useContext(appContext);
@@ -50,45 +52,62 @@ export default function Payment() {
           setOrder(res.data.data);
           let total = 0;
           for (const item of res.data.data.items) {
-            total += item.price*item.quantity;
+            total += item.price * item.quantity;
           }
           setSubTotal(total);
         })
         .catch((err) => handleError(err, router));
     }
+    fetchData();
+  }, [selectedOrder, search, router, orderId]);
 
-  }, [selectedOrder]);
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+      let status = "Pending";
+      const res = await getOrders({ search, status });
+      setLoading(false);
+      if (res.data.code !== 200) {
+        return Swal.fire({
+          title: "",
+          text: res.data.message || "Something went wrong!",
+          showConfirmButton: false,
+          timer: 5000,
+        });
+      }
 
-  useEffect(() => {
-    setLoading(true);
-    getOrders({ search })
-      .then((res) => {
-        setLoading(false);
-        if (res.data.code != 200) {
-          return Swal.fire({
-            title: "",
-            text: res.data.message || "Something went wrong!",
-            showConfirmButton: false,
-            timer: 5000,
-          });
-        }
+      setOrders(res.data.data);
+      // if (res.data.data.length) {
+      //   setSelectedOrder(res.data.data[0]);
+      // }
+    } catch (err) {
+      setLoading(false);
+      handleError(err, router);
+    }
+  };
 
-        setOrders(res.data.data);
-        // if (res.data.data.length) {
-        //   setSelectedOrder(res.data.data[0]);
-        // }
-      })
-      .catch((err) => {
-        setLoading(false);
-        handleError(err, router);
+  const changeStatus = async (order_id) => {
+    let data = {
+      status: "Completed",
+    };
+    try {
+      setLoading(true);
+      const res = await httpPut(`/api/orders/${order_id}`, data);
+      setLoading(false);
+      Swal.fire({
+        icon: "success",
+        text: res.data.message,
+        showConfirmButton: false,
+        timer: 5000,
       });
-  }, [search, router, orderId]);
+      fetchData();
+      setSelectedOrder(0);
+    } catch (err) {
+      setLoading(false);
+      handleError(err, router);
+    }
+  };
 
- const changeStatus=()=>
-  {
-    console.log("Hello World");
-  }
-  
   return (
     <div className="pl-2 flex">
       <div
@@ -99,10 +118,10 @@ export default function Payment() {
         <div className="flex-grow overflow-auto">
           <div className="m-8">
             <div className="mb-4 flex justify-end">
-            <Link href="/dashboard/paymentHistory">
-              <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                VIEW PAYMENT HISTORY
-              </button>
+              <Link href="/dashboard/paymentHistory">
+                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                  VIEW PAYMENT HISTORY
+                </button>
               </Link>
             </div>
 
@@ -154,14 +173,28 @@ export default function Payment() {
         }}
       >
         <div className="flex">
-          <div className="absolute left-[-3%] pt-1% w-31 h-31  bg-gray-800  rounded-full p-1 w-6 h-6 shadow-md" style={{ boxShadow: '0 0 2px 2px #696969' }}
-          onClick={() => {
-            setSelectedOrder(0);
-          }}>
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none">
-          <path d="M9 18L15 12L9 6" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-         
+          <div
+            className="absolute left-[-3%] pt-1% w-31 h-31  bg-gray-800  rounded-full p-1 w-6 h-6 shadow-md"
+            style={{ boxShadow: "0 0 2px 2px #696969" }}
+            onClick={() => {
+              setSelectedOrder(0);
+            }}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+            >
+              <path
+                d="M9 18L15 12L9 6"
+                stroke="#ffffff"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
           </div>
           {/* Display order information */}
           <div className="mb-8 px-8">
@@ -203,9 +236,19 @@ export default function Payment() {
             <p>
               Discount <span className="float-right">-</span>
             </p>
-            <p>
-              Tax <span className="float-right">-</span>
-            </p>
+            <div className="flex" style={{ width: "100%" }}>
+              <div style={{ width: "20%" }}>Tax</div>
+              <div style={{ width: "80%" }}>
+                {" "}
+                <input
+                  style={{ width: "100%" }}
+                  type="text"
+                  className="   border-transparent rounded-lg  text-right outline-none bg-transparent"
+                  defaultValue={tax}
+                  onChange={(e) => setTax(e.target.value)}
+                />
+              </div>
+            </div>
           </div>
           <div className="mb-4">
             <p>
@@ -228,7 +271,10 @@ export default function Payment() {
 
         {/* Checkout button */}
         <div className="px-8">
-          <button className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={changeStatus}>
+          <button
+            className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            onClick={() => changeStatus(order.id)}
+          >
             CHECKOUT
           </button>
         </div>
