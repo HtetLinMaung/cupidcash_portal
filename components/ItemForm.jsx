@@ -1,5 +1,9 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import money from "mm-money";
+import CategoryForm from "./CategoryForm";
+import CustomModal from "@/components/CutomModal";
+import { appContext } from "@/providers/AppProvider";
+import { handleError, httpPost } from "@/utils/rest-client";
 
 function ItemForm({
   shops = [],
@@ -17,6 +21,8 @@ function ItemForm({
     shop_id: item.shop_id || "0",
     file: null,
   });
+  const { setLoading } = useContext(appContext);
+  const [showModel, setShowModel] = useState(false);
 
   const [image, setImage] = useState(item.image_url || "/default-product.png");
 
@@ -45,16 +51,19 @@ function ItemForm({
   };
 
   const handleAddCategory = (e) => {
-    const found = formData.categories.find((c) => c.value == e.target.value);
-    if (!found) {
-      const category = categories.find((c) => c.value == e.target.value);
+    if (e.target.value === 'newCategory') {
+      setShowModel(true);
+    } else {
+      const found = formData.categories.find((c) => c.value == e.target.value);
+      if (!found) {
+        const category = categories.find((c) => c.value == e.target.value);
 
-      setFormData({
-        ...formData,
-        categories: [...formData.categories, category],
-      });
+        setFormData({
+          ...formData,
+          categories: [...formData.categories, category],
+        });
+      }
     }
-
     // e.target.value = ""; // Clear the input after adding a category
   };
 
@@ -70,6 +79,31 @@ function ItemForm({
   const handleSubmit = (e) => {
     e.preventDefault();
     onSubmit(formData);
+  };
+
+  const handleClose = () => {
+    setShowModel(false);
+  };
+
+  const createCategory = async (data) => {
+    try {
+      data.shop_id = parseInt(data.shop_id);
+      if (!data.shop_id) {
+        throw new Error("Invalid shop!");
+      }
+      setLoading(true);
+      const res = await httpPost("/api/categories", data);
+      setLoading(false);
+      Swal.fire({
+        icon: "success",
+        text: res.data.message,
+        showConfirmButton: false,
+        timer: 5000,
+      });
+      showModel(false);
+    } catch (err) {
+      setLoading(false);
+    }
   };
 
   return (
@@ -237,6 +271,7 @@ function ItemForm({
                   {category.label}
                 </option>
               ))}
+              <option value="newCategory">Add New Category...</option>
             </select>
           </div>
         </div>
@@ -259,6 +294,13 @@ function ItemForm({
           </button>
         </div>
       </form>
+      <CustomModal showModel={showModel} handleClose={handleClose}>
+        <CategoryForm
+          shops={shops}
+          onSubmit={createCategory}
+          onBackClick={handleClose}
+        />
+      </CustomModal>
     </div>
   );
 }
