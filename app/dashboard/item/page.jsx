@@ -11,6 +11,7 @@ import Swal from "sweetalert2";
 import { appContext } from "@/providers/AppProvider";
 import { itemContext } from "@/providers/ItemProvider";
 import money from "mm-money";
+import { server_domain } from "@/constants";
 
 const breadcrumbItems = [
   { label: "Home", href: "/dashboard" },
@@ -126,6 +127,7 @@ export default function ItemsList() {
         <thead className="bg-gray-200">
           <tr className=" text-left">
             <th className="py-2 px-4 border-b">ID</th>
+            <th className="py-2 px-4 border-b">Image</th>
             <th className="py-2 px-4 border-b">Name</th>
             <th className="py-2 px-4 border-b">Description</th>
             <th className="py-2 px-4 border-b">Price</th>
@@ -139,6 +141,18 @@ export default function ItemsList() {
           {items.map((item) => (
             <tr key={item.id} className="hover:bg-gray-50">
               <td className="py-2 px-4 border-b">{item.id}</td>
+              <td className="py-2 px-4 border-b">
+                <img
+                  style={{
+                    width: 230,
+                    height: 100,
+                    objectFit: "cover",
+                  }}
+                  className="rounded-xl"
+                  src={`${server_domain}${item.image_url}`}
+                  alt={item.name}
+                />
+              </td>
               <td className="py-2 px-4 border-b">{item.name}</td>
               <td className="py-2 px-4 border-b">{item.description}</td>
               <td className="py-2 px-4 border-b text-right">
@@ -151,7 +165,7 @@ export default function ItemsList() {
               <td className="py-2 px-4 border-b">
                 {moment(item.created_at + "Z").format("DD/MM/YYYY hh:mm:ss a")}
               </td>
-              <td className="py-2 px-4 border-b">
+              <td className="py-2 px-4 border-b" style={{ minWidth: 100 }}>
                 <Link
                   className="text-blue-500 hover:underline"
                   href={`/dashboard/item/edit?item_id=${item.id}`}

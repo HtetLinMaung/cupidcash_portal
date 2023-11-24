@@ -17,7 +17,7 @@ import money from "mm-money";
 const breadcrumbItems = [
   { label: "Home", href: "/dashboard" },
   { label: "Payment", href: "/dashboard/payment" },
-  { label: "PaymentHistory" },
+  { label: "Payment History" },
 ];
 
 export default function PaymentHistory() {
@@ -97,7 +97,7 @@ export default function PaymentHistory() {
         <thead className="bg-gray-200">
           <tr className=" text-left">
             <th className="py-2 px-4 border-b">ID</th>
-            <th className="py-2 px-4 border-b">Shop Name</th>
+            <th className="py-2 px-4 border-b">Shop</th>
             <th className="py-2 px-4 border-b">Table No.</th>
             <th className="py-2 px-4 border-b">Waiter Name</th>
             <th className="py-2 px-4 border-b">Item Count</th>
