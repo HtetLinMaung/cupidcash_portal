@@ -123,7 +123,7 @@ export default function ItemsList() {
         <span className="text-gray-600 font-medium">Total Items: </span>
         <span className="text-black font-bold">{total}</span>
       </div>
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto shadow-md rounded-lg">
         <table className="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
           <thead className="bg-gray-200">
             <tr className=" text-left">
@@ -145,7 +145,7 @@ export default function ItemsList() {
                 <td className="py-2 px-4 border-b">
                   <img
                     style={{
-                      width: 230,
+                      minWidth: 100,
                       height: 100,
                       objectFit: "cover",
                     }}
