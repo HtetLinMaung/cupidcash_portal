@@ -18,6 +18,7 @@ const { RangePicker } = DatePicker;
 // import "@duetds/date-picker/dist/duet/themes/default.css";
 
 import Link from "next/link";
+import money from "mm-money";
 
 const breadcrumbItems = [
   { label: "Home", href: "/dashboard" },
@@ -72,7 +73,6 @@ export default function PaymentHistory() {
   }, [page, perPage, router, search]);
 
   useEffect(() => {
-    // defineCustomElements(window);
     setLoading(true);
     fetchOrders();
   }, [page, perPage, search, router, orderId, fetchOrders]);
@@ -93,10 +93,8 @@ export default function PaymentHistory() {
             className="p-2 border rounded-lg"
           />
         </div>
-        <div className="flex items-center space-x-4">
-          <div>
-            <RangePicker />
-          </div>
+        <div>
+          <RangePicker />
         </div>
       </div>
 
@@ -108,17 +106,39 @@ export default function PaymentHistory() {
         <thead className="bg-gray-200">
           <tr className=" text-left">
             <th className="py-2 px-4 border-b">ID</th>
-            <th className="py-2 px-4 border-b">Table Name</th>
             <th className="py-2 px-4 border-b">Shop Name</th>
+            <th className="py-2 px-4 border-b">Table No.</th>
+            <th className="py-2 px-4 border-b">Waiter Name</th>
+            <th className="py-2 px-4 border-b">Item Count</th>
+            <th className="py-2 px-4 border-b">Sub Total</th>
+            <th className="py-2 px-4 border-b">Discount</th>
+            <th className="py-2 px-4 border-b">Tax</th>
+            <th className="py-2 px-4 border-b">Total</th>
+            <th className="py-2 px-4 border-b">Status</th>
             <th className="py-2 px-4 border-b">Time</th>
           </tr>
         </thead>
         <tbody>
           {orders.map((order) => (
             <tr key={order.id} className="hover:bg-gray-50">
-              <td className="py-2 px-4 border-b">{order.id}</td>
+              <td className="py-2 px-4 border-b underline cursor-pointer">
+                #{order.id}
+              </td>
+              <td className="py-2 px-4 border-b">{order.shop_name}</td>
               <td className="py-2 px-4 border-b">{order.table_number}</td>
               <td className="py-2 px-4 border-b">{order.waiter_name}</td>
+              <td className="py-2 px-4 border-b">{order.item_count}</td>
+              <td className="py-2 px-4 border-b">
+                {money.format(order.sub_total)}
+              </td>
+              <td className="py-2 px-4 border-b">
+                {money.format(order.discount)}
+              </td>
+              <td className="py-2 px-4 border-b">{money.format(order.tax)}</td>
+              <td className="py-2 px-4 border-b">
+                {money.format(order.total)}
+              </td>
+              <td className="py-2 px-4 border-b">{order.status}</td>
               <td className="py-2 px-4 border-b">
                 {moment(order.created_at + "Z").format("DD/MM/YYYY hh:mm:ss a")}
               </td>

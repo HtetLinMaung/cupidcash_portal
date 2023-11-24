@@ -19,7 +19,8 @@ const breadcrumbItems = [
 ];
 
 export default function Payment() {
-  const [tax, setTax] = useState("-");
+  const [tax, setTax] = useState("0.00");
+  const [discount, setDiscount] = useState("0.00");
   const { orderId } = useContext(notificationContext);
   const router = useRouter();
   const { setLoading } = useContext(appContext);
@@ -89,6 +90,8 @@ export default function Payment() {
   const changeStatus = async (order_id) => {
     let data = {
       status: "Completed",
+      tax: money.parseNumber(tax),
+      discount: money.parseNumber(discount),
     };
     try {
       setLoading(true);
@@ -216,7 +219,7 @@ export default function Payment() {
               />
               <div className="px-4 flex flex-col justify-between leading-normal">
                 <h5 className="text-md font-bold">{item.item_name}</h5>
-                <p className="text-sm">{item.description}</p>
+                {/* <p className="text-sm">{item.description}</p> */}
                 <p className="text-sm">Qty: {item.quantity}</p>
                 {item.special_instructions && (
                   <p className="text-sm">Notes: {item.special_instructions}</p>
@@ -228,32 +231,46 @@ export default function Payment() {
         </div>
         {/* Summary section */}
         <div className="mb-4 px-8">
-          <div className="mb-2 pt-4">
-            <p>
-              Sub Total{" "}
+          <div className="mb-3 pt-4">
+            <p className="mb-1">
+              Sub Total
               <span className="float-right">{money.format(subTotal)} Ks</span>
             </p>
-            <p>
-              Discount <span className="float-right">-</span>
-            </p>
-            <div className="flex" style={{ width: "100%" }}>
-              <div style={{ width: "20%" }}>Tax</div>
-              <div style={{ width: "80%" }}>
-                {" "}
+            <div className="mb-1 flex" style={{ width: "100%" }}>
+              <div style={{ width: "20%" }}>Discount</div>
+              <div className="flex" style={{ width: "80%" }}>
                 <input
+                  onBlur={(e) => setDiscount(money.format(e.target.value))}
                   style={{ width: "100%" }}
                   type="text"
-                  className="   border-transparent rounded-lg  text-right outline-none bg-transparent"
-                  defaultValue={tax}
+                  className="mr-1 border-transparent rounded-lg  text-right outline-none bg-transparent"
+                  value={discount}
+                  onChange={(e) => setDiscount(e.target.value)}
+                />
+                Ks
+              </div>
+            </div>
+            <div className="flex" style={{ width: "100%" }}>
+              <div style={{ width: "20%" }}>Tax</div>
+              <div className="flex" style={{ width: "80%" }}>
+                <input
+                  onBlur={(e) => setTax(money.format(e.target.value))}
+                  style={{ width: "100%" }}
+                  type="text"
+                  className="mr-1 border-transparent rounded-lg  text-right outline-none bg-transparent"
+                  value={tax}
                   onChange={(e) => setTax(e.target.value)}
                 />
+                Ks
               </div>
             </div>
           </div>
           <div className="mb-4">
             <p>
               Total
-              <span className="float-right">{money.format(subTotal)} Ks</span>
+              <span className="float-right">
+                {money.format(money.sum([subTotal, `-${discount}`, tax]))} Ks
+              </span>
             </p>
           </div>
           <div className="mb-4">

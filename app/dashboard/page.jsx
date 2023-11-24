@@ -40,13 +40,10 @@ export default function Dashboard() {
     selectedTable,
     setSelectedTable,
     selectedShop,
-    setSelectedShop
+    setSelectedShop,
   } = useContext(dashboardContext);
 
-  const {
-    tables,
-    setTables
-  } = useContext(tableContext);
+  const { tables, setTables } = useContext(tableContext);
 
   useEffect(() => {
     loadTables({ search });
@@ -69,9 +66,11 @@ export default function Dashboard() {
 
           setOrder(res.data.data);
         })
-        .catch((err) => { setLoading(false); handleError(err, router) });
+        .catch((err) => {
+          setLoading(false);
+          handleError(err, router);
+        });
     }
-
   }, [selectedOrder]);
 
   const loadTables = (search) => {
@@ -90,17 +89,22 @@ export default function Dashboard() {
         setTables(res.data.data);
 
         // Grouping the data by shop_id
-        setShopTables(res.data.data.reduce((acc, table) => {
-          const { shop_id, shop_name, ...rest } = table;
-          if (!acc[shop_id]) {
-            acc[shop_id] = { shop_id, shop_name, tables: [] };
-          }
-          acc[shop_id].tables.push(rest);
-          return acc;
-        }, {}))
+        setShopTables(
+          res.data.data.reduce((acc, table) => {
+            const { shop_id, shop_name, ...rest } = table;
+            if (!acc[shop_id]) {
+              acc[shop_id] = { shop_id, shop_name, tables: [] };
+            }
+            acc[shop_id].tables.push(rest);
+            return acc;
+          }, {})
+        );
       })
-      .catch((err) => { setLoading(false); handleError(err, router) });
-  }
+      .catch((err) => {
+        setLoading(false);
+        handleError(err, router);
+      });
+  };
 
   const handleClose = () => {
     setShowModel(false);
@@ -144,7 +148,8 @@ export default function Dashboard() {
 
   return (
     <div className="pl-2 flex">
-      <div className="flex-grow bg-gray-100 pt-8"
+      <div
+        className="flex-grow bg-gray-100 pt-8"
         style={{ paddingRight: selectedTable == 0 ? 0 : "24rem" }}
       >
         <Breadcrumb items={breadcrumbItems} />
@@ -161,8 +166,8 @@ export default function Dashboard() {
               />
             </div>
 
-
-            {// Loop through the hash map
+            {
+              // Loop through the hash map
               Object.values(shopTables).map((shop) => (
                 <DashboardCard key={shop.shop_id} shopName={shop.shop_name}>
                   {/* Repeat this div for each card, use a map function for real data */}
@@ -172,12 +177,15 @@ export default function Dashboard() {
                       id={table.id}
                       order_id={table.order_id}
                       table_number={table.table_number}
-                      isActive={selectedOrder === table.order_id && selectedTable === table.id}
+                      isActive={
+                        selectedOrder === table.order_id &&
+                        selectedTable === table.id
+                      }
                       onClick={() => {
-                        if(table.order_id){
+                        if (table.order_id) {
                           setSelectedOrder(table.order_id);
                           setSelectedTable(table.id);
-                        }else{
+                        } else {
                           setSelectedTable(0);
                         }
                       }}
@@ -185,12 +193,20 @@ export default function Dashboard() {
                   ))}
                   {/* "ADD TABLE" button */}
                   <div className={`bg-transparent pt-6 pb-6 cursor-pointer`}>
-                    <p className="font-bold text-blue-500 ml-auto mr-auto" onClick={() => { setShowModel(true); loadShops(); setSelectedShop(shop.shop_id) }}>
+                    <p
+                      className="font-bold text-blue-500 ml-auto mr-auto"
+                      onClick={() => {
+                        setShowModel(true);
+                        loadShops();
+                        setSelectedShop(shop.shop_id);
+                      }}
+                    >
                       + ADD TABLE
                     </p>
                   </div>
                 </DashboardCard>
-              ))}
+              ))
+            }
 
             {/* <div className="bg-white rounded-md shadow p-4">
                 <p>DN-0012A</p>
@@ -218,7 +234,9 @@ export default function Dashboard() {
           <p>Waiter: {order.waiter_name}</p>
           <p>Table: {order.table_number}</p>
           <p>Time: {new Date(order.created_at + "Z").toLocaleString()}</p>
-          <div><p>Status: {order.status}</p></div>
+          <div>
+            <p>Status: {order.status}</p>
+          </div>
         </div>
 
         <div className="flex-grow overflow-y-auto pl-8">
@@ -232,7 +250,7 @@ export default function Dashboard() {
               />
               <div className="px-4 flex flex-col justify-between leading-normal">
                 <h5 className="text-md font-bold">{item.item_name}</h5>
-                <p className="text-sm">{item.description}</p>
+                {/* <p className="text-sm">{item.description}</p> */}
                 <p className="text-sm">Qty: {item.quantity}</p>
                 {item.special_instructions && (
                   <p className="text-sm">Notes: {item.special_instructions}</p>
@@ -266,6 +284,6 @@ export default function Dashboard() {
           onBackClick={handleClose}
         />
       </CustomModal>
-    </div >
+    </div>
   );
 }
