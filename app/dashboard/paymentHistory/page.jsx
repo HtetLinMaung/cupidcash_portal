@@ -73,7 +73,7 @@ export default function PaymentHistory() {
         setLoading(false);
         handleError(err, router);
       });
-  }, [page, perPage, router, search]);
+  }, [page, perPage, router, search, fromDate, toDate]);
 
   useEffect(() => {
     setLoading(true);
