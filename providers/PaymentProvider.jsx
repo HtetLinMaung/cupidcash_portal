@@ -16,6 +16,8 @@ const initState = {
   pageCounts: 0,
   total: 0,
   selectedOrder: 0,
+  fromDate: "",
+  toDate: "",
 };
 
 export const paymentContext = createContext(initState);

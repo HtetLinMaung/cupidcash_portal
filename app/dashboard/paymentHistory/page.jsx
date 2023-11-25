@@ -11,11 +11,8 @@ import { paymentContext } from "@/providers/PaymentProvider";
 import { appContext } from "@/providers/AppProvider";
 import { notificationContext } from "@/providers/NotificationProvider";
 import Pagination from "@/components/Pagination";
-import { DatePicker } from "antd";
+import { DatePicker, Space } from "antd";
 const { RangePicker } = DatePicker;
-
-// import { defineCustomElements } from "@duetds/date-picker/dist/loader";
-// import "@duetds/date-picker/dist/duet/themes/default.css";
 
 import Link from "next/link";
 import money from "mm-money";
@@ -49,6 +46,10 @@ export default function PaymentHistory() {
     setPerPage,
     pageCounts,
     setPageCounts,
+    setFromDate,
+    setToDate,
+    fromDate,
+    toDate,
   } = useContext(paymentContext);
 
   const fetchOrders = useCallback(() => {
@@ -58,6 +59,8 @@ export default function PaymentHistory() {
         page,
         per_page: perPage,
         search,
+        from_date: fromDate,
+        to_date: toDate,
       },
     })
       .then((res) => {
@@ -75,7 +78,18 @@ export default function PaymentHistory() {
   useEffect(() => {
     setLoading(true);
     fetchOrders();
-  }, [page, perPage, search, router, orderId, fetchOrders]);
+  }, [page, perPage, search, fromDate, toDate, router, orderId, fetchOrders]);
+
+  const onChange = (dates, dateStrings) => {
+    if (dates) {
+      console.log("From: ", dates[0], ", to: ", dates[1]);
+      console.log("From: ", dateStrings[0], ", to: ", dateStrings[1]);
+      setFromDate(dateStrings[0]);
+      setToDate(dateStrings[1]);
+    } else {
+      console.log("Clear");
+    }
+  };
   return (
     <div className="px-2 pr-6 pb-6">
       <div className="flex-grow bg-gray-100 pt-8 mb-6">
@@ -94,7 +108,7 @@ export default function PaymentHistory() {
           />
         </div>
         <div>
-          <RangePicker />
+          <RangePicker onChange={onChange} format="YYYY-MM-DD" />
         </div>
       </div>
 
