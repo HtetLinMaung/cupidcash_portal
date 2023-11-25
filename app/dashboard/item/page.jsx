@@ -11,6 +11,7 @@ import Swal from "sweetalert2";
 import { appContext } from "@/providers/AppProvider";
 import { itemContext } from "@/providers/ItemProvider";
 import money from "mm-money";
+import { server_domain } from "@/constants";
 
 const breadcrumbItems = [
   { label: "Home", href: "/dashboard" },
@@ -122,54 +123,71 @@ export default function ItemsList() {
         <span className="text-gray-600 font-medium">Total Items: </span>
         <span className="text-black font-bold">{total}</span>
       </div>
-      <table className="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
-        <thead className="bg-gray-200">
-          <tr className=" text-left">
-            <th className="py-2 px-4 border-b">ID</th>
-            <th className="py-2 px-4 border-b">Name</th>
-            <th className="py-2 px-4 border-b">Description</th>
-            <th className="py-2 px-4 border-b">Price</th>
-            <th className="py-2 px-4 border-b">Shop</th>
-            <th className="py-2 px-4 border-b">Category</th>
-            <th className="py-2 px-4 border-b">Time</th>
-            <th className="py-2 px-4 border-b">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {items.map((item) => (
-            <tr key={item.id} className="hover:bg-gray-50">
-              <td className="py-2 px-4 border-b">{item.id}</td>
-              <td className="py-2 px-4 border-b">{item.name}</td>
-              <td className="py-2 px-4 border-b">{item.description}</td>
-              <td className="py-2 px-4 border-b text-right">
-                {money.format(item.price)}
-              </td>
-              <td className="py-2 px-4 border-b">{item.shop_name}</td>
-              <td className="py-2 px-4 border-b">
-                {item.categories.map((c) => c.name).join(", ")}
-              </td>
-              <td className="py-2 px-4 border-b">
-                {moment(item.created_at + "Z").format("DD/MM/YYYY hh:mm:ss a")}
-              </td>
-              <td className="py-2 px-4 border-b">
-                <Link
-                  className="text-blue-500 hover:underline"
-                  href={`/dashboard/item/edit?item_id=${item.id}`}
-                >
-                  Edit
-                </Link>
-                {/* Add delete functionality */}
-                <button
-                  className="ml-2 text-red-500 hover:underline"
-                  onClick={() => handleDelete(item.id)}
-                >
-                  Delete
-                </button>
-              </td>
+      <div className="overflow-x-auto shadow-md rounded-lg">
+        <table className="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
+          <thead className="bg-gray-200">
+            <tr className=" text-left">
+              <th className="py-2 px-4 border-b">ID</th>
+              <th className="py-2 px-4 border-b">Image</th>
+              <th className="py-2 px-4 border-b">Name</th>
+              <th className="py-2 px-4 border-b">Description</th>
+              <th className="py-2 px-4 border-b">Price</th>
+              <th className="py-2 px-4 border-b">Shop</th>
+              <th className="py-2 px-4 border-b">Category</th>
+              <th className="py-2 px-4 border-b">Time</th>
+              <th className="py-2 px-4 border-b">Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {items.map((item) => (
+              <tr key={item.id} className="hover:bg-gray-50">
+                <td className="py-2 px-4 border-b">{item.id}</td>
+                <td className="py-2 px-4 border-b">
+                  <img
+                    style={{
+                      minWidth: 100,
+                      height: 100,
+                      objectFit: "cover",
+                    }}
+                    className="rounded-xl"
+                    src={`${server_domain}${item.image_url}`}
+                    alt={item.name}
+                  />
+                </td>
+                <td className="py-2 px-4 border-b">{item.name}</td>
+                <td className="py-2 px-4 border-b">{item.description}</td>
+                <td className="py-2 px-4 border-b text-right">
+                  {money.format(item.price)}
+                </td>
+                <td className="py-2 px-4 border-b">{item.shop_name}</td>
+                <td className="py-2 px-4 border-b">
+                  {item.categories.map((c) => c.name).join(", ")}
+                </td>
+                <td className="py-2 px-4 border-b">
+                  {moment(item.created_at + "Z").format(
+                    "DD/MM/YYYY hh:mm:ss a"
+                  )}
+                </td>
+                <td className="py-2 px-4 border-b">
+                  <Link
+                    className="text-blue-500 hover:underline"
+                    href={`/dashboard/item/edit?item_id=${item.id}`}
+                  >
+                    Edit
+                  </Link>
+
+                  <button
+                    className="ml-2 text-red-500 hover:underline"
+                    onClick={() => handleDelete(item.id)}
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
       {/* Pagination Controls */}
       <Pagination
         page={page}
