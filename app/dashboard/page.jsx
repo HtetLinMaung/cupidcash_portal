@@ -17,6 +17,8 @@ import { getShops } from "@/services/shop";
 import DashboardCard from "@/components/DashboardCard";
 import { tableContext } from "@/providers/TableProvider";
 import { notificationContext } from "@/providers/NotificationProvider";
+import RightSectionCard from "@/components/RightSectionCard";
+import RightSectionButtom from "@/components/RightSectionButtom";
 
 const breadcrumbItems = [{ label: "Home", href: "/dashboard" }];
 
@@ -162,7 +164,7 @@ export default function Dashboard() {
                 onChange={(e) => setSearch(e.target.value)}
                 type="text"
                 placeholder="Type to search..."
-                className="w-full p-4 rounded-md"
+                className="w-full p-4 rounded-md border transition focus:border-white focus:outline-none focus:ring-2 focus:ring-c4c4c4"
               />
             </div>
 
@@ -219,63 +221,16 @@ export default function Dashboard() {
       </div>
 
       {/* Right section */}
-      <div
-        className="flex flex-col w-96 bg-gray-800 text-white py-8 fixed top-0 bottom-0 right-0"
-        style={{
-          width: selectedTable == 0 ? 0 : "24rem",
-          maxWidth: selectedTable == 0 ? 0 : "24rem",
-          padding: selectedTable == 0 ? 0 : "2rem 0",
-          opacity: selectedTable == 0 ? 0 : 1,
-        }}
-      >
-        {/* Display order information */}
-        <div className="mb-8 px-8">
-          <h3 className="text-lg font-bold">#{order.id}</h3>
-          <p>Waiter: {order.waiter_name}</p>
-          <p>Table: {order.table_number}</p>
-          <p>Time: {new Date(order.created_at + "Z").toLocaleString()}</p>
-          <div>
-            <p>Status: {order.status}</p>
-          </div>
-        </div>
+      <RightSectionCard order={order}>
+        {order.items.map((item, index) => (
+          <RightSectionButtom
+            key={index}
+            item={item}
+            index={index}
+          ></RightSectionButtom>
+        ))}
+      </RightSectionCard>
 
-        <div className="flex-grow overflow-y-auto pl-8">
-          {/* Loop over items array */}
-          {order.items.map((item, index) => (
-            <div key={index} className="mb-4 flex">
-              <img
-                src={server_domain + item.image_url}
-                alt={item.item_name}
-                className="h-20 w-20 flex-none bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden"
-              />
-              <div className="px-4 flex flex-col justify-between leading-normal">
-                <h5 className="text-md font-bold">{item.item_name}</h5>
-                {/* <p className="text-sm">{item.description}</p> */}
-                <p className="text-sm">Qty: {item.quantity}</p>
-                {item.special_instructions && (
-                  <p className="text-sm">Notes: {item.special_instructions}</p>
-                )}
-                <p className="text-md">{money.format(item.price)} Ks</p>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Reserve button */}
-        {/* <div className="px-8">
-          <button className={`w-full text-white font-bold py-2 px-4 bg-blue-500 hover:bg-blue-700 rounded ${order.status == "Served" ? 'opacity-50 pointer-events-none' : ''}`}
-            onClick={() => { console.log("reserve") }}>
-            RESERVE
-          </button>
-        </div> */}
-        {/* Cancel button */}
-        {/* <div className="px-8 mt-3">
-          <button className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-            onClick={() => { console.log("reserve cancel"); setSelectedTable(0) }}>
-            CANCEL
-          </button>
-        </div> */}
-      </div>
       <CustomModal showModel={showModel} handleClose={handleClose}>
         <TableForm
           shopId={selectedShop}

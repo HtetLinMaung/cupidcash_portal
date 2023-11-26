@@ -169,19 +169,21 @@ export default function ItemsList() {
                   )}
                 </td>
                 <td className="py-2 px-4 border-b">
-                  <Link
-                    className="text-blue-500 hover:underline"
-                    href={`/dashboard/item/edit?item_id=${item.id}`}
-                  >
-                    Edit
-                  </Link>
+                  <div className="flex">
+                    <Link
+                      className="text-blue-500 hover:underline"
+                      href={`/dashboard/item/edit?item_id=${item.id}`}
+                    >
+                      Edit
+                    </Link>
 
-                  <button
-                    className="ml-2 text-red-500 hover:underline"
-                    onClick={() => handleDelete(item.id)}
-                  >
-                    Delete
-                  </button>
+                    <button
+                      className="ml-2 text-red-500 hover:underline"
+                      onClick={() => handleDelete(item.id)}
+                    >
+                      Delete
+                    </button>
+                  </div>
                 </td>
               </tr>
             ))}

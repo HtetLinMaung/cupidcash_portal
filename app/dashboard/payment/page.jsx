@@ -233,7 +233,6 @@ export default function Payment() {
         <div className="mb-4 px-8">
           <div className="mb-3 pt-4">
             <p className="mb-1">
-              Sub Total
               <span className="float-right">{money.format(subTotal)} Ks</span>
             </p>
             <div className="mb-1 flex" style={{ width: "100%" }}>

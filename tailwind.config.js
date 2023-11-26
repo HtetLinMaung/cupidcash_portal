@@ -21,6 +21,9 @@ module.exports = {
       animation: {
         loading: "loading 1s ease-in-out infinite",
       },
+      daisyui: {
+        themes: ["light", "dark", "cupcake"],
+      },
     },
   },
   plugins: [require("daisyui")],
