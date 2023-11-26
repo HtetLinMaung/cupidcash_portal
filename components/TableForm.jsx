@@ -1,6 +1,12 @@
 import { useState } from "react";
 
-function TableForm({ shopId= 0, table = {}, shops = [], onSubmit, onBackClick }) {
+function TableForm({
+  shopId = 0,
+  table = {},
+  shops = [],
+  onSubmit,
+  onBackClick,
+}) {
   const [formData, setFormData] = useState({
     table_number: table.table_number || "",
     qr_code: table.qr_code || "",

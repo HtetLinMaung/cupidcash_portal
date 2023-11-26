@@ -151,7 +151,7 @@ export default function Dashboard() {
   return (
     <div className="pl-2 flex">
       <div
-        className="flex-grow bg-gray-100 pt-8"
+        className="flex-grow  pt-8"
         style={{ paddingRight: selectedTable == 0 ? 0 : "24rem" }}
       >
         <Breadcrumb items={breadcrumbItems} />
@@ -201,6 +201,7 @@ export default function Dashboard() {
                         setShowModel(true);
                         loadShops();
                         setSelectedShop(shop.shop_id);
+                        document.getElementById("my_modal_2").showModal();
                       }}
                     >
                       + ADD TABLE

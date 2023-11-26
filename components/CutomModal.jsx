@@ -19,14 +19,20 @@ const CustomModal = ({ showModel, handleClose, children }) => {
     },
   };
   return (
-    <Modal
-      isOpen={showModel}
-      onRequestClose={handleClose}
-      contentLabel="Example Modal"
-      style={customStyles}
-    >
-      {children}
-    </Modal>
+    // <Modal
+    //   isOpen={showModel}
+    //   onRequestClose={handleClose}
+    //   contentLabel="Example Modal"
+    //   style={customStyles}
+    // >
+    //
+    // </Modal>
+    <dialog id="my_modal_2" className="modal">
+      <div className="modal-box">{children}</div>
+      <form method="dialog" className="modal-backdrop">
+        <button>close</button>
+      </form>
+    </dialog>
   );
 };
 
