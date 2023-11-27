@@ -1,12 +1,6 @@
 import { useState } from "react";
 
-function TableForm({
-  shopId = 0,
-  table = {},
-  shops = [],
-  onSubmit,
-  onBackClick,
-}) {
+function TableForm({ shopId = 0, table = {}, shops = [], onSubmit }) {
   const [formData, setFormData] = useState({
     table_number: table.table_number || "",
     qr_code: table.qr_code || "",
@@ -37,13 +31,14 @@ function TableForm({
               Table Number
             </label>
             <input
-              className="w-full p-2 border rounded-lg"
+              className="w-full p-2 border rounded-lg focus:border-white focus:outline-none focus:ring-2 focus:ring-c4c4c4"
               id="table_number"
               type="text"
               name="table_number"
               value={formData.table_number}
               onChange={handleChange}
               required
+              autoComplete="off"
             />
           </div>
         </div>
@@ -57,7 +52,7 @@ function TableForm({
               QR Code
             </label>
             <textarea
-              className="w-full p-2 border rounded-lg"
+              className="w-full p-2 border rounded-lg focus:border-white focus:outline-none focus:ring-2 focus:ring-c4c4c4"
               id="qr_code"
               name="qr_code"
               cols="30"
@@ -76,15 +71,18 @@ function TableForm({
             >
               Shop
             </label>
+
             <select
-              className="w-full p-2 border rounded-lg"
+              className="select select-bordered w-full  focus:border-white focus:outline-none focus:ring-2 focus:ring-c4c4c4"
               id="shop_id"
               name="shop_id"
               value={formData.shop_id}
               onChange={handleChange}
               required
             >
-              <option value={0}>Select a Shop</option>
+              <option value={0} disabled selected>
+                Select a Shop
+              </option>
               {shops.map((shop) => (
                 <option key={shop.value} value={shop.value}>
                   {shop.label}
@@ -98,7 +96,7 @@ function TableForm({
           <button
             onClick={(e) => {
               e.preventDefault();
-              onBackClick(e);
+              document.getElementById("my_modal_2").close();
             }}
             className="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400 mr-2"
           >

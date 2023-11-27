@@ -232,7 +232,7 @@ export default function Dashboard() {
         ))}
       </RightSectionCard>
 
-      <CustomModal showModel={showModel} handleClose={handleClose}>
+      <CustomModal>
         <TableForm
           shopId={selectedShop}
           shops={shops}

@@ -42,6 +42,23 @@ body {
   transition: transform 0.3s ease-in-out;
   group-hover: scale-100;
 }
+@keyframes slideIn {
+  from {
+    right: -24rem; /* Off-screen initially */
+  }
+  to {
+    right: 0; /* Slide in to the right */
+  }
+}
+
+@keyframes slideOut {
+  from {
+    right: 0; /* Initial position on-screen */
+  }
+  to {
+    right: -24rem; /* Slide out to the right */
+  }
+}
 
 /* for debugging purposes */
 /* * {

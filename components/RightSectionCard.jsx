@@ -1,9 +1,16 @@
 import { dashboardContext } from "@/providers/DashboardProvider";
-import { paymentContext } from "@/providers/PaymentProvider";
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 export default function RightSectionCard({ order, children }) {
   const { selectedTable, setSelectedTable } = useContext(dashboardContext);
+  const [slideAnimation, setSlideAnimation] = useState(
+    "slideOut 0.5s ease-in-out forwards"
+  );
+  useEffect(() => {
+    if (selectedTable != 0)
+      setSlideAnimation("slideIn 0.3s ease-in-out forwards");
+    else setSlideAnimation("slideOut 0.5s ease-in-out forwards");
+  }, [selectedTable]);
   return (
     <div
       className="flex flex-col w-96 bg-gray-800 text-white py-8 fixed top-0 bottom-0 right-0"
@@ -11,7 +18,7 @@ export default function RightSectionCard({ order, children }) {
         width: selectedTable == 0 ? 0 : "24rem",
         maxWidth: selectedTable == 0 ? 0 : "24rem",
         padding: selectedTable == 0 ? 0 : "2rem 0",
-        opacity: selectedTable == 0 ? 0 : 1,
+        animation: slideAnimation,
       }}
     >
       <div className="flex">

@@ -4,20 +4,7 @@ import Modal from "react-modal";
 
 Modal.setAppElement("html");
 
-const CustomModal = ({ showModel, handleClose, children }) => {
-  const customStyles = {
-    content: {
-      width: "auto",
-      height: "auto",
-      maxWidth: "80%", // Optional: Set a max-width to limit the width of the modal
-      maxHeight: "80%", // Optional: Set a max-height to limit the height of the modal
-      margin: "auto", // Center the modal
-      border: "none",
-      outline: "none",
-      backgroundColor: "transparent",
-      overflow: "hidden",
-    },
-  };
+const CustomModal = ({ children }) => {
   return (
     // <Modal
     //   isOpen={showModel}
@@ -28,7 +15,9 @@ const CustomModal = ({ showModel, handleClose, children }) => {
     //
     // </Modal>
     <dialog id="my_modal_2" className="modal">
-      <div className="modal-box">{children}</div>
+      <div className="modal-box" style={{ maxWidth: "40%", padding: "0" }}>
+        {children}
+      </div>
       <form method="dialog" className="modal-backdrop">
         <button>close</button>
       </form>
