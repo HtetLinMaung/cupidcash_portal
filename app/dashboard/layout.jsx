@@ -76,7 +76,10 @@ export default function DashboardLayout({ children }) {
         {loading ? <LoadingBar /> : null}
         <div className="flex">
           <Sidebar />
-          <div style={{ width: "91%" }} className="pl-20 flex-grow bg-gray-100">
+          <div
+            style={{ width: "100%" }}
+            className="pl-20 flex-grow bg-gray-100"
+          >
             {children}
           </div>
           {/* Same as */}

@@ -167,7 +167,7 @@ export default function Payment() {
 
       {/* Right section */}
       <div
-        className="flex flex-col w-96 bg-gray-800 text-white py-8 fixed top-0 bottom-0 right-0"
+        className="flex flex-col w-96 bg-gray-800 text-white py-8 fixed top-0 bottom-0 right-0 "
         style={{
           width: selectedOrder == 0 ? 0 : "24rem",
           maxWidth: selectedOrder == 0 ? 0 : "24rem",
@@ -208,7 +208,7 @@ export default function Payment() {
           </div>
         </div>
 
-        <div className="flex-grow overflow-y-auto pl-8">
+        <div className="flex-grow overflow-y-auto pl-8 custom-scrollbar">
           {/* Loop over items array */}
           {order.items.map((item, index) => (
             <div key={index} className="mb-4 flex">
