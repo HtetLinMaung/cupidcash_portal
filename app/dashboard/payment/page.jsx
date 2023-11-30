@@ -92,6 +92,7 @@ export default function Payment() {
       status: "Completed",
       tax: money.parseNumber(tax),
       discount: money.parseNumber(discount),
+      total: money.parseNumber(money.sum([subTotal, `-${discount}`, tax]))
     };
     try {
       setLoading(true);
