@@ -13,7 +13,7 @@ export default function RightSectionCard({ order, children }) {
   }, [selectedTable]);
   return (
     <div
-      className="flex flex-col w-96 bg-gray-800 text-white py-8 fixed top-0 bottom-0 right-0"
+      className=" w-96 bg-gray-800 text-white py-8 fixed top-0 bottom-0 right-0"
       style={{
         width: selectedTable == 0 ? 0 : "24rem",
         maxWidth: selectedTable == 0 ? 0 : "24rem",

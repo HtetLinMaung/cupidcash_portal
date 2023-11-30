@@ -68,3 +68,25 @@ body {
 *:hover {
   outline: 2px solid green !important;
 } */
+
+
+body::-webkit-scrollbar {
+  width: 3px; /* adjust as needed */
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: #696969; /* scrollbar handle color */
+}
+
+body::-webkit-scrollbar-track {
+  background-color: #ffffff; /* scrollbar track color */
+}
+/* styles.css or yourTailwindStyles.css */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 3px; /* adjust as needed */
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #696969; /* scrollbar handle color */
+}
+

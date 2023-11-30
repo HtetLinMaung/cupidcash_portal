@@ -4,7 +4,7 @@ import money from "mm-money";
 
 export default function RightSectionButtom({ item, index }) {
   return (
-    <div className="flex-grow overflow-y-auto pl-8">
+    <div className="flex-grow overflow-y-auto pl-8 custom-scrollbar">
       <div key={index} className="mb-4 flex">
         <img
           src={server_domain + item.image_url}
