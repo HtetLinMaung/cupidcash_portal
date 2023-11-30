@@ -108,7 +108,7 @@ export default function ItemsList() {
             onChange={(e) => setSearch(e.target.value)}
             type="text"
             placeholder="Search items..."
-            className="p-2 border rounded-lg"
+            className="p-2 border rounded-lg border transition focus:border-white focus:outline-none focus:ring-2 focus:ring-c4c4c4"
           />
         </div>
 
@@ -159,7 +159,7 @@ export default function ItemsList() {
                 <td className="py-2 px-4 border-b text-right">
                   {money.format(item.price)}
                 </td>
-                <td className="py-2 px-4 border-b">{item.shop_name}</td>
+                <td className="py-1 px-2 border-b">{item.shop_name}</td>
                 <td className="py-2 px-4 border-b">
                   {item.categories.map((c) => c.name).join(", ")}
                 </td>

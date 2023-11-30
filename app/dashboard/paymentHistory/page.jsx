@@ -100,7 +100,7 @@ export default function PaymentHistory() {
             onChange={(e) => setSearch(e.target.value)}
             type="text"
             placeholder="Search Payment..."
-            className="p-2 border rounded-lg"
+            className="p-2 border rounded-lg border transition focus:border-white focus:outline-none focus:ring-2 focus:ring-c4c4c4"
           />
         </div>
         <div>

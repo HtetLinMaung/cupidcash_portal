@@ -135,7 +135,7 @@ export default function Payment() {
                 onChange={(e) => setSearch(e.target.value)}
                 type="text"
                 placeholder="Type to search..."
-                className="w-full p-4 rounded-md"
+                className="w-full p-4 rounded-md border transition focus:border-white focus:outline-none focus:ring-2 focus:ring-c4c4c4 "
               />
             </div>
 

@@ -106,7 +106,7 @@ export default function CategoriesList() {
             onChange={(e) => setSearch(e.target.value)}
             type="text"
             placeholder="Search categories..."
-            className="p-2 border rounded-lg"
+            className="p-2 border rounded-lg border transition focus:border-white focus:outline-none focus:ring-2 focus:ring-c4c4c4"
           />
         </div>
         {/* Create Category Button */}
@@ -145,19 +145,22 @@ export default function CategoriesList() {
                 )}
               </td>
               <td className="py-2 px-4 border-b">
-                <Link
-                  className="text-blue-500 hover:underline"
-                  href={`/dashboard/category/edit?category_id=${category.id}`}
-                >
-                  Edit
-                </Link>
-                {/* Add delete functionality */}
-                <button
-                  className="ml-2 text-red-500 hover:underline"
-                  onClick={() => handleDelete(category.id)}
-                >
-                  Delete
-                </button>
+                <div className="flex">
+                  <Link
+                    className="text-blue-500 hover:underline flex-1"
+                    href={`/dashboard/category/edit?category_id=${category.id}`}
+                  >
+                    Edit
+                  </Link>
+                  {/* Add delete functionality */}
+                  <button
+                    className="ml-2 text-red-500 hover:underline flex-1"
+                    onClick={() => handleDelete(category.id)}
+                  >
+                    Delete
+                  </button>
+                </div>
+                
               </td>
             </tr>
           ))}
