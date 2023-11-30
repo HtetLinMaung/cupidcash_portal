@@ -117,7 +117,7 @@ function ItemForm({
               }}
               src={image}
               alt="Item Image"
-              className=" h-48 w-48 rounded-3xl border-2 cursor-pointer"
+              className=" h-48 w-48 rounded-3xl border-2 cursor-pointer border transition hover:border-white hover:outline-none hover:ring-2 hover:ring-c4c4c4"
             />
             <input
               id="image"
@@ -157,7 +157,7 @@ function ItemForm({
               Name
             </label>
             <input
-              className="w-full p-2 border rounded-lg"
+              className="w-full p-2 rounded-lg border transition focus:border-white focus:outline-none focus:ring-2 focus:ring-c4c4c4"
               id="name"
               type="text"
               name="name"
@@ -177,7 +177,7 @@ function ItemForm({
               Description
             </label>
             <textarea
-              className="w-full p-2 border rounded-lg"
+              className="w-full p-2 rounded-lg border transition focus:border-white focus:outline-none focus:ring-2 focus:ring-c4c4c4"
               id="description"
               name="description"
               cols="30"
@@ -204,7 +204,7 @@ function ItemForm({
                   price: money.format(e.target.value),
                 })
               }
-              className="w-full p-2 border rounded-lg"
+              className="w-full p-2 rounded-lg border transition focus:border-white focus:outline-none focus:ring-2 focus:ring-c4c4c4"
               id="price"
               type="text"
               name="price"

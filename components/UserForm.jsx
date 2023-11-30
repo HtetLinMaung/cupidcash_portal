@@ -40,7 +40,7 @@ function UserForm({
               Name
             </label>
             <input
-              className="w-full p-2 border rounded-lg"
+              className="w-full p-2 border rounded-lg border transition focus:border-white focus:outline-none focus:ring-2 focus:ring-c4c4c4"
               id="name"
               type="text"
               name="name"
@@ -54,13 +54,13 @@ function UserForm({
         <div className="flex space-x-6">
           <div className="flex-1">
             <label
-              className="block text-gray-700 text-sm font-bold mb-2"
+              className="block text-gray-700 text-sm font-bold mb-2 "
               htmlFor="username"
             >
               Username
             </label>
             <input
-              className="w-full p-2 border rounded-lg"
+              className="w-full p-2 border rounded-lg border transition focus:border-white focus:outline-none focus:ring-2 focus:ring-c4c4c4"
               id="username"
               type="text"
               name="username"
@@ -80,7 +80,7 @@ function UserForm({
               Password
             </label>
             <input
-              className="w-full p-2 border rounded-lg"
+              className="w-full p-2 border rounded-lg border transition focus:border-white focus:outline-none focus:ring-2 focus:ring-c4c4c4"
               id="password"
               type="password"
               name="password"
@@ -100,7 +100,7 @@ function UserForm({
               Role
             </label>
             <select
-              className="w-full p-2 border rounded-lg"
+              className="w-full p-2 border rounded-lg select select-bordered focus:border-white focus:outline-none focus:ring-2 focus:ring-c4c4c4"
               id="role_id"
               name="role_id"
               value={formData.role_id}
@@ -126,7 +126,7 @@ function UserForm({
               Shop
             </label>
             <select
-              className="w-full p-2 border rounded-lg"
+              className="w-full p-2 border rounded-lg select select-bordered focus:border-white focus:outline-none focus:ring-2 focus:ring-c4c4c4"
               id="shop_id"
               name="shop_id"
               value={formData.shop_id}

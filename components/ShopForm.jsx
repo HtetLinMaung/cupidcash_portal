@@ -31,7 +31,7 @@ function ShopForm({ shop = {}, onSubmit, onBackClick }) {
               Name
             </label>
             <input
-              className="w-full p-2 border rounded-lg"
+              className="w-full p-2 rounded-lg border transition focus:border-white focus:outline-none focus:ring-2 focus:ring-c4c4c4"
               id="name"
               type="text"
               name="name"
@@ -51,7 +51,7 @@ function ShopForm({ shop = {}, onSubmit, onBackClick }) {
               Address
             </label>
             <textarea
-              className="w-full p-2 border rounded-lg"
+              className="w-full p-2 rounded-lg border transition focus:border-white focus:outline-none focus:ring-2 focus:ring-c4c4c4"
               id="address"
               name="address"
               cols="30"
