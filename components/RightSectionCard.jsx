@@ -23,7 +23,7 @@ export default function RightSectionCard({ order, children }) {
     >
       <div className="flex">
         <div
-          className="absolute left-[-3%] pt-1% w-31 h-31  bg-gray-800  rounded-full p-1 w-6 h-6 shadow-md"
+          className="absolute left-[-3%] pt-1% w-31 h-31  bg-gray-800  rounded-full p-1 w-6 h-6 shadow-md skeleton"
           style={{ boxShadow: "0 0 2px 2px #696969" }}
           onClick={() => {
             setSelectedTable(0);
