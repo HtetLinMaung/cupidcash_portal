@@ -164,7 +164,7 @@ export default function Dashboard() {
                 onChange={(e) => setSearch(e.target.value)}
                 type="text"
                 placeholder="Type to search..."
-                className="w-full p-4 rounded-md border transition focus:border-white focus:outline-none focus:ring-2 focus:ring-c4c4c4"
+                className="w-full p-4 rounded-md border transition focus"
               />
             </div>
 
@@ -196,7 +196,8 @@ export default function Dashboard() {
                   {/* "ADD TABLE" button */}
                   <div className={`bg-transparent pt-6 pb-6 cursor-pointer`}>
                     <p
-                      className="font-bold text-blue-500 ml-auto mr-auto"
+                      className="font-bold  ml-auto mr-auto"
+                      style={{ color: "#7468D4" }}
                       onClick={() => {
                         setShowModel(true);
                         loadShops();

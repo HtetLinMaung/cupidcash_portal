@@ -3,10 +3,10 @@
 export default function Sidebar() {
   return (
     <div
-      style={{ maxWidth: "9%" }}
-      className=" fixed top-0 bottom-0 left-0 w-16 m-0
+      style={{ maxWidth: "9%", height: "100%", backgroundColor: "#7468D4" }}
+      className="  left-0 w-16 m-0
                       flex flex-col
-                      bg-gray-900 text-white shadow-lg"
+                       text-white shadow-lg"
     >
       <SidebarIcon icon={<HomeIcon />} text="Home" href="/dashboard" />
       <SidebarIcon

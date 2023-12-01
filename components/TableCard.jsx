@@ -9,11 +9,11 @@ export default function TableCard({
     <div
       style={{
         // backgroundColor: isActive ? "#3C82F6" : "#fff",
-        backgroundColor: order_id != 0 ? "#3C82F6" : "#fff",
+        backgroundColor: order_id != 0 ? "#7468D4" : "#fff",
         // opacity: order_id != 0 ? "0.7" : "1"
       }}
       onClick={onClick}
-      className={`bg-white rounded-md shadow p-4 cursor-pointer `}
+      className={`bg-white rounded-md shadow p-4 cursor-pointer`}
     >
       <p
         className="font-bold text-gray-800"

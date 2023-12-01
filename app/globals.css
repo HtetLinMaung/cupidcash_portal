@@ -90,3 +90,10 @@ body::-webkit-scrollbar-track {
   background-color: #696969; /* scrollbar handle color */
 }
 
+.focus:focus {
+  border-color: #7468D4;
+  outline: none;
+  box-shadow: 0 0 0 2px #7468D4;
+}
+
+

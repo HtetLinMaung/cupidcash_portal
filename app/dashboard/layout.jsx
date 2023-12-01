@@ -13,6 +13,7 @@ import { io } from "socket.io-client";
 import "react-toastify/dist/ReactToastify.css";
 import { getOrderDetails } from "@/services/order";
 import { useRouter } from "next/navigation";
+import NavBar from "@/components/NavBar";
 
 export default function DashboardLayout({ children }) {
   const router = useRouter();
@@ -74,16 +75,19 @@ export default function DashboardLayout({ children }) {
     <html lang="en">
       <body>
         {loading ? <LoadingBar /> : null}
-        <div className="flex">
-          <Sidebar />
-          <div
-            style={{ width: "100%" }}
-            className="pl-20 flex-grow bg-gray-100"
-          >
-            {children}
+        <div className="" style={{ height: "100%" }}>
+          <NavBar />
+          <div className="flex" style={{ height: "100%" }}>
+            <Sidebar />
+            <div
+              style={{ width: "100%", height: "100%" }}
+              className="flex-grow bg-gray-100"
+            >
+              {children}
+            </div>
+            {/* Same as */}
+            <ToastContainer />
           </div>
-          {/* Same as */}
-          <ToastContainer />
         </div>
       </body>
     </html>
