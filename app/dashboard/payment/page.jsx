@@ -92,7 +92,7 @@ export default function Payment() {
       status: "Completed",
       tax: money.parseNumber(tax),
       discount: money.parseNumber(discount),
-      total: money.parseNumber(money.sum([subTotal, `-${discount}`, tax]))
+      total: money.parseNumber(money.sum([subTotal, `-${discount}`, tax])),
     };
     try {
       setLoading(true);
@@ -174,6 +174,7 @@ export default function Payment() {
           maxWidth: selectedOrder == 0 ? 0 : "24rem",
           padding: selectedOrder == 0 ? 0 : "2rem 0",
           opacity: selectedOrder == 0 ? 0 : 1,
+          transition: "all 0.3s",
         }}
       >
         <div className="flex">
