@@ -19,6 +19,7 @@ export default function RightSectionCard({ order, children }) {
         maxWidth: selectedTable == 0 ? 0 : "24rem",
         padding: selectedTable == 0 ? 0 : "2rem 0",
         animation: slideAnimation,
+        transition: "all 0.3s",
       }}
     >
       <div className="flex">
