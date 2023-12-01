@@ -145,6 +145,7 @@ export default function ItemsList() {
                 <td className="py-2 px-4 border-b">
                   <img
                     style={{
+                      width: "100%",
                       minWidth: 100,
                       height: 100,
                       objectFit: "cover",
