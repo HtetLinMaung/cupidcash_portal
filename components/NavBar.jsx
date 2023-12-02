@@ -1,5 +1,34 @@
 "use client";
+
+import { useEffect, useRef, useState } from "react";
+
 export default function NavBar() {
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const searchInputRef = useRef(null);
+
+  useEffect(() => {
+    if (isSearchOpen) {
+      searchInputRef.current.focus();
+    }
+  }, [isSearchOpen]);
+
+  const handleKeyDown = (event) => {
+    // Check if Ctrl+K is pressed
+    if (event.ctrlKey && event.key === "k") {
+      // Open the search input
+      setIsSearchOpen(true);
+    }
+  };
+
+  useEffect(() => {
+    // Attach the event listener
+    window.addEventListener("keydown", handleKeyDown);
+
+    // Clean up the event listener on component unmount
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
   return (
     <div
       className=" navbar "
@@ -14,11 +43,14 @@ export default function NavBar() {
           <img src="/pos_logo.png" alt="Default Product Image" />
         </div>
       </div>
-      <div class="flex-1">
+
+      <div class="flex-1 pl-10">
         <input
           type="text"
-          placeholder="Search"
+          placeholder="Search Crt+K"
           class="input input-bordered w-24 md:w-auto"
+          ref={searchInputRef}
+          style={{ autofocus: isSearchOpen ? "block" : "none" }}
         />
       </div>
 
