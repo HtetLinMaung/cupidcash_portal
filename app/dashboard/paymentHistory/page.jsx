@@ -59,8 +59,8 @@ export default function PaymentHistory() {
         page,
         per_page: perPage,
         search,
-        from_date: fromDate,
-        to_date: toDate,
+        ...(fromDate && { from_date: fromDate }),
+        ...(toDate && { to_date: toDate }),
       },
     })
       .then((res) => {
