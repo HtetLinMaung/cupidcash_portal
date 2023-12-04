@@ -149,7 +149,7 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="pl-2 flex">
+    <div className=" flex">
       <div
         className="flex-grow  pt-8"
         style={{ paddingRight: selectedTable == 0 ? 0 : "24rem" }}

@@ -8,7 +8,7 @@ export default function NavBar() {
   useEffect(() => {
     const handleKeyPress = (event) => {
       // Check if Ctrl (or Command on Mac) + K is pressed
-      if ((event.ctrlKey || event.metaKey) && event.key === 'k') {
+      if ((event.ctrlKey || event.metaKey) && event.key === "k") {
         // Prevent the default browser behavior for this key combination
         event.preventDefault();
 
@@ -20,30 +20,17 @@ export default function NavBar() {
     };
 
     // Add event listener for keypress
-    window.addEventListener('keydown', handleKeyPress);
+    window.addEventListener("keydown", handleKeyPress);
 
     // Cleanup function to remove the event listener when the component unmounts
     return () => {
-      window.removeEventListener('keydown', handleKeyPress);
+      window.removeEventListener("keydown", handleKeyPress);
     };
-  }, []); 
-  
-  return (
-    <div
-      className=" navbar "
-      style={{ padding: "0px", backgroundColor: "#7468D4" }}
-    >
-      <div
-        tabindex="0"
-        role="button"
-        class="btn btn-ghost w-16 btn-circle avatar flex-none"
-      >
-        <div class="w-10 rounded-full">
-          <img src="/pos_logo.png" alt="Default Product Image" />
-        </div>
-      </div>
+  }, []);
 
-      <div class="flex-1 pl-10">
+  return (
+    <div className=" navbar bg-white" style={{ paddingLeft: "10rem" }}>
+      <div class="flex-1 ">
         <input
           type="text"
           placeholder="Search Ctrl+K"
