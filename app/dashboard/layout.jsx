@@ -75,15 +75,21 @@ export default function DashboardLayout({ children }) {
     <html lang="en">
       <body>
         {loading ? <LoadingBar /> : null}
-        <div className="" style={{ height: "100%" }}>
-          <NavBar />
+        <div className="w-full" style={{ height: "100%" }}>
           <div className="flex " style={{ height: "100%" }}>
-            <Sidebar />
-            <div
-              style={{ width: "100%", height: "100%" }}
-              className="flex-grow bg-gray-100 pl-32"
-            >
-              {children}
+            <div style={{ width: "20%" }}>
+              <Sidebar />
+            </div>
+            <div style={{ width: "80%" }}>
+              <div className="w-full right-side">
+                <NavBar />
+              </div>
+              <div
+                className="flex-grow bg-gray-100  w-full "
+                style={{ padding: "2%" }}
+              >
+                {children}
+              </div>
             </div>
             {/* Same as */}
             <ToastContainer />

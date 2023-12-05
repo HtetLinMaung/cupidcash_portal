@@ -29,12 +29,12 @@ export default function NavBar() {
   }, []);
 
   return (
-    <div className=" navbar bg-white" style={{ paddingLeft: "10rem" }}>
+    <div className=" navbar bg-white nav">
       <div class="flex-1 ">
         <input
           type="text"
           placeholder="Search Ctrl+K"
-          class="input input-bordered w-24 md:w-auto"
+          class="input  bg-gray-100 rounded-full p-4 w-72"
           ref={searchInputRef}
         />
       </div>
