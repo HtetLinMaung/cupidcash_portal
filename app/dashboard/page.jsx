@@ -151,12 +151,12 @@ export default function Dashboard() {
   return (
     <div className=" flex">
       <div
-        className="flex-grow  pt-8"
+        className="flex-grow "
         style={{ paddingRight: selectedTable == 0 ? 0 : "24rem" }}
       >
         <Breadcrumb items={breadcrumbItems} />
         <div className="flex-grow overflow-auto">
-          <div className="m-8">
+          <div>
             {/* Search bar */}
             <div className="mb-4">
               <input

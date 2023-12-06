@@ -95,4 +95,16 @@ body::-webkit-scrollbar-track {
   outline: none;
   box-shadow: 0 0 0 2px #7468D4;
 }
+.right-side{
 
+  padding: 1%;
+  width: 100%;
+}
+
+.nav{
+  border: 2px solid rgba(243, 244, 246);
+  border-radius: 16px;
+  box-shadow: 8px 6px 16px -14px rgba(209,207,207,1);
+  -webkit-box-shadow: 8px 6px 16px -14px rgba(209,207,207,1);
+  -moz-box-shadow: 8px 6px 16px -14px rgba(209,207,207,1);
+}

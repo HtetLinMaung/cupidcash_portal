@@ -3,18 +3,27 @@
 export default function Sidebar() {
   return (
     <div
-      style={{ height: "100%" }}
-      className="  left-0 w-32 m-0
+      style={{ paddingTop: "8% " }}
+      className="  w-full 
                       flex flex-col
-                       text-white shadow-lg absolute  h-full top-0 bg-white"
+                       text-white shadow-lg h-full bg-white"
     >
       <div
         tabindex="0"
         role="button"
-        class="btn btn-ghost w-full btn-circle avatar flex-none"
+        class=" w-full btn-circle avatar flex"
+        style={{
+          padding: "0rem 0.5rem",
+          gap: "20px",
+          width: "100%",
+        }}
       >
-        <div class="w-10 rounded-full mg-auto">
+        <div class=" rounded-full flex mg-auto">
+          {" "}
           <img src="/pos_logo.png" alt="Default Product Image" />
+        </div>
+        <div className="font-bold text-gray-800 w-full text-lg py-3">
+          Point Of Sale
         </div>
       </div>
       <SidebarIcon icon={<HomeIcon />} text="Home" href="/dashboard" />
@@ -46,7 +55,10 @@ function SidebarIcon({ icon, text = "tooltip 💡", href = "/" }) {
 
 function HomeIcon() {
   return (
-    <div className="flex w-full">
+    <div
+      className="flex "
+      style={{ height: "100%", padding: "8px 0px", gap: "20px", width: "100%" }}
+    >
       <div>
         <svg
           width="24"
@@ -71,7 +83,7 @@ function HomeIcon() {
           />
         </svg>
       </div>
-      <div className="font-bold text-gray-800" style={{ padding: "0.5rem" }}>
+      <div className="font-bold text-gray-800" style={{ padding: "0.1rem" }}>
         Home
       </div>
     </div>
@@ -80,7 +92,10 @@ function HomeIcon() {
 
 function OrderIcon() {
   return (
-    <div className="flex w-full">
+    <div
+      className="flex "
+      style={{ height: "100%", padding: "8px 0px", gap: "20px", width: "100%" }}
+    >
       <div>
         <svg
           width="24"
@@ -95,7 +110,7 @@ function OrderIcon() {
           />
         </svg>
       </div>
-      <div className="font-bold text-gray-800" style={{ padding: "0.5rem" }}>
+      <div className="font-bold text-gray-800" style={{ padding: "0.1rem" }}>
         Payment
       </div>
     </div>
@@ -104,13 +119,16 @@ function OrderIcon() {
 
 function SetupIcon() {
   return (
-    <div className="flex w-full">
+    <div
+      className="flex "
+      style={{ height: "100%", padding: "8px 0px", gap: "20px", width: "100%" }}
+    >
       <div>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"
           height="24"
-          viewBox="0 0 20 20"
+          viewBox="0 0 24 24"
         >
           <rect x="0" y="0" width="20" height="20" fill="none" stroke="none" />
           <path
@@ -119,7 +137,7 @@ function SetupIcon() {
           />
         </svg>
       </div>
-      <div className="font-bold text-gray-800" style={{ padding: "0.5rem" }}>
+      <div className="font-bold text-gray-800" style={{ padding: "0.1rem" }}>
         Setup
       </div>
     </div>
