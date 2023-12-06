@@ -34,7 +34,7 @@ export default function NavBar() {
         <input
           type="text"
           placeholder="Search Ctrl+K"
-          class="input input-bordered w-24 md:w-auto"
+          class="w-32 md:w-auto h-10 p-4 rounded-lg  focus:outline-none focus:ring-transparent focus:shadow-customShadow2 transition-shadow ease-in-out duration-200"
           ref={searchInputRef}
         />
       </div>

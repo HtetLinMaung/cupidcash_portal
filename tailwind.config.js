@@ -24,6 +24,11 @@ module.exports = {
       daisyui: {
         themes: ["light", "dark", "cupcake"],
       },
+
+      boxShadow: {
+        customShadow: "rgba(0, 0, 0, 0.09) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;" ,
+        customShadow2: "inset 0px 0px 6px 5px rgba(0,0,0,0.1);"
+      }
     },
   },
   plugins: [require("daisyui")],

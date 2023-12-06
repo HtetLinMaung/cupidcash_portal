@@ -13,7 +13,7 @@ export default function TableCard({
         // opacity: order_id != 0 ? "0.7" : "1"
       }}
       onClick={onClick}
-      className={`bg-white rounded-md shadow p-4 cursor-pointer`}
+      className={`bg-white rounded-md shadow p-4 cursor-pointer transform hover:-translate-y-2 transition duration-300 ease-in-out hover:shadow-customShadow`}
     >
       <p
         className="font-bold text-gray-800"
