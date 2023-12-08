@@ -1,10 +1,14 @@
 "use client";
-
+import Breadcrumb from "@/components/Breadcrumb";
 import { useEffect, useRef } from "react";
 
+const breadcrumbItems = [{ label: "Home", href: "/dashboard" }];
 export default function NavBar() {
   const searchInputRef = useRef(null);
-
+  const breadcrumbItems = [
+    { text: "Home", href: "/dashboard" },
+    { text: currentPage },
+  ];
   useEffect(() => {
     const handleKeyPress = (event) => {
       // Check if Ctrl (or Command on Mac) + K is pressed
@@ -29,33 +33,18 @@ export default function NavBar() {
   }, []);
 
   return (
-    <div className=" navbar bg-white nav">
+    <div className=" navbar " style={{ paddingLeft: "2%" }}>
       <div class="flex-1 ">
+        <Breadcrumb items={breadcrumbItems} />
+      </div>
+
+      <div class="dropdown dropdown-end ">
         <input
           type="text"
           placeholder="Search Ctrl+K"
-<<<<<<< HEAD
-          class="w-32 md:w-auto h-10 p-4 rounded-lg  focus:outline-none focus:ring-transparent focus:shadow-customShadow2 transition-shadow ease-in-out duration-200"
-=======
           class="input  bg-gray-100 rounded-full p-4 w-72"
->>>>>>> 218127a3642824cc706237be0a04ed0201c497b8
           ref={searchInputRef}
         />
-      </div>
-
-      <div class="dropdown dropdown-end flex-none">
-        <div
-          tabindex="0"
-          role="button"
-          class="btn btn-ghost btn-circle avatar flex-none"
-        >
-          <div class="w-10 rounded-full">
-            <img
-              alt="Tailwind CSS Navbar component"
-              src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
-            />
-          </div>
-        </div>
       </div>
     </div>
   );

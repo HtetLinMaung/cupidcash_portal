@@ -77,16 +77,19 @@ export default function DashboardLayout({ children }) {
         {loading ? <LoadingBar /> : null}
         <div className="w-full" style={{ height: "100%" }}>
           <div className="flex " style={{ height: "100%" }}>
-            <div style={{ width: "20%" }}>
+            <div style={{ width: "4rem" }}>
               <Sidebar />
             </div>
-            <div style={{ width: "80%" }}>
-              <div className="w-full right-side">
+            <div className="w-full">
+              <div className="w-full">
                 <NavBar />
               </div>
               <div
                 className="flex-grow bg-gray-100  w-full "
-                style={{ padding: "2%" }}
+                style={{
+                  padding: "2%",
+                  backgroundColor: "var(--primary-color)",
+                }}
               >
                 {children}
               </div>

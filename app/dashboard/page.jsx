@@ -1,26 +1,21 @@
 "use client";
-import Breadcrumb from "@/components/Breadcrumb";
-import TableCard from "@/components/TableCard";
-import { useRouter } from "next/navigation";
-import { useEffect, useContext, useState } from "react";
-import { server_domain } from "@/constants";
-import { getTables } from "@/services/table";
-import { getOrderDetails } from "@/services/order";
-import { handleError, httpPut, httpPost } from "@/utils/rest-client";
-import { dashboardContext } from "@/providers/DashboardProvider";
-import money from "mm-money";
-import { appContext } from "@/providers/AppProvider";
-import Swal from "sweetalert2";
 import CustomModal from "@/components/CutomModal";
-import TableForm from "@/components/TableForm";
-import { getShops } from "@/services/shop";
 import DashboardCard from "@/components/DashboardCard";
-import { tableContext } from "@/providers/TableProvider";
-import { notificationContext } from "@/providers/NotificationProvider";
-import RightSectionCard from "@/components/RightSectionCard";
 import RightSectionButtom from "@/components/RightSectionButtom";
-
-const breadcrumbItems = [{ label: "Home", href: "/dashboard" }];
+import RightSectionCard from "@/components/RightSectionCard";
+import TableCard from "@/components/TableCard";
+import TableForm from "@/components/TableForm";
+import { appContext } from "@/providers/AppProvider";
+import { dashboardContext } from "@/providers/DashboardProvider";
+import { notificationContext } from "@/providers/NotificationProvider";
+import { tableContext } from "@/providers/TableProvider";
+import { getOrderDetails } from "@/services/order";
+import { getShops } from "@/services/shop";
+import { getTables } from "@/services/table";
+import { handleError, httpPost } from "@/utils/rest-client";
+import { useRouter } from "next/navigation";
+import { useContext, useEffect } from "react";
+import Swal from "sweetalert2";
 
 export default function Dashboard() {
   const { setLoading } = useContext(appContext);
@@ -154,7 +149,6 @@ export default function Dashboard() {
         className="flex-grow "
         style={{ paddingRight: selectedTable == 0 ? 0 : "24rem" }}
       >
-        <Breadcrumb items={breadcrumbItems} />
         <div className="flex-grow overflow-auto">
           <div>
             {/* Search bar */}

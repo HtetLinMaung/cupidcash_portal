@@ -1,12 +1,22 @@
 // components/Sidebar.js
 "use client";
+
+import { useRouter } from "next/router";
+
 export default function Sidebar() {
+  const router = useRouter();
+  const [currentPage, setCurrentPage] = useState("Home");
+  const handleSidebarIconClick = (text, href) => {
+    console.log(`click ${text}`);
+    setCurrentPage(text);
+    router.push(href);
+  };
   return (
     <div
-      style={{ paddingTop: "8% " }}
+      style={{ paddingTop: "0.5rem " }}
       className="  w-full 
                       flex flex-col
-                       text-white shadow-lg h-full bg-white"
+                       text-white shadow-lg h-full sidebar"
     >
       <div
         tabindex="0"
@@ -22,18 +32,18 @@ export default function Sidebar() {
           {" "}
           <img src="/pos_logo.png" alt="Default Product Image" />
         </div>
-        <div className="font-bold text-gray-800 w-full text-lg py-3">
-          Point Of Sale
-        </div>
       </div>
       <SidebarIcon icon={<HomeIcon />} text="Home" href="/dashboard" />
       <SidebarIcon
         icon={<OrderIcon />}
         text="Payment"
         href="/dashboard/payment"
+        onClick={() => handleSidebarIconClick("Payment", "/dashboard")}
       />
       <SidebarIcon icon={<SetupIcon />} text="Setup" href="/dashboard/setup" />
-
+      <div className="mt-auto">
+        <SidebarIcon icon={<Profile />} text="Profile" />
+      </div>
       {/* ... other icons */}
     </div>
   );
@@ -42,10 +52,7 @@ export default function Sidebar() {
 function SidebarIcon({ icon, text = "tooltip 💡", href = "/" }) {
   return (
     <a href={href} onClick={() => console.log(`click ${text}`)}>
-      <div
-        className="sidebar-icon group w-full pl-3 "
-        style={{ margin: "0px" }}
-      >
+      <div className="sidebar-icon group w-full ">
         {icon}
         <span className="sidebar-tooltip group-hover:scale-100">{text}</span>
       </div>
@@ -55,36 +62,30 @@ function SidebarIcon({ icon, text = "tooltip 💡", href = "/" }) {
 
 function HomeIcon() {
   return (
-    <div
-      className="flex "
-      style={{ height: "100%", padding: "8px 0px", gap: "20px", width: "100%" }}
-    >
+    <div className="flex ">
       <div>
         <svg
           width="24"
           height="24"
           viewBox="0 0 24 24"
-          fill="rgba(1, 0, 1)"
+          fill=" var(--primary-color)"
           xmlns="http://www.w3.org/2000/svg"
         >
           <path
             d="M5 12H3L12 3L21 12H19M5 12V19C5 19.5304 5.21071 20.0391 5.58579 20.4142C5.96086 20.7893 6.46957 21 7 21H17C17.5304 21 18.0391 20.7893 18.4142 20.4142C18.7893 20.0391 19 19.5304 19 19V12"
-            stroke="rgba(1, 0, 1)"
+            stroke=" var(--primary-color)"
             strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"
           />
           <path
             d="M9 21V15C9 14.4696 9.21071 13.9609 9.58579 13.5858C9.96086 13.2107 10.4696 13 11 13H13C13.5304 13 14.0391 13.2107 14.4142 13.5858C14.7893 13.9609 15 14.4696 15 15V21"
-            stroke="white"
+            stroke=" var(--primary-color)"
             strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"
           />
         </svg>
-      </div>
-      <div className="font-bold text-gray-800" style={{ padding: "0.1rem" }}>
-        Home
       </div>
     </div>
   );
@@ -92,10 +93,7 @@ function HomeIcon() {
 
 function OrderIcon() {
   return (
-    <div
-      className="flex "
-      style={{ height: "100%", padding: "8px 0px", gap: "20px", width: "100%" }}
-    >
+    <div className="flex ">
       <div>
         <svg
           width="24"
@@ -110,19 +108,13 @@ function OrderIcon() {
           />
         </svg>
       </div>
-      <div className="font-bold text-gray-800" style={{ padding: "0.1rem" }}>
-        Payment
-      </div>
     </div>
   );
 }
 
 function SetupIcon() {
   return (
-    <div
-      className="flex "
-      style={{ height: "100%", padding: "8px 0px", gap: "20px", width: "100%" }}
-    >
+    <div className="flex ">
       <div>
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -137,8 +129,26 @@ function SetupIcon() {
           />
         </svg>
       </div>
-      <div className="font-bold text-gray-800" style={{ padding: "0.1rem" }}>
-        Setup
+    </div>
+  );
+}
+
+function Profile() {
+  return (
+    <div className="flex ">
+      <div class="dropdown dropdown-end flex-none">
+        <div
+          tabindex="0"
+          role="button"
+          class="btn btn-ghost btn-circle avatar flex-none"
+        >
+          <div class="w-10 rounded-full">
+            <img
+              alt="Tailwind CSS Navbar component"
+              src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+            />
+          </div>
+        </div>
       </div>
     </div>
   );
