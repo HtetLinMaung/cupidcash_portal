@@ -1,13 +1,15 @@
 "use client";
 import Breadcrumb from "@/components/Breadcrumb";
-import { useEffect, useRef } from "react";
+import { navContext } from "@/providers/navProvider";
+import { useContext, useEffect, useRef, useState } from "react";
 
-const breadcrumbItems = [{ label: "Home", href: "/dashboard" }];
 export default function NavBar() {
   const searchInputRef = useRef(null);
+  const { rout } = useContext(navContext);
+
   const breadcrumbItems = [
-    { text: "Home", href: "/dashboard" },
-    { text: currentPage },
+    { label: "Home", href: "/dashboard" },
+    { label: rout },
   ];
   useEffect(() => {
     const handleKeyPress = (event) => {
@@ -30,19 +32,19 @@ export default function NavBar() {
     return () => {
       window.removeEventListener("keydown", handleKeyPress);
     };
-  }, []);
+  }, [rout]);
 
   return (
     <div className=" navbar " style={{ paddingLeft: "2%" }}>
-      <div class="flex-1 ">
+      <div className="flex-1 ">
         <Breadcrumb items={breadcrumbItems} />
       </div>
 
-      <div class="dropdown dropdown-end ">
+      <div className="dropdown dropdown-end ">
         <input
           type="text"
           placeholder="Search Ctrl+K"
-          class="input  bg-gray-100 rounded-full p-4 w-72"
+          className="input  bg-gray-100 rounded-full p-4 w-72"
           ref={searchInputRef}
         />
       </div>

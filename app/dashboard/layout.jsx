@@ -78,7 +78,7 @@ export default function DashboardLayout({ children }) {
         <div className="w-full" style={{ height: "100%" }}>
           <div className="flex " style={{ height: "100%" }}>
             <div style={{ width: "4rem" }}>
-              <Sidebar />
+              <Sidebar router={router} />
             </div>
             <div className="w-full">
               <div className="w-full">

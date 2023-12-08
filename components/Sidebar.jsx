@@ -1,15 +1,13 @@
 // components/Sidebar.js
 "use client";
 
-import { useRouter } from "next/router";
+import { navContext } from "@/providers/navProvider";
+import { useContext } from "react";
 
 export default function Sidebar() {
-  const router = useRouter();
-  const [currentPage, setCurrentPage] = useState("Home");
-  const handleSidebarIconClick = (text, href) => {
-    console.log(`click ${text}`);
-    setCurrentPage(text);
-    router.push(href);
+  const { setRout } = useContext(navContext);
+  const handleSidebarIconClick = (text) => {
+    setRout(text);
   };
   return (
     <div
@@ -35,10 +33,9 @@ export default function Sidebar() {
       </div>
       <SidebarIcon icon={<HomeIcon />} text="Home" href="/dashboard" />
       <SidebarIcon
-        icon={<OrderIcon />}
+        icon={<OrderIcon onClick={() => handleSidebarIconClick("Payment")} />}
         text="Payment"
         href="/dashboard/payment"
-        onClick={() => handleSidebarIconClick("Payment", "/dashboard")}
       />
       <SidebarIcon icon={<SetupIcon />} text="Setup" href="/dashboard/setup" />
       <div className="mt-auto">
@@ -51,7 +48,7 @@ export default function Sidebar() {
 
 function SidebarIcon({ icon, text = "tooltip 💡", href = "/" }) {
   return (
-    <a href={href} onClick={() => console.log(`click ${text}`)}>
+    <a href={href}>
       <div className="sidebar-icon group w-full ">
         {icon}
         <span className="sidebar-tooltip group-hover:scale-100">{text}</span>
@@ -91,9 +88,9 @@ function HomeIcon() {
   );
 }
 
-function OrderIcon() {
+function OrderIcon({ onClick }) {
   return (
-    <div className="flex ">
+    <div className="flex " onClick={onClick}>
       <div>
         <svg
           width="24"
