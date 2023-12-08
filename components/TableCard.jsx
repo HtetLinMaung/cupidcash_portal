@@ -1,3 +1,6 @@
+import { dashboardContext } from '@/providers/DashboardProvider';
+import {useContext, useEffect, useState} from 'react';
+
 export default function TableCard({
   id,
   table_number,
@@ -5,6 +8,8 @@ export default function TableCard({
   isActive,
   onClick = () => {},
 }) {
+  const {selectedTable} = useContext(dashboardContext);
+ 
   return (
     <div
       style={{
@@ -13,8 +18,9 @@ export default function TableCard({
         // opacity: order_id != 0 ? "0.7" : "1"
       }}
       onClick={onClick}
-      className={`bg-white rounded-md shadow p-4 cursor-pointer transform hover:-translate-y-2 transition duration-300 ease-in-out hover:shadow-customShadow`}
+      className= {`bg-white rounded-md shadow p-4 cursor-pointer transform hover:-translate-y-2 transition duration-300 ease-in-out hover:shadow-customShadow ${selectedTable != 0 ? 'border-double border-4 border-slate-50' : ''}`}
     >
+      
       <p
         className="font-bold text-gray-800"
         style={{ color: order_id != 0 ? "#fff" : "" }}
