@@ -14,7 +14,7 @@ const initState = {
     search: "",
     selectedOrder: 0,
     selectedTable: 0,
-    selectedShop:0
+    selectedShop:0,
 };
 
 export const dashboardContext = createContext(initState);

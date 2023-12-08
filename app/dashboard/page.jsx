@@ -184,6 +184,8 @@ export default function Dashboard() {
                         } else {
                           setSelectedTable(0);
                         }
+                        
+                        
                       }}
                     />
                   ))}
