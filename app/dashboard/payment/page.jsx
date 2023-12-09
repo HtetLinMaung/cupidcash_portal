@@ -154,7 +154,9 @@ export default function Payment() {
                   isActive={selectedOrder == order.id}
                   onClick={() => {
                     setSelectedOrder(order.id);
+                  
                   }}
+                 
                 />
               ))}
               {/* <div className="bg-white rounded-md shadow p-4">
