@@ -100,7 +100,7 @@ export default function PaymentHistory() {
             onChange={(e) => setSearch(e.target.value)}
             type="text"
             placeholder="Search Payment..."
-            className="p-2 border rounded-lg border transition focus:border-white focus:outline-none focus:ring-2 focus:ring-c4c4c4"
+            className="p-2 rounded-lg border transition focus:border-white focus:outline-none focus:ring-2 focus:ring-c4c4c4"
           />
         </div>
         <div>
@@ -150,7 +150,7 @@ export default function PaymentHistory() {
               </td>
               <td className="py-2 px-4 border-b">{order.status}</td>
               <td className="py-2 px-4 border-b">
-                {moment(order.created_at + "Z").format("DD/MM/YYYY hh:mm:ss a")}
+                {moment(order.created_at).format("DD/MM/YYYY hh:mm:ss A")}
               </td>
             </tr>
           ))}

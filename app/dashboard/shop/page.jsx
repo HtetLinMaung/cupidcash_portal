@@ -139,7 +139,7 @@ export default function ShopsList() {
               <td className="py-2 px-4 border-b">{shop.address}</td>
 
               <td className="py-2 px-4 border-b">
-                {moment(shop.created_at + "Z").format("DD/MM/YYYY hh:mm:ss a")}
+                {moment(shop.created_at).format("DD/MM/YYYY hh:mm:ss A")}
               </td>
               <td className="py-2 px-4 border-b">
                 <Link

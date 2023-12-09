@@ -146,7 +146,7 @@ export default function TablesList() {
               <td className="py-2 px-4 border-b">{table.qr_code}</td>
               <td className="py-2 px-4 border-b">{table.shop_name}</td>
               <td className="py-2 px-4 border-b">
-                {moment(table.created_at + "Z").format("DD/MM/YYYY hh:mm:ss a")}
+                {moment(table.created_at).format("DD/MM/YYYY hh:mm:ss A")}
               </td>
               <td className="py-2 px-4 border-b">
                 <Link

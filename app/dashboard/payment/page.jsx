@@ -54,7 +54,7 @@ export default function Payment() {
           let total = 0;
           let discountTotal = 0;
           for (const item of res.data.data.items) {
-            total += item.price * item.quantity;
+            total += item.original_price * item.quantity;
             discountTotal += (item.original_price - item.price) * item.quantity;
           }
           setDiscount(discountTotal);
@@ -210,7 +210,7 @@ export default function Payment() {
             <h3 className="text-lg font-bold">#{order.id}</h3>
             <p>Waiter: {order.waiter_name}</p>
             <p>Table: {order.table_number}</p>
-            <p>Time: {new Date(order.created_at + "Z").toLocaleString()}</p>
+            <p>Time: {new Date(order.created_at).toLocaleString()}</p>
           </div>
         </div>
 

@@ -108,7 +108,7 @@ export default function ItemsList() {
             onChange={(e) => setSearch(e.target.value)}
             type="text"
             placeholder="Search items..."
-            className="p-2 border rounded-lg border transition focus:border-white focus:outline-none focus:ring-2 focus:ring-c4c4c4"
+            className="p-2 rounded-lg border transition focus:border-white focus:outline-none focus:ring-2 focus:ring-c4c4c4"
           />
         </div>
 
@@ -132,6 +132,7 @@ export default function ItemsList() {
               <th className="py-2 px-4 border-b">Name</th>
               <th className="py-2 px-4 border-b">Description</th>
               <th className="py-2 px-4 border-b">Price</th>
+              <th className="py-2 px-4 border-b">Discount</th>
               <th className="py-2 px-4 border-b">Shop</th>
               <th className="py-2 px-4 border-b">Category</th>
               <th className="py-2 px-4 border-b">Time</th>
@@ -160,13 +161,22 @@ export default function ItemsList() {
                 <td className="py-2 px-4 border-b text-right">
                   {money.format(item.price)}
                 </td>
+                <td className="py-2 px-4 border-b text-left">
+                  <p>Percent : {item.discount_percent}<br />
+                    Type : {item.discount_type}<br />
+                    Reason : {item.discount_reason}<br />
+                    Expire Date : {moment(item.discount_expiration ).format(
+                    "DD/MM/YYYY hh:mm:ss A"
+                  )}<br />
+                    Price : {item.discounted_price}</p>
+                </td>
                 <td className="py-1 px-2 border-b">{item.shop_name}</td>
                 <td className="py-2 px-4 border-b">
                   {item.categories.map((c) => c.name).join(", ")}
                 </td>
                 <td className="py-2 px-4 border-b">
-                  {moment(item.created_at + "Z").format(
-                    "DD/MM/YYYY hh:mm:ss a"
+                  {moment(item.created_at).format(
+                    "DD/MM/YYYY hh:mm:ss A"
                   )}
                 </td>
                 <td className="py-2 px-4 border-b">

@@ -106,7 +106,7 @@ export default function CategoriesList() {
             onChange={(e) => setSearch(e.target.value)}
             type="text"
             placeholder="Search categories..."
-            className="p-2 border rounded-lg border transition focus:border-white focus:outline-none focus:ring-2 focus:ring-c4c4c4"
+            className="p-2 rounded-lg border transition focus:border-white focus:outline-none focus:ring-2 focus:ring-c4c4c4"
           />
         </div>
         {/* Create Category Button */}
@@ -140,8 +140,8 @@ export default function CategoriesList() {
               <td className="py-2 px-4 border-b">{category.description}</td>
               <td className="py-2 px-4 border-b">{category.shop_name}</td>
               <td className="py-2 px-4 border-b">
-                {moment(category.created_at + "Z").format(
-                  "DD/MM/YYYY hh:mm:ss a"
+                {moment(category.created_at).format(
+                  "DD/MM/YYYY hh:mm:ss A"
                 )}
               </td>
               <td className="py-2 px-4 border-b">

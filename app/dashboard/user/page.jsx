@@ -139,7 +139,7 @@ export default function UsersList() {
               <td className="py-2 px-4 border-b">{user.role_name}</td>
               <td className="py-2 px-4 border-b">{user.shop_name}</td>
               <td className="py-2 px-4 border-b">
-                {moment(user.created_at + "Z").format("DD/MM/YYYY hh:mm:ss a")}
+                {moment(user.created_at).format("DD/MM/YYYY hh:mm:ss A")}
               </td>
 
               <td className="py-2 px-4 border-b">
