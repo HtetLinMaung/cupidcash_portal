@@ -52,9 +52,12 @@ export default function Payment() {
 
           setOrder(res.data.data);
           let total = 0;
+          let discountTotal = 0;
           for (const item of res.data.data.items) {
             total += item.price * item.quantity;
+            discountTotal += (item.original_price - item.price) * item.quantity;
           }
+          setDiscount(discountTotal);
           setSubTotal(total);
         })
         .catch((err) => handleError(err, router));
@@ -92,7 +95,6 @@ export default function Payment() {
       status: "Completed",
       tax: money.parseNumber(tax),
       discount: money.parseNumber(discount),
-      total: money.parseNumber(money.sum([subTotal, `-${discount}`, tax])),
     };
     try {
       setLoading(true);
@@ -226,7 +228,7 @@ export default function Payment() {
                 {item.special_instructions && (
                   <p className="text-sm">Notes: {item.special_instructions}</p>
                 )}
-                <p className="text-md">{money.format(item.price)} Ks</p>
+                <p className="text-md">{money.format(item.original_price)} Ks</p>
               </div>
             </div>
           ))}
