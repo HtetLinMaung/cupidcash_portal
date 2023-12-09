@@ -3,6 +3,7 @@ import { createContext } from "react";
 
 const initState = {
   shops: [],
+  discount_types: [],
   items: [],
   categories: [],
   search: "",

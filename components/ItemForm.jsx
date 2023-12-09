@@ -7,6 +7,7 @@ import { handleError, httpPost } from "@/utils/rest-client";
 
 function ItemForm({
   shops = [],
+  discount_types = [],
   categories = [],
   item = {},
   onSubmit,
@@ -20,6 +21,11 @@ function ItemForm({
     image_url: item.image_url || "",
     shop_id: item.shop_id || "0",
     file: null,
+    discount_type: item.discount_type || "No Discount",
+    discount_reason : item.discount_reason || "",
+    discount_percent: item.discount_percent || 0.00,
+    discounted_price: item.discounted_price || 0.00,
+    discount_expiration: item.discount_expiration?.split("T")[0] || null
   });
   const { setLoading } = useContext(appContext);
   const [showModel, setShowModel] = useState(false);
@@ -117,7 +123,7 @@ function ItemForm({
               }}
               src={image}
               alt="Item Image"
-              className=" h-48 w-48 rounded-3xl border-2 cursor-pointer border transition hover:border-white hover:outline-none hover:ring-2 hover:ring-c4c4c4"
+              className=" h-48 w-48 rounded-3xl border-2 cursor-pointer transition hover:border-white hover:outline-none hover:ring-2 hover:ring-c4c4c4"
             />
             <input
               id="image"
@@ -275,6 +281,110 @@ function ItemForm({
             </select>
           </div>
         </div>
+        <div className="flex-1">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="discount_type"
+            >
+              Discount Type
+            </label>
+            <select
+              className="w-full p-2 border rounded-lg"
+              id="discount_type"
+              name="discount_type"
+              value={formData.discount_type}
+              onChange={handleChange}
+              required
+            >
+              {discount_types.map((discount_type) => (
+                <option key={discount_type.label} value={discount_type.label}>
+                  {discount_type.label}
+                </option>
+              ))}
+            </select>
+          </div>
+          {formData.discount_type==='Discount by Specific Percentage' && (<div><div className="flex space-x-6">
+            <div className="flex-1">
+              <label
+                className="block text-gray-700 text-sm font-bold mb-2"
+                htmlFor="discount_percent"
+              >
+                Discount Percent
+              </label>
+              <input onBlur={(e) =>
+                setFormData({
+                  ...formData,
+                  discount_percent: money.format(e.target.value),
+                })
+              }
+                className="w-full p-2 rounded-lg border transition focus:border-white focus:outline-none focus:ring-2 focus:ring-c4c4c4"
+                id="discount_percent"
+                type="text"
+                name="discount_percent"
+                value={formData.discount_percent}
+                onChange={handleChange}
+              />
+            </div>
+          </div>
+          <div className="flex space-x-6">
+            <div className="flex-1">
+              <label
+                className="block text-gray-700 text-sm font-bold mb-2"
+                htmlFor="discount_expiration"
+              >
+                Discount Expire Date
+              </label>
+              <input
+                className="w-full p-2 rounded-lg border transition focus:border-white focus:outline-none focus:ring-2 focus:ring-c4c4c4"
+                id="discount_expiration"
+                type="date"
+                name="discount_expiration"
+                value={formData.discount_expiration}
+                onChange={handleChange}
+              />
+            </div>
+          </div></div>)}
+          {formData.discount_type==='Discount by Specific Amount' && (<div className="flex space-x-6">
+            <div className="flex-1">
+              <label
+                className="block text-gray-700 text-sm font-bold mb-2"
+                htmlFor="discounted_price"
+              >
+                Discounted Price
+              </label>
+              <input onBlur={(e) =>
+                setFormData({
+                  ...formData,
+                  discounted_price: money.format(e.target.value),
+                })
+              }
+                className="w-full p-2 rounded-lg border transition focus:border-white focus:outline-none focus:ring-2 focus:ring-c4c4c4"
+                id="discounted_price"
+                type="text"
+                name="discounted_price"
+                value={formData.discounted_price}
+                onChange={handleChange}
+              />
+            </div>
+          </div>)}
+          {formData.discount_type!=='No Discount' && (<div className="flex space-x-6">
+            <div className="flex-1">
+              <label
+                className="block text-gray-700 text-sm font-bold mb-2"
+                htmlFor="discount_reason"
+              >
+                Discount Reason
+              </label>
+              <input
+                className="w-full p-2 rounded-lg border transition focus:border-white focus:outline-none focus:ring-2 focus:ring-c4c4c4"
+                id="discount_reason"
+                type="text"
+                name="discount_reason"
+                value={formData.discount_reason}
+                onChange={handleChange}
+              />
+            </div>
+          </div>)}
 
         <div className="flex justify-end mt-6">
           <button

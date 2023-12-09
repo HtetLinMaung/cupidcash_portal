@@ -1,5 +1,6 @@
 import { dashboardContext } from "@/providers/DashboardProvider";
 import React, { useContext, useEffect, useState } from "react";
+import moment from "moment";
 
 export default function RightSectionCard({ order, children }) {
   const { selectedTable, setSelectedTable} = useContext(dashboardContext);
@@ -57,7 +58,9 @@ export default function RightSectionCard({ order, children }) {
           <h3 className="text-lg font-bold">#{order.id}</h3>
           <p>Waiter: {order.waiter_name}</p>
           <p>Table: {order.table_number}</p>
-          <p>Time: {new Date(order.created_at).toLocaleString()}</p>
+          <p>Time: {moment(order.created_at).format(
+                      "DD/MM/YYYY hh:mm A"
+                    )}</p>
           <div>
             <p>Status: {order.status}</p>
           </div>

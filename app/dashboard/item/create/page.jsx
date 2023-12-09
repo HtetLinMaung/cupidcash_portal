@@ -5,6 +5,7 @@ import { handleError, httpPost, uploadFile } from "@/utils/rest-client";
 import { useContext, useEffect } from "react";
 import Swal from "sweetalert2";
 import { getShops } from "@/services/shop";
+import { getDiscountTypes } from "@/services/discounttype";
 import { appContext } from "@/providers/AppProvider";
 import { itemContext } from "@/providers/ItemProvider";
 import { getCategories } from "@/services/category";
@@ -20,7 +21,7 @@ const breadcrumbItems = [
 export default function ItemCreateForm() {
   const { setLoading } = useContext(appContext);
   const router = useRouter();
-  const { shops, setShops, categories, setCategories } =
+  const { shops, setShops, categories, setCategories, discount_types, setDiscount_types } =
     useContext(itemContext);
 
   useEffect(() => {
@@ -29,8 +30,8 @@ export default function ItemCreateForm() {
     //   router.push("/login");
     // }
     setLoading(true);
-    Promise.all([getShops(), getCategories()])
-      .then(([shopRes, categoryRes]) => {
+    Promise.all([getShops(), getCategories(), getDiscountTypes()])
+      .then(([shopRes, categoryRes, discountTypeRes]) => {
         setLoading(false);
         setShops(
           shopRes.data.data.map((s) => ({ value: s.id, label: s.name }))
@@ -38,6 +39,9 @@ export default function ItemCreateForm() {
         setCategories(
           categoryRes.data.data.map((c) => ({ value: c.id, label: c.name }))
         );
+        setDiscount_types(
+          discountTypeRes.data.data.map((d) => ({ value: d.id, label: d.description }))
+        )
       })
       .catch((err) => {
         setLoading(false);
@@ -47,12 +51,21 @@ export default function ItemCreateForm() {
 
   const createItem = async (data) => {
     try {
+      console.log(data);
       let res = null;
 
       data.shop_id = parseInt(data.shop_id);
       data.price = money.parseNumber(
         data.price.toString().replaceAll("[a-zA-Z]+", "")
       );
+      data.discount_percent = money.parseNumber(
+        data.discount_percent.toString().replaceAll("[a-zA-Z]+", "")
+      );
+      data.discounted_price = money.parseNumber(
+        data.discounted_price.toString().replaceAll("[a-zA-Z]+", "")
+      );
+      if (data.discount_expiration)
+        data.discount_expiration = data.discount_expiration.split("T")[0] + "T23:59:59";
       if (!data.shop_id) {
         throw new Error("Invalid shop!");
       }
@@ -80,6 +93,8 @@ export default function ItemCreateForm() {
       });
       router.push("/dashboard/item");
     } catch (err) {
+      if (data.discount_expiration)
+        data.discount_expiration = data.discount_expiration.split("T")[0];
       setLoading(false);
       handleError(err, router);
     }
@@ -97,6 +112,7 @@ export default function ItemCreateForm() {
       <ItemForm
         categories={categories}
         shops={shops}
+        discount_types={discount_types}
         onSubmit={createItem}
         onBackClick={handleBackClick}
       />
