@@ -13,7 +13,11 @@ import { notificationContext } from "@/providers/NotificationProvider";
 import { ToastContainer, toast } from "react-toastify";
 import Link from "next/link";
 import Swal from "sweetalert2";
-import { navContext } from "@/providers/navProvider";
+import moment from "moment";
+const breadcrumbItems = [
+  { label: "Home", href: "/dashboard" },
+  { label: "Payment" },
+];
 
 export default function Payment() {
   const { href } = useContext(navContext);
@@ -210,7 +214,7 @@ export default function Payment() {
             <h3 className="text-lg font-bold">#{order.id}</h3>
             <p>Waiter: {order.waiter_name}</p>
             <p>Table: {order.table_number}</p>
-            <p>Time: {new Date(order.created_at).toLocaleString()}</p>
+            <p>Time: {moment(order.created_at).format("DD/MM/YYYY hh:mm A")}</p>
           </div>
         </div>
 

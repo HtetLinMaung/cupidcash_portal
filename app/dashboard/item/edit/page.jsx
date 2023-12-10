@@ -5,6 +5,7 @@ import Breadcrumb from "@/components/Breadcrumb";
 import { handleError, httpGet, httpPut, uploadFile } from "@/utils/rest-client";
 import { useContext, useEffect, useState } from "react";
 import Swal from "sweetalert2";
+import { getDiscountTypes } from "@/services/discounttype";
 import { getShops } from "@/services/shop";
 import { appContext } from "@/providers/AppProvider";
 import { itemContext } from "@/providers/ItemProvider";
@@ -15,7 +16,7 @@ import { server_domain } from "@/constants";
 
 export default function CategoryEditForm() {
   const { setLoading } = useContext(appContext);
-  const { shops, setShops, categories, setCategories } =
+  const { shops, setShops, categories, setCategories, discount_types, setDiscount_types } =
     useContext(itemContext);
   const params = useSearchParams();
 
@@ -33,8 +34,8 @@ export default function CategoryEditForm() {
     //   router.push("/login");
     // }
     setLoading(true);
-    Promise.all([getShops(), getCategories()])
-      .then(([shopRes, categoryRes]) => {
+    Promise.all([getShops(), getCategories(), getDiscountTypes()])
+      .then(([shopRes, categoryRes, discountTypeRes]) => {
         setShops(
           shopRes.data.data.map((s) => ({ value: s.id, label: s.name }))
         );
@@ -43,6 +44,10 @@ export default function CategoryEditForm() {
           label: c.name,
         }));
         setCategories(categoryList);
+        setDiscount_types(discountTypeRes.data.data.map((d) => ({
+          value: d.id,
+          label: d.description,
+        })));
         httpGet(`/api/items/${params.get("item_id")}`)
           .then((res) => {
             setLoading(false);
@@ -54,6 +59,8 @@ export default function CategoryEditForm() {
               categoryList.find((cat) => c.id == cat.value)
             );
             res.data.data.price = money.format(res.data.data.price);
+            res.data.data.discount_percent = money.format(res.data.data.discount_percent);
+            res.data.data.discounted_price = money.format(res.data.data.discounted_price);
             setItem(res.data.data);
           })
           .catch((err) => {
@@ -73,6 +80,14 @@ export default function CategoryEditForm() {
       data.price = money.parseNumber(
         data.price.toString().replaceAll("[a-zA-Z]+", "")
       );
+      data.discount_percent = money.parseNumber(
+        data.discount_percent.toString().replaceAll("[a-zA-Z]+", "")
+      );
+      data.discounted_price = money.parseNumber(
+        data.discounted_price.toString().replaceAll("[a-zA-Z]+", "")
+      );
+      if (data.discount_expiration)
+        data.discount_expiration = data.discount_expiration.split("T")[0] + "T23:59:59";
       if (!data.shop_id) {
         throw new Error("Invalid shop!");
       }
@@ -105,6 +120,8 @@ export default function CategoryEditForm() {
       router.push("/dashboard/item");
     } catch (err) {
       setLoading(false);
+      if (data.discount_expiration)
+        data.discount_expiration = data.discount_expiration.split("T")[0];
       handleError(err, router);
     }
   };
@@ -122,6 +139,7 @@ export default function CategoryEditForm() {
         <ItemForm
           categories={categories}
           shops={shops}
+          discount_types={discount_types}
           onSubmit={updateItem}
           onBackClick={handleBackClick}
           item={{ ...item }}
