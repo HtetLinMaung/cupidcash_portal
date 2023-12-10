@@ -5,9 +5,9 @@ import { navContext } from "@/providers/navProvider";
 import { useContext } from "react";
 
 export default function Sidebar() {
-  const { setRout } = useContext(navContext);
+  const { setHref } = useContext(navContext);
   const handleSidebarIconClick = (text) => {
-    setRout(text);
+    setHref(text);
   };
   return (
     <div
@@ -17,16 +17,16 @@ export default function Sidebar() {
                        text-white shadow-lg h-full sidebar"
     >
       <div
-        tabindex="0"
+        tabIndex="0"
         role="button"
-        class=" w-full btn-circle avatar flex"
+        className=" w-full btn-circle avatar flex"
         style={{
           padding: "0rem 0.5rem",
           gap: "20px",
           width: "100%",
         }}
       >
-        <div class=" rounded-full flex mg-auto">
+        <div className=" rounded-full flex mg-auto">
           {" "}
           <img src="/pos_logo.png" alt="Default Product Image" />
         </div>
@@ -133,13 +133,13 @@ function SetupIcon() {
 function Profile() {
   return (
     <div className="flex ">
-      <div class="dropdown dropdown-end flex-none">
+      <div className="dropdown dropdown-end flex-none">
         <div
           tabindex="0"
           role="button"
-          class="btn btn-ghost btn-circle avatar flex-none"
+          className="btn btn-ghost btn-circle avatar flex-none"
         >
-          <div class="w-10 rounded-full">
+          <div className="w-10 rounded-full">
             <img
               alt="Tailwind CSS Navbar component"
               src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"

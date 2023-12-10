@@ -1,16 +1,10 @@
 "use client";
 import Breadcrumb from "@/components/Breadcrumb";
-import { navContext } from "@/providers/navProvider";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
 export default function NavBar() {
   const searchInputRef = useRef(null);
-  const { rout } = useContext(navContext);
 
-  const breadcrumbItems = [
-    { label: "Home", href: "/dashboard" },
-    { label: rout },
-  ];
   useEffect(() => {
     const handleKeyPress = (event) => {
       // Check if Ctrl (or Command on Mac) + K is pressed
@@ -32,12 +26,12 @@ export default function NavBar() {
     return () => {
       window.removeEventListener("keydown", handleKeyPress);
     };
-  }, [rout]);
+  }, []);
 
   return (
     <div className=" navbar " style={{ paddingLeft: "2%" }}>
       <div className="flex-1 ">
-        <Breadcrumb items={breadcrumbItems} />
+        <Breadcrumb />
       </div>
 
       <div className="dropdown dropdown-end ">

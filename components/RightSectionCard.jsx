@@ -1,21 +1,19 @@
+"use client";
 import { dashboardContext } from "@/providers/DashboardProvider";
 import React, { useContext, useEffect, useState } from "react";
 
 export default function RightSectionCard({ order, children }) {
-  const { selectedTable, setSelectedTable} = useContext(dashboardContext);
+  const { selectedTable, setSelectedTable } = useContext(dashboardContext);
   const [slideAnimation, setSlideAnimation] = useState(
     "slideOut 0.5s ease-in-out forwards"
   );
-  
+
   useEffect(() => {
     if (selectedTable != 0) {
       setSlideAnimation("slideIn 0.3s ease-in-out forwards");
-      
-    }
-    else {
+    } else {
       setSlideAnimation("slideOut 0.5s ease-in-out forwards");
-      
-  }
+    }
   }, [selectedTable]);
   return (
     <div
@@ -36,7 +34,6 @@ export default function RightSectionCard({ order, children }) {
             setSelectedTable(0);
           }}
         >
-          
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="16"

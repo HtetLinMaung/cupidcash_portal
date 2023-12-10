@@ -13,12 +13,14 @@ import { notificationContext } from "@/providers/NotificationProvider";
 import { ToastContainer, toast } from "react-toastify";
 import Link from "next/link";
 import Swal from "sweetalert2";
-const breadcrumbItems = [
-  { label: "Home", href: "/dashboard" },
-  { label: "Payment" },
-];
+import { navContext } from "@/providers/navProvider";
 
 export default function Payment() {
+  const { href } = useContext(navContext);
+  const breadcrumbItems = [
+    { label: "Home", href: "/dashboard" },
+    { label: href },
+  ];
   const [tax, setTax] = useState("0.00");
   const [discount, setDiscount] = useState("0.00");
   const { orderId } = useContext(notificationContext);
@@ -154,9 +156,7 @@ export default function Payment() {
                   isActive={selectedOrder == order.id}
                   onClick={() => {
                     setSelectedOrder(order.id);
-                  
                   }}
-                 
                 />
               ))}
               {/* <div className="bg-white rounded-md shadow p-4">
@@ -230,7 +230,9 @@ export default function Payment() {
                 {item.special_instructions && (
                   <p className="text-sm">Notes: {item.special_instructions}</p>
                 )}
-                <p className="text-md">{money.format(item.original_price)} Ks</p>
+                <p className="text-md">
+                  {money.format(item.original_price)} Ks
+                </p>
               </div>
             </div>
           ))}
