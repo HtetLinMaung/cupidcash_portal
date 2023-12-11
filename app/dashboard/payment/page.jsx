@@ -14,6 +14,8 @@ import { ToastContainer, toast } from "react-toastify";
 import Link from "next/link";
 import Swal from "sweetalert2";
 import moment from "moment";
+import { invoke } from "@tauri-apps/api/tauri";
+import { navContext } from "@/providers/navProvider";
 const breadcrumbItems = [
   { label: "Home", href: "/dashboard" },
   { label: "Payment" },
@@ -120,10 +122,17 @@ export default function Payment() {
     }
   };
 
+  const handlePrint = () => {
+    window.print();
+    // invoke("print_receipt", { data: "Text to print" })
+    //   .then(() => console.log("Printing successful"))
+    //   .catch((err) => console.error("Printing failed:", err));
+  };
+
   return (
     <div className="pl-2 flex">
       <div
-        className="flex-grow bg-gray-100 pt-8"
+        className="flex-grow bg-gray-100 pt-8 hidden-print"
         style={{ paddingRight: selectedOrder == 0 ? 0 : "24rem" }}
       >
         <Breadcrumb items={breadcrumbItems} />
@@ -176,7 +185,7 @@ export default function Payment() {
 
       {/* Right section */}
       <div
-        className="flex flex-col w-96 bg-gray-800 text-white py-8 fixed top-0 bottom-0 right-0 "
+        className="flex flex-col w-96 bg-gray-800 text-white py-8 fixed top-0 bottom-0 right-0 hidden-print"
         style={{
           width: selectedOrder == 0 ? 0 : "24rem",
           maxWidth: selectedOrder == 0 ? 0 : "24rem",
@@ -306,6 +315,18 @@ export default function Payment() {
             CHECKOUT
           </button>
         </div>
+        <div className="px-8 mt-4">
+          <button
+            className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            onClick={() => handlePrint()}
+          >
+            PRINT
+          </button>
+        </div>
+      </div>
+
+      <div className="print-only">
+        <h1>test print content</h1>
       </div>
     </div>
   );
