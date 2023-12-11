@@ -22,11 +22,6 @@ const breadcrumbItems = [
 ];
 
 export default function Payment() {
-  const { href } = useContext(navContext);
-  const breadcrumbItems = [
-    { label: "Home", href: "/dashboard" },
-    { label: href },
-  ];
   const [tax, setTax] = useState("0.00");
   const [discount, setDiscount] = useState("0.00");
   const { orderId } = useContext(notificationContext);
