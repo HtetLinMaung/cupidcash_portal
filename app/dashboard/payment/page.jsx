@@ -320,8 +320,51 @@ export default function Payment() {
         </div>
       </div>
 
-      <div className="print-only">
-        <h1>test print content</h1>
+      <div className="receipt-container print-only">
+        <div className="receipt-header">
+          <h1>RECEIPT</h1>
+        </div>
+        <div className="receipt-body">
+          <div className="receipt-info">
+            <p>
+              <strong>Monday, 10:05 PM</strong>
+            </p>
+            <p>
+              Customer Name <strong>Jack Stoe</strong>
+            </p>
+            <p>
+              ID <strong>22856</strong>
+            </p>
+            <p>
+              Customer Name <strong>+01 23456 58</strong>
+            </p>
+          </div>
+          <div className="receipt-items">
+            <p>
+              1. Social Banner <span>5$</span>
+            </p>
+            <p>
+              2. Flyer <span>10$</span>
+            </p>
+            <p>
+              3. Business Card <span>14$</span>
+            </p>
+            <p>
+              4. ID Card <span>25$</span>
+            </p>
+            <p>
+              5. Envelope <span>10$</span>
+            </p>
+            <p>
+              6. Designing <span>210$</span>
+            </p>
+          </div>
+          <div className="receipt-total">
+            <p>
+              Total <span>274$</span>
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   );
