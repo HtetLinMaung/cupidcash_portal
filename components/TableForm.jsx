@@ -31,7 +31,7 @@ function TableForm({ shopId = 0, table = {}, shops = [], onSubmit }) {
               Table Number
             </label>
             <input
-              className="w-full p-2 border rounded-lg focus:border-white focus:outline-none focus:ring-2 focus:ring-c4c4c4"
+              className="w-full p-2 border focus rounded-lg"
               id="table_number"
               type="text"
               name="table_number"
@@ -52,7 +52,7 @@ function TableForm({ shopId = 0, table = {}, shops = [], onSubmit }) {
               QR Code
             </label>
             <textarea
-              className="w-full p-2 border rounded-lg focus:border-white focus:outline-none focus:ring-2 focus:ring-c4c4c4"
+              className="w-full p-2 border rounded-lg focus"
               id="qr_code"
               name="qr_code"
               cols="30"
@@ -73,7 +73,7 @@ function TableForm({ shopId = 0, table = {}, shops = [], onSubmit }) {
             </label>
 
             <select
-              className="select select-bordered w-full  focus:border-white focus:outline-none focus:ring-2 focus:ring-c4c4c4"
+              className="select select-bordered w-full focus"
               id="shop_id"
               name="shop_id"
               value={formData.shop_id}
@@ -103,7 +103,10 @@ function TableForm({ shopId = 0, table = {}, shops = [], onSubmit }) {
             Back
           </button>
           <button
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline"
+            style={{
+              backgroundColor: "var(--fourth-color)",
+            }}
+            className="text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline"
             type="submit"
           >
             {table.id ? "Update" : "Create"}

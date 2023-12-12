@@ -1,6 +1,7 @@
 "use client";
 import Breadcrumb from "@/components/Breadcrumb";
-import { useEffect, useRef, useState } from "react";
+import { dashboardContext } from "@/providers/DashboardProvider";
+import { useContext, useEffect, useRef, useState } from "react";
 
 export default function NavBar() {
   const searchInputRef = useRef(null);
@@ -11,6 +12,7 @@ export default function NavBar() {
     "home",
     "payment",
   ]);
+  const { selectedTable } = useContext(dashboardContext);
   const [filteredSuggestions, setFilteredSuggestions] = useState([]);
   const [selectedSuggestion, setSelectedSuggestion] = useState(null);
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
@@ -89,7 +91,13 @@ export default function NavBar() {
   }, []); // Empty dependency array since we are not using any variables from the component scope
 
   return (
-    <div className="navbar hidden-print" style={{ paddingLeft: "2%" }}>
+    <div
+      className="navbar hidden-print"
+      style={{
+        paddingLeft: "2%",
+        paddingRight: selectedTable == 0 ? 0 : "24rem",
+      }}
+    >
       <div className="flex-1">
         <Breadcrumb />
       </div>

@@ -13,7 +13,12 @@ export default function TableCard({
   return (
     <div
       style={{
-        backgroundColor: order_id !== 0 ? "var(--fourth-color)" : "#fff",
+        backgroundColor:
+          selectedTable === id
+            ? "rgb(242, 237, 254)"
+            : order_id !== 0
+            ? "var(--fourth-color)"
+            : "#fff",
         border:
           selectedTable === id
             ? "2px solid var(--fourth-color)"
@@ -24,12 +29,26 @@ export default function TableCard({
     >
       <p
         className="font-bold text-gray-800"
-        style={{ color: order_id != 0 ? "var( --secondary-color)" : "" }}
+        style={{
+          color:
+            selectedTable === id
+              ? "black"
+              : order_id != 0
+              ? "var( --secondary-color)"
+              : "",
+        }}
       >
         #{id}
       </p>
       <p
-        style={{ color: order_id != 0 ? "var( --secondary-color)" : "" }}
+        style={{
+          color:
+            selectedTable === id
+              ? "black"
+              : order_id != 0
+              ? "var( --secondary-color)"
+              : "",
+        }}
         className="text-gray-600"
       >
         {table_number}
