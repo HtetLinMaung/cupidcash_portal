@@ -89,7 +89,7 @@ export default function NavBar() {
   }, []); // Empty dependency array since we are not using any variables from the component scope
 
   return (
-    <div className="navbar" style={{ paddingLeft: "2%" }}>
+    <div className="navbar hidden-print" style={{ paddingLeft: "2%" }}>
       <div className="flex-1">
         <Breadcrumb />
       </div>

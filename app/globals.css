@@ -9,12 +9,11 @@
   transition: all 0.3s;
 } */
 :root {
- --primary-color: rgb(243 244 246);
-  --secondary-color:rgb(255, 255, 255);
-  --third-color:rgb(30, 7, 95);
-  --fourth-color:rgb(150, 107, 243); 
+  --primary-color: rgb(243 244 246);
+  --secondary-color: rgb(255, 255, 255);
+  --third-color: rgb(30, 7, 95);
+  --fourth-color: rgb(150, 107, 243);
 }
-
 
 body {
   height: 100vh;
@@ -66,23 +65,20 @@ body {
     right: -24rem; /* Slide out to the right */
   }
 }
-.sidebar{
+.sidebar {
   background-color: var(--third-color);
 }
-
-
-
 
 body::-webkit-scrollbar {
   width: 3px;
 }
 
 body::-webkit-scrollbar-thumb {
-  background-color: #696969; 
+  background-color: #696969;
 }
 
 body::-webkit-scrollbar-track {
-  background-color: #ffffff; 
+  background-color: #ffffff;
 }
 
 .custom-scrollbar::-webkit-scrollbar {
@@ -94,12 +90,11 @@ body::-webkit-scrollbar-track {
 }
 
 .focus:focus {
-  border-color: #7468D4;
+  border-color: #7468d4;
   outline: none;
-  box-shadow: 0 0 0 2px #7468D4;
+  box-shadow: 0 0 0 2px #7468d4;
 }
-.navbar
-{
+.navbar {
   border-bottom: 2px solid rgb(228, 228, 228);
   background-color: var(--secondary-color);
 }
@@ -111,8 +106,14 @@ body::-webkit-scrollbar-track {
   display: none;
 }
 
-
 @media print {
+  @page {
+    margin: 0;
+    size: auto;
+  }
+  body {
+    margin: 0;
+  }
   .hidden-print {
     display: none;
   }
@@ -121,9 +122,7 @@ body::-webkit-scrollbar-track {
     display: block;
   }
 
-
   .print-receipt {
     font-size: 12pt;
   }
 }
-
