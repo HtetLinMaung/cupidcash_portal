@@ -12,7 +12,7 @@ export default function Sidebar() {
   return (
     <div
       style={{ paddingTop: "0.5rem " }}
-      className="hidden-print w-full 
+      className="w-full 
                       flex flex-col
                        text-white shadow-lg h-full sidebar"
     >
