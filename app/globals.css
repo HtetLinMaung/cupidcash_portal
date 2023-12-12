@@ -12,7 +12,7 @@
   --primary-color: rgb(243 244 246);
   --secondary-color: rgb(255, 255, 255);
   --third-color: rgb(30, 7, 95);
-  --fourth-color: rgb(150, 107, 243);
+  --fourth-color: rgb(170, 136, 245);
 }
 
 body {
@@ -92,7 +92,6 @@ body::-webkit-scrollbar-track {
 .focus:focus {
   border-color: #7468d4;
   outline: none;
-  box-shadow: 0 0 0 2px #7468d4;
 }
 .navbar {
   border-bottom: 2px solid rgb(228, 228, 228);
