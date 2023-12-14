@@ -132,20 +132,44 @@ function SetupIcon() {
 
 function Profile() {
   return (
-    <div className="flex ">
-      <div className="dropdown dropdown-end flex-none">
-        <div
-          tabindex="0"
-          role="button"
-          className="btn btn-ghost btn-circle avatar flex-none"
-        >
-          <div className="w-10 rounded-full">
-            <img
-              alt="Tailwind CSS Navbar component"
-              src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
-            />
-          </div>
+    <div className=" dropdown dropdown-end ">
+      <div
+        tabindex="0"
+        role="button"
+        className="btn btn-ghost btn-circle avatar flex-none"
+      >
+        <div className="w-10 rounded-full">
+          <img
+            alt="Tailwind CSS Navbar component"
+            src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+          />
         </div>
+      </div>
+      <div className="btn btn-ghost btn-circle avatar flex-none">
+        <svg
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          width="24"
+          height="24"
+          stroke="#fafafa"
+          stroke-width="1"
+          stroke-linecap="round"
+          stroke-linejoin="miter"
+        >
+          <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+          <g
+            id="SVGRepo_tracerCarrier"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          ></g>
+
+          <g id="SVGRepo_iconCarrier">
+            <polyline points="14 7 14 2 2 2 2 22 14 22 14 17"></polyline>
+            <line x1="10" y1="12" x2="22" y2="12"></line>
+            <polyline points="18 8 22 12 18 16"></polyline>
+          </g>
+        </svg>
       </div>
     </div>
   );

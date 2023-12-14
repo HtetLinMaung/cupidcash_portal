@@ -172,3 +172,8 @@ p.receipt-time {
 .receipt-total {
   font-weight: bold;
 }
+.sidebar-icon
+{
+  min-height: 3rem;
+  height: auto;
+}
