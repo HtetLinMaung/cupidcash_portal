@@ -73,14 +73,19 @@ export default function DashboardLayout({ children }) {
 
   return (
     <html lang="en">
+      <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+      </head>
       <body>
         {loading ? <LoadingBar /> : null}
         <div className="w-full" style={{ height: "100%" }}>
           <div className="flex " style={{ height: "100%" }}>
-            <div className="hidden-print" style={{ width: "4rem" }}>
+            <div className="hidden-print sidebar-div">
               <Sidebar router={router} />
             </div>
-            <div className="w-full">
+            <div className="w-full pl-16">
               <div className="w-full">
                 <NavBar />
               </div>

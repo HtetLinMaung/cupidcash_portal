@@ -97,9 +97,6 @@ export default function ItemsList() {
 
   return (
     <div className="px-2 pr-6 pb-6">
-      <div className="flex-grow bg-gray-100 pt-8 mb-6">
-        <Breadcrumb items={breadcrumbItems} />
-      </div>
       {/* Search Box */}
       <div className="flex mb-4 justify-between">
         <div>
@@ -162,23 +159,33 @@ export default function ItemsList() {
                   {money.format(item.price)}
                 </td>
                 <td className="py-2 px-4 border-b text-left">
-                  {item.discount_type != 'No Discount' && <p>Percent : {item.discount_percent} %<br />
-                    Type : {item.discount_type}<br />
-                    Reason : {item.discount_reason}<br />
-                    {item.discount_type == 'Discount by Specific Percentage' && (<div>Expire Date : {moment(item.discount_expiration).format(
-                      "DD/MM/YYYY hh:mm:ss A"
-                    )}<br /></div>)}
-                    Discounted_Price : {item.discounted_price}</p>
-                  }
+                  {item.discount_type != "No Discount" && (
+                    <p>
+                      Percent : {item.discount_percent} %<br />
+                      Type : {item.discount_type}
+                      <br />
+                      Reason : {item.discount_reason}
+                      <br />
+                      {item.discount_type ==
+                        "Discount by Specific Percentage" && (
+                        <div>
+                          Expire Date :{" "}
+                          {moment(item.discount_expiration).format(
+                            "DD/MM/YYYY hh:mm:ss A"
+                          )}
+                          <br />
+                        </div>
+                      )}
+                      Discounted_Price : {item.discounted_price}
+                    </p>
+                  )}
                 </td>
                 <td className="py-1 px-2 border-b">{item.shop_name}</td>
                 <td className="py-2 px-4 border-b">
                   {item.categories.map((c) => c.name).join(", ")}
                 </td>
                 <td className="py-2 px-4 border-b">
-                  {moment(item.created_at).format(
-                    "DD/MM/YYYY hh:mm:ss A"
-                  )}
+                  {moment(item.created_at).format("DD/MM/YYYY hh:mm:ss A")}
                 </td>
                 <td className="py-2 px-4 border-b">
                   <div className="flex">
