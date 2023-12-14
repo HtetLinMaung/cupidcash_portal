@@ -9,6 +9,7 @@ export default function Sidebar() {
   const handleSidebarIconClick = (text) => {
     setHref(text);
   };
+
   return (
     <div
       style={{ paddingTop: "0.5rem " }}
@@ -150,8 +151,14 @@ function Profile() {
   );
 }
 function Logout() {
+  const handleLogout = () => {
+    localStorage.removeItem("cupidcash_token");
+  };
   return (
-    <div className="btn btn-ghost btn-circle avatar flex-none">
+    <div
+      className="btn btn-ghost btn-circle avatar flex-none"
+      onClick={handleLogout}
+    >
       <svg
         viewBox="0 0 24 24"
         xmlns="http://www.w3.org/2000/svg"
