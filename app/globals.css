@@ -13,6 +13,8 @@
   --secondary-color: rgb(255, 255, 255);
   --third-color: rgb(30, 7, 95);
   --fourth-color: rgb(170, 136, 245);
+  --five-color:rgb(242, 237, 254);
+  --buttom-color:rgb(130, 78, 240);
 }
 
 body {
@@ -191,4 +193,11 @@ p.receipt-time {
   border-radius: 8px;
   width: 1.6rem;
   height: 1.6rem
+}
+.view-history
+{
+  background-color: var(--buttom-color);
+}
+.view-history:hover{
+  background-color: var(--fourth-color);
 }

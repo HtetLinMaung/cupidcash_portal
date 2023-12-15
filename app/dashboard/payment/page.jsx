@@ -133,10 +133,10 @@ export default function Payment() {
           style={{ paddingRight: selectedOrder == 0 ? 0 : "24rem" }}
         >
           <div className="flex-grow overflow-auto">
-            <div className="m-8">
+            <div className="m-4">
               <div className="mb-4 flex justify-end">
                 <Link href="/dashboard/paymentHistory">
-                  <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                  <button className="view-history text-white font-bold py-2 px-4 rounded">
                     VIEW PAYMENT HISTORY
                   </button>
                 </Link>
@@ -149,7 +149,7 @@ export default function Payment() {
                   onChange={(e) => setSearch(e.target.value)}
                   type="text"
                   placeholder="Type to search..."
-                  className="w-full p-4 rounded-md border transition focus:border-white focus:outline-none focus:ring-2 focus:ring-c4c4c4 "
+                  className="w-full p-4 rounded-md border transition  focus"
                 />
               </div>
 

@@ -191,7 +191,7 @@ export default function Dashboard() {
                   <div className={`bg-transparent pt-6 pb-6 cursor-pointer`}>
                     <p
                       className="font-bold  ml-auto mr-auto"
-                      style={{ color: "#7468D4" }}
+                      style={{ color: "var(--five-color)" }}
                       onClick={() => {
                         setShowModel(true);
                         loadShops();
