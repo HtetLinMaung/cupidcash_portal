@@ -42,7 +42,14 @@ body {
 .sidebar-icon {
   @apply relative flex items-center justify-center h-12 w-12 mt-2 mb-2 mx-auto  text-gray-400 hover:bg-gray-700 hover:text-white rounded-3xl hover:rounded-xl transition-all duration-300 ease-linear cursor-pointer;
 }
-
+.sidebar-div
+{
+  position: fixed;   
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4rem;
+}
 .sidebar-tooltip {
   @apply absolute w-auto p-2 m-2 min-w-max left-14 bottom-0 text-sm font-bold bg-black text-white rounded-md scale-0;
   transition: transform 0.3s ease-in-out;
@@ -171,4 +178,9 @@ p.receipt-time {
 
 .receipt-total {
   font-weight: bold;
+}
+.sidebar-icon
+{
+  min-height: 3rem;
+  height: auto;
 }
