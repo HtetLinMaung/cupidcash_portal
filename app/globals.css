@@ -184,3 +184,11 @@ p.receipt-time {
   min-height: 3rem;
   height: auto;
 }
+.close-sidebar
+{
+  box-shadow: 0 0 2px 2px var(--secondary-color);
+  background-color: var(--fourth-color);
+  border-radius: 8px;
+  width: 1.6rem;
+  height: 1.6rem
+}

@@ -127,12 +127,11 @@ export default function Payment() {
 
   return (
     <>
-      <div className="pl-2 flex">
+      <div className="flex">
         <div
-          className="flex-grow bg-gray-100 pt-8 hidden-print"
+          className="flex-grow hidden-print"
           style={{ paddingRight: selectedOrder == 0 ? 0 : "24rem" }}
         >
-          <Breadcrumb items={breadcrumbItems} />
           <div className="flex-grow overflow-auto">
             <div className="m-8">
               <div className="mb-4 flex justify-end">
@@ -300,26 +299,12 @@ export default function Payment() {
               </p>
             </div>
           </div>
-
-          {/* <div className="grid grid-cols-3 gap-2 mb-4">
-        <button className="p-4 bg-gray-700 rounded-md focus:outline-none focus:bg-gray-600">
-          1
-        </button>
-      </div> */}
-
-          {/* Checkout button */}
-          <div className="px-8">
-            <button
-              className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-              onClick={() => changeStatus(order.id)}
-            >
-              CHECKOUT
-            </button>
-          </div>
           <div className="px-8 mt-4">
             <button
               className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-              onClick={() => handlePrint()}
+              onClick={() => {
+                handlePrint(), changeStatus(order.id);
+              }}
             >
               PRINT
             </button>
