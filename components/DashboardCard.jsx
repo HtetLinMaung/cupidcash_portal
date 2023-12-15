@@ -7,7 +7,7 @@ export default function DashboardCard({
   return (
     <div className="mb-10 ">
       <p className="mb-2 ">{shopName}</p>
-      <div className="bg-transparent w-full grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-8 gap-4 ">
+      <div className="bg-transparent w-full p-4 grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-8 gap-4 ">
         {children}
       </div>
     </div>

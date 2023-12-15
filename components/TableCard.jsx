@@ -25,7 +25,8 @@ export default function TableCard({
             : "2px solid transparent",
       }}
       onClick={onClick}
-      className={`bg-white rounded-md shadow p-4 cursor-pointer transform hover:-translate-y-2   transition duration-300 ease-in-out  `}
+      className={`bg-white rounded-md shadow p-4 cursor-pointer transform hover:scale-110 transition-transform duration-300 ease-in-out 
+      ${selectedTable === id && order_id != 0 ? "scale-110" : ""}`}
     >
       <p
         className="font-bold text-gray-800"

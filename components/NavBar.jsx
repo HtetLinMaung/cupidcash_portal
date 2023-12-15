@@ -3,6 +3,7 @@ import Breadcrumb from "@/components/Breadcrumb";
 import { dashboardContext } from "@/providers/DashboardProvider";
 import { useContext, useEffect, useRef, useState } from "react";
 
+
 export default function NavBar() {
   const searchInputRef = useRef(null);
   const [inputValue, setInputValue] = useState("");
@@ -95,7 +96,6 @@ export default function NavBar() {
       className="navbar hidden-print"
       style={{
         paddingLeft: "2%",
-        paddingRight: selectedTable == 0 ? 0 : "24rem",
       }}
     >
       <div className="flex-1">
@@ -104,13 +104,14 @@ export default function NavBar() {
 
       <div className="dropdown dropdown-end">
         <input
-          type="text"
+          type="input"
           placeholder="Search Ctrl+K"
           className="input bg-gray-100 rounded-full p-4 w-72"
           ref={searchInputRef}
           value={inputValue}
           onChange={handleInputChange}
           onKeyDown={handleKeyDown}
+
         />
         {inputValue && filteredSuggestions.length > 0 && (
           <ul className="suggestion-list">
@@ -127,6 +128,8 @@ export default function NavBar() {
           </ul>
         )}
       </div>
+
+     
     </div>
   );
 }

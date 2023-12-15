@@ -14,14 +14,15 @@ const CustomModal = ({ children }) => {
     // >
     //
     // </Modal>
-    <dialog id="my_modal_2" className="modal">
-      <div className="modal-box" style={{ maxWidth: "40%", padding: "0" }}>
-        {children}
-      </div>
-      <form method="dialog" className="modal-backdrop">
-        <button>close</button>
-      </form>
-    </dialog>
+    
+      <dialog id="my_modal_2" className="modal">
+        <div className="modal-box" style={{ maxWidth: "40%", padding: "0" }}>
+          {children}
+        </div>
+        <form method="dialog" className="modal-backdrop">
+          <button>close</button>
+        </form>
+      </dialog>
   );
 };
 
