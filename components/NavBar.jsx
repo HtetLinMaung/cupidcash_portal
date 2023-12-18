@@ -3,7 +3,6 @@ import Breadcrumb from "@/components/Breadcrumb";
 import { dashboardContext } from "@/providers/DashboardProvider";
 import { useContext, useEffect, useRef, useState } from "react";
 
-
 export default function NavBar() {
   const searchInputRef = useRef(null);
   const [inputValue, setInputValue] = useState("");
@@ -111,7 +110,6 @@ export default function NavBar() {
           value={inputValue}
           onChange={handleInputChange}
           onKeyDown={handleKeyDown}
-
         />
         {inputValue && filteredSuggestions.length > 0 && (
           <ul className="suggestion-list">
@@ -128,8 +126,6 @@ export default function NavBar() {
           </ul>
         )}
       </div>
-
-     
     </div>
   );
 }

@@ -14,6 +14,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { getOrderDetails } from "@/services/order";
 import { useRouter } from "next/navigation";
 import NavBar from "@/components/NavBar";
+import Breadcrumb from "@/components/Breadcrumb";
 
 export default function DashboardLayout({ children }) {
   const router = useRouter();
@@ -72,38 +73,31 @@ export default function DashboardLayout({ children }) {
   }, []);
 
   return (
-    <html lang="en">
-      <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Document</title>
-      </head>
-      <body>
-        {loading ? <LoadingBar /> : null}
-        <div className="w-full" style={{ height: "100%" }}>
-          <div className="flex " style={{ height: "100%" }}>
-            <div className="hidden-print sidebar-div">
-              <Sidebar router={router} />
-            </div>
-            <div className="w-full pl-16">
-              <div className="w-full">
-                <NavBar />
-              </div>
-              <div
-                className="flex-grow bg-gray-100  w-full "
-                style={{
-                  padding: "2%",
-                  backgroundColor: "var(--primary-color)",
-                }}
-              >
-                {children}
-              </div>
-            </div>
-            {/* Same as */}
-            <ToastContainer />
+    <>
+      {loading ? <LoadingBar /> : null}
+      <div className="w-full" style={{ height: "100%" }}>
+        <div className="flex " style={{ height: "100%" }}>
+          <div className="hidden-print sidebar-div">
+            <Sidebar router={router} />
           </div>
+          <div className="w-full pl-16">
+            <div className="w-full">
+              <NavBar />
+            </div>
+            <div
+              className="flex-grow bg-gray-100  w-full "
+              style={{
+                padding: "2%",
+                backgroundColor: "var(--primary-color)",
+              }}
+            >
+              {children}
+            </div>
+          </div>
+          {/* Same as */}
+          <ToastContainer />
         </div>
-      </body>
-    </html>
+      </div>
+    </>
   );
 }
