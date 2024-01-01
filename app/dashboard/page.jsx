@@ -188,10 +188,12 @@ export default function Dashboard() {
                     />
                   ))}
                   {/* "ADD TABLE" button */}
-                  <div className={`bg-transparent pt-6 pb-6 cursor-pointer`}>
+                  <div
+                    className={` w-full pt-6 pb-6 cursor-pointer  p-4 rounded-md `}
+                  >
                     <p
                       className="font-bold  ml-auto mr-auto"
-                      style={{ color: "var(--five-color)" }}
+                      style={{ color: "var(--fourth-color)" }}
                       onClick={() => {
                         setShowModel(true);
                         loadShops();

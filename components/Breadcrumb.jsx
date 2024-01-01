@@ -14,7 +14,7 @@ function Breadcrumb() {
     labelName = "";
   } else if (pathname.startsWith("/dashboard/")) {
     const suffix = pathname.slice("/dashboard/".length);
-    labelName = "> " + suffix.charAt(0).toUpperCase() + suffix.slice(1);
+    labelName = "  > " + suffix.charAt(0).toUpperCase() + suffix.slice(1);
   }
   console.log(labelName, typeof labelName);
 
