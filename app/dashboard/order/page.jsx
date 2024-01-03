@@ -1,16 +1,18 @@
 "use client";
 
+import RightOrderCard from "@/components/RightOrderCard";
+import { server_domain } from "@/constants";
 import { appContext } from "@/providers/AppProvider";
-import { dashboardContext } from "@/providers/DashboardProvider";
 import { itemContext } from "@/providers/ItemProvider";
+import { orderContext } from "@/providers/OrderProvider";
 import { handleError, httpGet } from "@/utils/rest-client";
+import money from "mm-money";
 import { useRouter } from "next/navigation";
 import { useCallback, useContext, useEffect, useState } from "react";
-import { server_domain } from "@/constants";
 
 const PosSystem = ({ items }) => {
   const [selectedCategory, setSelectedCategory] = useState("All");
-
+  const { selectItems, setSelectItems } = useContext(orderContext);
   const categorizedItems = {};
 
   items.forEach((item) => {
@@ -21,34 +23,61 @@ const PosSystem = ({ items }) => {
       categorizedItems[category.name].push(item);
     });
   });
+  const handleItemClick = (clickedItem) => {
+    console.log("Clicked Item:", clickedItem);
+    const existingItem = selectItems.find(
+      (selectedItem) =>
+        selectedItem.id === clickedItem.id &&
+        selectedItem.name === clickedItem.name
+    );
+    console.log("Existing Item:", existingItem);
+    if (existingItem) {
+      const updatedSelectItems = selectItems.map((selectedItem) =>
+        selectedItem.id === clickedItem.id
+          ? { ...selectedItem, quantity: selectedItem.quantity + 1 }
+          : selectedItem
+      );
+      setSelectItems(updatedSelectItems);
+    } else {
+      setSelectItems([...selectItems, { ...clickedItem, quantity: 1 }]);
+    }
+  };
+
+  // Filter items based on the selected category
+  const displayedItems =
+    selectedCategory === "All" ? items : categorizedItems[selectedCategory];
 
   return (
     <div>
       {/* Display "All" option */}
-      <div key="All">
-        <strong
-          onClick={() => setSelectedCategory("All")}
-          style={{ cursor: "pointer", textDecoration: "underline" }}
-        >
-          All
-        </strong>
-      </div>
-
-      {/* Display all categories */}
-      {Object.keys(categorizedItems).map((categoryName) => (
-        <div key={categoryName}>
+      <div className="flex p-4 gap-3">
+        <div key="All" className="card">
           <strong
-            onClick={() => setSelectedCategory(categoryName)}
-            style={{ cursor: "pointer", textDecoration: "underline" }}
+            onClick={() => setSelectedCategory("All")}
+            style={{ cursor: "pointer" }}
           >
-            {categoryName}
+            All
           </strong>
         </div>
-      ))}
+
+        <div className="flex gap-3">
+          {/* Display all categories */}
+          {Object.keys(categorizedItems).map((categoryName) => (
+            <div key={categoryName} className="card">
+              <strong
+                onClick={() => setSelectedCategory(categoryName)}
+                style={{ cursor: "pointer" }}
+              >
+                {categoryName}
+              </strong>
+            </div>
+          ))}
+        </div>
+      </div>
 
       {/* Display items based on the selected category */}
       <div className="bg-transparent w-full p-4 grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-8 gap-4 ">
-        {categorizedItems[selectedCategory]?.map((item) => (
+        {displayedItems.map((item) => (
           <div
             key={item.name}
             className="items-center gap-4"
@@ -57,6 +86,7 @@ const PosSystem = ({ items }) => {
               "border-bottom-left-radius": "0.75rem",
               "border-bottom-right-radius": "0.75rem",
             }}
+            onClick={() => handleItemClick(item)}
           >
             <div>
               {item.image_url && (
@@ -74,6 +104,7 @@ const PosSystem = ({ items }) => {
               )}
             </div>
             <div style={{ padding: "8px" }}>{item.name}</div>
+            <div style={{ padding: "8px" }}>{money.format(item.price)} Ks</div>
           </div>
         ))}
       </div>
@@ -84,7 +115,7 @@ const PosSystem = ({ items }) => {
 export default function AddOrder() {
   const router = useRouter();
   const { setLoading } = useContext(appContext);
-  const { selectedTable } = useContext(dashboardContext);
+  const { selectItems, setSelectItems } = useContext(orderContext);
   const {
     items,
     setItems,
@@ -138,12 +169,12 @@ export default function AddOrder() {
     <div className="flex">
       <div
         className="flex-grow"
-        style={{ paddingRight: selectedTable === 0 ? 0 : "24rem" }}
+        style={{ paddingRight: selectItems.length === 0 ? 0 : "24rem" }}
       >
         <div className="flex-grow overflow-auto">
           <div>
             {/* Search bar */}
-            <div className="mb-4">
+            <div>
               <input
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
@@ -158,6 +189,8 @@ export default function AddOrder() {
           </div>
         </div>
       </div>
+
+      <RightOrderCard></RightOrderCard>
     </div>
   );
 }

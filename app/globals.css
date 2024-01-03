@@ -201,3 +201,15 @@ p.receipt-time {
 .view-history:hover{
   background-color: var(--fourth-color);
 }
+.card
+{
+  min-width: 50px;
+    text-align: center;
+    height: 40px;
+    /* padding: 10px; */
+    /* align-items: center; */
+    padding: 10px;
+    background: var(--secondary-color);
+    border-radius: 16px;
+    border: 1px solid #c4c4c4;
+}
