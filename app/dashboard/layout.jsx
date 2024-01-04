@@ -77,7 +77,7 @@ export default function DashboardLayout({ children }) {
       {loading ? <LoadingBar /> : null}
       <div className="w-full" style={{ height: "100%" }}>
         <div className="flex " style={{ height: "100%" }}>
-          <div className="hidden-print sidebar-div">
+          <div className="hidden-print sidebar-div z-50">
             <Sidebar router={router} />
           </div>
           <div className="w-full pl-16">

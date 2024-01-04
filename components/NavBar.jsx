@@ -13,6 +13,7 @@ export default function NavBar() {
     "setup",
     "home",
     "payment",
+    "report"
   ]);
   const { selectedTable } = useContext(dashboardContext);
   const [filteredSuggestions, setFilteredSuggestions] = useState([]);
@@ -67,6 +68,7 @@ export default function NavBar() {
     setSelectedSuggestion(suggestion);
     setHighlightedIndex(index);
   };
+  
   const handleKeyDown = (event) => {
     if (event.key === "Tab" || event.key === "Enter") {
       if (highlightedIndex !== -1) {
@@ -151,12 +153,13 @@ export default function NavBar() {
                     />
 
                     {inputValue && filteredSuggestions.length > 0 && (
-                        <ul className="suggestion-list">
+                        <ul className="suggestion-list h-fit">
                           {filteredSuggestions.map((suggestion, index) => (
                             <li
                               key={index}
                               onClick={() => handleSuggestionClick(suggestion)}
-                              className={highlightedIndex === index ? "selected" : ""}
+                              // className={highlightedIndex === index ? "selected" : ""}
+                              className="text-lg px-10 py-4 hover:rounded cursor-pointer hover:bg-slate-100"
                               onMouseEnter={() => handleMouseEnter(index)}
                             >
                               {suggestion}
