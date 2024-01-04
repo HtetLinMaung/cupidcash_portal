@@ -192,11 +192,11 @@ export default function Payment() {
 
         {/* Right section */}
         <div
-          className="w-96  text-black py-8 fixed top-0 bottom-0 right-0"
+          className="w-96  text-black fixed top-0 bottom-0 right-0 flex flex-col"
           style={{
             width: selectedOrder == 0 ? 0 : "24rem",
             maxWidth: selectedOrder == 0 ? 0 : "24rem",
-            padding: selectedOrder == 0 ? 0 : "2rem 0",
+            padding: selectedOrder == 0 ? 0 : "0.75rem 0",
             opacity: selectedOrder == 0 ? 0 : 1,
             animation: slideAnimation,
             transition: "all 0.3s",
@@ -205,12 +205,12 @@ export default function Payment() {
           }}
         >
           <div className="flex">
-          <div
-          className="absolute left-[-3%] pt-1%  p-1  shadow-md skeleton close-sidebar"
-          onClick={() => {
-            setSelectedOrder(0);
-          }}
-        >
+            <div
+              className="absolute left-[-3%] pt-1%  p-1  shadow-md skeleton close-sidebar"
+              onClick={() => {
+                setSelectedOrder(0);
+              }}
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
@@ -228,7 +228,7 @@ export default function Payment() {
               </svg>
             </div>
             {/* Display order information */}
-            <div className="mb-8 px-8">
+            <div className="px-8">
               <h3 className="text-lg font-bold">#{order.id}</h3>
               <p>Waiter: {order.waiter_name}</p>
               <p>Table: {order.table_number}</p>
@@ -245,7 +245,7 @@ export default function Payment() {
                 <img
                   src={server_domain + item.image_url}
                   alt={item.item_name}
-                  className="h-20 w-20 flex-none bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden"
+                  className="h-20 w-20 rounded-full text-center overflow-hidden"
                 />
                 <div className="px-4 flex flex-col justify-between leading-normal">
                   <h5 className="text-md font-bold">{item.item_name}</h5>
@@ -264,8 +264,7 @@ export default function Payment() {
             ))}
           </div>
           {/* Summary section */}
-          <div className="mb-4 px-8">
-            <div className="mb-3 pt-4">
+          <div className="px-8">
               <p className="mb-1">
                 <span className="float-right">{money.format(subTotal)} Ks</span>
               </p>
@@ -297,7 +296,6 @@ export default function Payment() {
                   Ks
                 </div>
               </div>
-            </div>
             <div className="mb-4">
               <p>
                 Total
@@ -312,7 +310,7 @@ export default function Payment() {
               </p>
             </div>
           </div>
-          <div className="px-8 mt-4">
+          <div className="px-8">
             <button
               className="w-full view-history text-white font-bold py-2 px-4 rounded"
               onClick={() => {
