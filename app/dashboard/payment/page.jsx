@@ -165,7 +165,7 @@ export default function Payment() {
               </div>
 
               {/* Card grid */}
-              <div className="bg-transparent w-full p-4 grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-8 gap-4 ">
+              <div className="bg-transparent w-full py-4 grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-8 gap-4 ">
                 {/* Repeat this div for each card, use a map function for real data */}
                 {orders.map((order) => (
                   <OrderCard
@@ -265,37 +265,37 @@ export default function Payment() {
           </div>
           {/* Summary section */}
           <div className="px-8">
-              <p className="mb-1">
-                <span className="float-right">{money.format(subTotal)} Ks</span>
-              </p>
-              <div className="mb-1 flex" style={{ width: "100%" }}>
-                <div style={{ width: "20%" }}>Discount</div>
-                <div className="flex" style={{ width: "80%" }}>
-                  <input
-                    onBlur={(e) => setDiscount(money.format(e.target.value))}
-                    style={{ width: "100%" }}
-                    type="text"
-                    className="mr-1 border-transparent rounded-lg  text-right outline-none bg-transparent"
-                    value={discount}
-                    onChange={(e) => setDiscount(e.target.value)}
-                  />
-                  Ks
-                </div>
+            <p className="mb-1">
+              <span className="float-right">{money.format(subTotal)} Ks</span>
+            </p>
+            <div className="mb-1 flex" style={{ width: "100%" }}>
+              <div style={{ width: "20%" }}>Discount</div>
+              <div className="flex" style={{ width: "80%" }}>
+                <input
+                  onBlur={(e) => setDiscount(money.format(e.target.value))}
+                  style={{ width: "100%" }}
+                  type="text"
+                  className="mr-1 border-transparent rounded-lg  text-right outline-none bg-transparent"
+                  value={discount}
+                  onChange={(e) => setDiscount(e.target.value)}
+                />
+                Ks
               </div>
-              <div className="flex" style={{ width: "100%" }}>
-                <div style={{ width: "20%" }}>Tax</div>
-                <div className="flex" style={{ width: "80%" }}>
-                  <input
-                    onBlur={(e) => setTax(money.format(e.target.value))}
-                    style={{ width: "100%" }}
-                    type="text"
-                    className="mr-1 border-transparent rounded-lg  text-right outline-none bg-transparent"
-                    value={tax}
-                    onChange={(e) => setTax(e.target.value)}
-                  />
-                  Ks
-                </div>
+            </div>
+            <div className="flex" style={{ width: "100%" }}>
+              <div style={{ width: "20%" }}>Tax</div>
+              <div className="flex" style={{ width: "80%" }}>
+                <input
+                  onBlur={(e) => setTax(money.format(e.target.value))}
+                  style={{ width: "100%" }}
+                  type="text"
+                  className="mr-1 border-transparent rounded-lg  text-right outline-none bg-transparent"
+                  value={tax}
+                  onChange={(e) => setTax(e.target.value)}
+                />
+                Ks
               </div>
+            </div>
             <div className="mb-4">
               <p>
                 Total

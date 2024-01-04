@@ -50,7 +50,7 @@ const PosSystem = ({ items }) => {
   return (
     <div>
       {/* Display "All" option */}
-      <div className="flex p-4 gap-3">
+      <div className="flex py-4 gap-3">
         <div key="All" className="card">
           <strong
             onClick={() => setSelectedCategory("All")}
@@ -76,7 +76,7 @@ const PosSystem = ({ items }) => {
       </div>
 
       {/* Display items based on the selected category */}
-      <div className="bg-transparent w-full p-4 grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-8 gap-4 ">
+      <div className="bg-transparent w-full py-4 grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-8 gap-4 ">
         {displayedItems.map((item) => (
           <div
             key={item.name}

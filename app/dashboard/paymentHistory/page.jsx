@@ -88,10 +88,6 @@ export default function PaymentHistory() {
   };
   return (
     <div className="px-2 pr-6 pb-6">
-      <div className="flex-grow bg-gray-100 pt-8 mb-6">
-        <Breadcrumb items={breadcrumbItems} />
-      </div>
-
       {/* Search Box */}
       <div className="flex mb-4 justify-between">
         <div>

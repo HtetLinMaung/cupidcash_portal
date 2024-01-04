@@ -12,14 +12,12 @@ import { tableContext } from "@/providers/TableProvider";
 import { appContext } from "@/providers/AppProvider";
 import { ToastContainer, toast } from "react-toastify";
 
-
 const breadcrumbItems = [
   { label: "Home", href: "/dashboard" },
   { label: "Table" },
 ];
 
 export default function TablesList() {
-
   const { setLoading } = useContext(appContext);
   const {
     tables,
@@ -97,13 +95,7 @@ export default function TablesList() {
   };
 
   return (
-    <div className="px-2 pr-6 pb-6">
-      <div className="flex-grow bg-gray-100 pt-8 mb-6">
-        <Breadcrumb items={breadcrumbItems} />
-      </div>
-
-    
- 
+    <div className="pr-6 pb-6">
       {/* Search Box */}
       <div className="flex mb-4 justify-between">
         <div>

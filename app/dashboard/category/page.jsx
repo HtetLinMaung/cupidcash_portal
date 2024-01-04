@@ -94,10 +94,7 @@ export default function CategoriesList() {
   };
 
   return (
-    <div className="px-2 pr-6 pb-6">
-      <div className="flex-grow bg-gray-100 pt-8 mb-6">
-        <Breadcrumb items={breadcrumbItems} />
-      </div>
+    <div className="pr-6 pb-6">
       {/* Search Box */}
       <div className="flex mb-4 justify-between">
         <div>
@@ -140,9 +137,7 @@ export default function CategoriesList() {
               <td className="py-2 px-4 border-b">{category.description}</td>
               <td className="py-2 px-4 border-b">{category.shop_name}</td>
               <td className="py-2 px-4 border-b">
-                {moment(category.created_at).format(
-                  "DD/MM/YYYY hh:mm:ss A"
-                )}
+                {moment(category.created_at).format("DD/MM/YYYY hh:mm:ss A")}
               </td>
               <td className="py-2 px-4 border-b">
                 <div className="flex">
@@ -160,7 +155,6 @@ export default function CategoriesList() {
                     Delete
                   </button>
                 </div>
-                
               </td>
             </tr>
           ))}

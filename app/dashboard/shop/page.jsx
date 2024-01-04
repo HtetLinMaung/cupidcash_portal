@@ -94,10 +94,7 @@ export default function ShopsList() {
   };
 
   return (
-    <div className="px-2 pr-6 pb-6">
-      <div className="flex-grow bg-gray-100 pt-8 mb-6">
-        <Breadcrumb items={breadcrumbItems} />
-      </div>
+    <div className="pr-6 pb-6">
       {/* Search Box */}
       <div className="flex mb-4 justify-between">
         <div>

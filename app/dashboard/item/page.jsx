@@ -96,7 +96,7 @@ export default function ItemsList() {
   };
 
   return (
-    <div className="px-2 pr-6 pb-6">
+    <div className=" pr-6 pb-6">
       {/* Search Box */}
       <div className="flex mb-4 justify-between">
         <div>
@@ -140,15 +140,12 @@ export default function ItemsList() {
             {items.map((item) => (
               <tr key={item.id} className="hover:bg-gray-50">
                 <td className="py-2 px-4 border-b">{item.id}</td>
-                <td className="py-2 px-4 border-b">
+                <td
+                  className="py-2 px-4 border-b"
+                  style={{ width: "8rem", height: "7rem" }}
+                >
                   <img
-                    style={{
-                      width: "100%",
-                      minWidth: 100,
-                      height: 100,
-                      objectFit: "cover",
-                    }}
-                    className="rounded-xl"
+                    className="w-full h-full flex-none bg-cover rounded-full text-center overflow-hidden"
                     src={`${server_domain}${item.image_url}`}
                     alt={item.name}
                   />

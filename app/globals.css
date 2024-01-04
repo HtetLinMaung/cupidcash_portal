@@ -201,6 +201,13 @@ p.receipt-time {
 .view-history:hover{
   background-color: var(--fourth-color);
 }
+.back-key
+{
+  background-color: rgb(243 244 246);
+}
+.back-key:hover{
+  background-color: var(--secondary-color);
+}
 .card
 {
   min-width: 50px;
