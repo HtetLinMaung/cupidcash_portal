@@ -1,17 +1,12 @@
 "use client";
 
 import Breadcrumb from "@/components/Breadcrumb";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback, useContext, useEffect, useState } from "react";
 import moment from "moment";
-import Pagination from "@/components/Pagination";
 import { handleError, httpDelete, httpGet } from "@/utils/rest-client";
-import Swal from "sweetalert2";
 import { appContext } from "@/providers/AppProvider";
-import { itemContext } from "@/providers/ItemProvider";
 import money from "mm-money";
-import { server_domain } from "@/constants";
 
 const breadcrumbItems = [
     { label: "Home", href: "/dashboard" },
@@ -20,7 +15,8 @@ const breadcrumbItems = [
 
 export default function DailySaleReport() {
     const { setLoading } = useContext(appContext);
-    const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
+    const [fromDate, setFromDate] = useState("2023-12-01");
+    const [toDate, setToDate] = useState("2023-12-31");
     const [reportDatas, setReportDatas] = useState([]);
     const [totalQty, setTotalQty] = useState(0);
     const [totalAmount, setTotalAmount] = useState(0.0);
@@ -29,11 +25,12 @@ export default function DailySaleReport() {
     const router = useRouter();
 
     const fetchItems = useCallback(() => {
-        if (!date) setDate(new Date().toISOString().split('T')[0]);
+        console.log(fromDate, toDate);
         setLoading(true);
         httpGet("/api/daily-sale-report", {
             params: {
-                date: !date ? new Date().toISOString().split('T')[0] : date,
+                from_date: !fromDate ? new Date().toISOString().split('T')[0] : fromDate,
+                to_date: !toDate ? new Date().toISOString().split('T')[0] : toDate,
                 shop_id: 2
             },
         }).then((res) => {
@@ -48,17 +45,9 @@ export default function DailySaleReport() {
             setLoading(false);
             handleError(err, router);
         });
-    }, [date, router]);
+    }, [fromDate, toDate, router]);
 
-    useEffect(() => {
-        const token = localStorage.getItem("cupidcash_token");
-        if (!token) {
-            router.push("/login");
-        }
-        fetchItems();
-    }, [date, router, fetchItems]);
-
-    const handleButtonClick = async () => {
+    const handlePdfBtnClick = async () => {
         try {
             setLoading(true);
 
@@ -92,21 +81,34 @@ export default function DailySaleReport() {
             </div>
             {/* Search Box */}
             <div className="mb-4 justify-between flex">
-                <div className="flex-1">
+                <div className="w-auto pr-2">
                     <input
-                        value={date}
-                        onChange={(e) => setDate(e.target.value)}
+                        value={fromDate}
+                        onChange={(e) => setFromDate(e.target.value)}
                         type="date"
                         className="p-2 rounded-lg border transition focus:border-white focus:outline-none focus:ring-2 focus:ring-c4c4c4"
                     />
                 </div>
+                <div className="w-auto pl-2">
+                    <input
+                        value={toDate}
+                        onChange={(e) => setToDate(e.target.value)}
+                        type="date"
+                        className="p-2 rounded-lg border transition focus:border-white focus:outline-none focus:ring-2 focus:ring-c4c4c4"
+                    />
+                </div>
+                <div className="w-auto pl-2">
+                    <button onClick={fetchItems} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                        Search
+                    </button>
+                </div>
                 <div className="flex-1 flex items-end justify-end">
-                    {reportDatas && reportDatas.length > 0 && <span onClick={handleButtonClick}><PDFIcon /></span>}
+                    {reportDatas && reportDatas.length > 0 && <span onClick={handlePdfBtnClick}><PDFIcon /></span>}
                 </div>
             </div>
             <div className="overflow-x-auto shadow-md rounded-lg">
                 <table className="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
-                    <thead className="bg-gray-200">
+                    <thead className="bg-gray-200"> 
                         <tr className=" text-left">
                             <th className="py-2 px-4 border-b">ID</th>
                             <th className="py-2 px-4 border-b">Item Name</th>
