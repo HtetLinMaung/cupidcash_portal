@@ -15,8 +15,8 @@ const breadcrumbItems = [
 
 export default function DailySaleReport() {
     const { setLoading } = useContext(appContext);
-    const [fromDate, setFromDate] = useState("2023-12-01");
-    const [toDate, setToDate] = useState("2023-12-31");
+    const [fromDate, setFromDate] = useState(moment().format('YYYY-MM-DD'));
+    const [toDate, setToDate] = useState(moment().format('YYYY-MM-DD'));
     const [reportDatas, setReportDatas] = useState([]);
     const [totalQty, setTotalQty] = useState(0);
     const [totalAmount, setTotalAmount] = useState(0.0);
@@ -29,8 +29,8 @@ export default function DailySaleReport() {
         setLoading(true);
         httpGet("/api/daily-sale-report", {
             params: {
-                from_date: !fromDate ? new Date().toISOString().split('T')[0] : fromDate,
-                to_date: !toDate ? new Date().toISOString().split('T')[0] : toDate,
+                from_date: !fromDate ? moment().format('YYYY-MM-DD') : fromDate,
+                to_date: !toDate ? moment().format('YYYY-MM-DD') : toDate,
                 shop_id: 2
             },
         }).then((res) => {
@@ -46,6 +46,10 @@ export default function DailySaleReport() {
             handleError(err, router);
         });
     }, [fromDate, toDate, router]);
+
+    useEffect(() => {
+        fetchItems();
+      }, [router]);
 
     const handlePdfBtnClick = async () => {
         try {
