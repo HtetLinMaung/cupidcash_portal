@@ -1,25 +1,33 @@
 "use client";
-
+import { useRouter } from "next/navigation";
 import React, { useContext, useEffect, useState } from "react";
 import moment from "moment";
 import { orderContext } from "@/providers/OrderProvider";
 import { server_domain } from "@/constants";
 import money from "mm-money";
 import { appContext } from "@/providers/AppProvider";
+import { tableContext } from "@/providers/TableProvider";
+import { dashboardContext } from "@/providers/DashboardProvider";
+import { getTables } from "@/services/table";
+import Swal from "sweetalert2";
+import { handleError, httpPost } from "@/utils/rest-client";
 export default function RightOrderCard() {
-  let table_no;
+  const router = useRouter();
+  const [table_no, setTableNo] = useState("");
   const { setLoading } = useContext(appContext);
   const { selectItems, setSelectItems } = useContext(orderContext);
+  const { search, setSearch } = useContext(dashboardContext);
   const [slideAnimation, setSlideAnimation] = useState(
     "slideOut 0.5s ease-in-out forwards"
   );
-
+  const { tables, setTables } = useContext(tableContext);
   useEffect(() => {
     if (selectItems.length > 0) {
       setSlideAnimation("slideIn 0.3s ease-in-out forwards");
     } else {
       setSlideAnimation("slideOut 0.5s ease-in-out forwards");
     }
+    loadTables({ search });
   }, [selectItems]);
 
   const handleQuantityChange = (itemId, newQuantity) => {
@@ -41,21 +49,89 @@ export default function RightOrderCard() {
     );
   };
 
+  const loadTables = (search) => {
+    setLoading(true);
+    getTables(search)
+      .then((res) => {
+        setLoading(false);
+        if (res.data.code != 200) {
+          return Swal.fire({
+            title: "",
+            text: res.data.message || "Something went wrong!",
+            showConfirmButton: false,
+            timer: 5000,
+          });
+        }
+        setTables(res.data.data);
+      })
+      .catch((err) => {
+        setLoading(false);
+        handleError(err, router);
+      });
+  };
+
   const addOrders = async (data) => {
     try {
       setLoading(true);
+      const res = await httpPost("/api/orders", data);
+      setLoading(false);
+      console.log(res.data.code, "res");
+      if (res.data.code === 400) {
+        Swal.fire({
+          icon: "fail",
+          text: res.data.message,
+          showConfirmButton: false,
+          timer: 5000,
+        });
+      } else {
+        Swal.fire({
+          icon: "success",
+          text: res.data.message,
+          showConfirmButton: false,
+          timer: 5000,
+        });
+      }
     } catch (err) {
       setLoading(false);
       handleError(err, router);
+    }
+  };
+  const handleSave = async () => {
+    // Check if the entered table_no exists in the list of available tables
+    const selectedTable = tables.find(
+      (table) => table.table_number === table_no
+    );
+
+    if (selectedTable) {
+      const data = {
+        table_id: selectedTable.id,
+        items: selectItems.map((item) => ({
+          item_id: item.id,
+          quantity: item.quantity,
+          special_instructions: " ",
+        })),
+      };
+      console.log("data", data);
+      await addOrders(data);
+      setSelectItems([]);
+      setTableNo("");
+    } else {
+      // If the entered table_no doesn't exist, show an error alert
+      Swal.fire({
+        icon: "error",
+        text: "Table does not exist. Please enter a valid table number.",
+        showConfirmButton: false,
+        timer: 5000,
+      });
     }
   };
   return (
     <div
       className=" w-96  text-black py-8 fixed top-0 bottom-0 right-0"
       style={{
-        width: selectItems == 0 ? 0 : "24rem",
-        maxWidth: selectItems == 0 ? 0 : "24rem",
-        padding: selectItems == 0 ? 0 : "0.75rem 0",
+        width: selectItems.length === 0 ? 0 : "24rem",
+        maxWidth: selectItems.length === 0 ? 0 : "24rem",
+        padding: selectItems.length === 0 ? 0 : "0.75rem 0",
         animation: slideAnimation,
         transition: "all 0.3s",
         marginTop: "4.2rem",
@@ -179,6 +255,7 @@ export default function RightOrderCard() {
           </div>
         ))}
       </div>
+
       <div className="float-right gap-4 flex p-4">
         <div className="font-bold text-lg"> Total Price:</div>
         <div className="font-bold">
@@ -207,8 +284,12 @@ export default function RightOrderCard() {
             type="text"
             name="Table No."
             value={table_no}
+            onChange={(e) => setTableNo(e.target.value)}
             required
           />
+        </div>
+        <div>
+          <button onClick={handleSave}>Save</button>
         </div>
       </div>
     </div>
