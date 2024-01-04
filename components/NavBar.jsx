@@ -23,15 +23,14 @@ export default function NavBar() {
   // const [showModal, setShowModal] = useState(false);
 
   const handleSearchModal = () => {
-    setShowModal(true);
+    
     my_modal_1.showModal();
   }
 
   const keyDownSearchModal = (event) => {
-    event.preventDefault();
+    
     if ((event.ctrlKey || event.metaKey) && event.key == "k") {
       event.preventDefault();
-      setShowModal(true);
       my_modal_1.showModal();
     }
   }
@@ -137,11 +136,10 @@ export default function NavBar() {
           placeholder="Search Ctrl+K"
           className="input bg-gray-100 rounded-full p-4 w-72"
           id="modalOne"
-          // onClick={handleSearchModal}
-          // onKeyDown={keyDownSearchModal}
+          onClick={handleSearchModal}
+          onKeyDown={keyDownSearchModal}
         />
-        {
-          showModal && (
+       
               <dialog id="my_modal_1" className="modal">
                   <div className="modal-box p-0 rounded" style={{ maxWidth: "50%"}}>
                     <input 
@@ -174,8 +172,6 @@ export default function NavBar() {
                     <button>close</button>
                   </form>
               </dialog>
-          )
-        }
       </div>
     </div>
   );
