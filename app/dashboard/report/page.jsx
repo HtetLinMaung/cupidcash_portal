@@ -1,14 +1,9 @@
 import React from "react";
 import Breadcrumb from "@/components/Breadcrumb";
 
-const breadcrumbItems = [
-  { label: "Home", href: "/dashboard" },
-  { label: "Report" },
-];
 const Report = () => {
   return (
     <div className="py-5 pr-4">
-      <Breadcrumb items={breadcrumbItems} />
       <div className="m-8 grid grid-cols-3 sm:grid-cols-3 lg:grid-cols-4 gap-6">
         {/* Render four cards with different icons and menu descriptions */}
         <ReportCard

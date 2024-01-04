@@ -8,11 +8,6 @@ import { handleError, httpDelete, httpGet } from "@/utils/rest-client";
 import { appContext } from "@/providers/AppProvider";
 import money from "mm-money";
 
-const breadcrumbItems = [
-    { label: "Home", href: "/dashboard" },
-    { label: "Daily Sale Report" },
-];
-
 export default function DailySaleReport() {
     const { setLoading } = useContext(appContext);
     const [fromDate, setFromDate] = useState(moment().format('YYYY-MM-DD'));
@@ -80,9 +75,6 @@ export default function DailySaleReport() {
 
     return (
         <div className="px-2 pr-6 pb-6">
-            <div className="flex-grow bg-gray-100 pt-8 mb-6">
-                <Breadcrumb items={breadcrumbItems} />
-            </div>
             {/* Search Box */}
             <div className="mb-4 justify-between flex">
                 <div className="w-auto pr-2">
