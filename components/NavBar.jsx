@@ -1,7 +1,7 @@
 "use client";
 import Breadcrumb from "@/components/Breadcrumb";
 import { dashboardContext } from "@/providers/DashboardProvider";
-import { useContext, useEffect, useRef, useState, useLayoutEffect } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 
 
 
@@ -13,7 +13,7 @@ export default function NavBar() {
     "setup",
     "home",
     "payment",
-    "report"
+    "report",
   ]);
   const { selectedTable } = useContext(dashboardContext);
   const [filteredSuggestions, setFilteredSuggestions] = useState([]);
@@ -23,33 +23,18 @@ export default function NavBar() {
   // const [showModal, setShowModal] = useState(false);
 
   const handleSearchModal = () => {
+    setShowModal(true);
     my_modal_1.showModal();
-
   }
 
   const keyDownSearchModal = (event) => {
     event.preventDefault();
     if ((event.ctrlKey || event.metaKey) && event.key == "k") {
+      event.preventDefault();
+      setShowModal(true);
       my_modal_1.showModal();
     }
   }
-
-  useEffect(() => {
-    const element = document.getElementById('modalOne');
-
-    if(element) {
-      element.addEventListener('click', handleSearchModal)
-      element.addEventListener('keydown', keyDownSearchModal)
-    }
-
-    return () => {
-      if(element) {
-        element.removeEventListener('click', handleSearchModal)
-        element.removeEventListener('keydown', keyDownSearchModal)
-      }
-    }
-  },[])
-
 
  const handleKeyPress = (event) => {
     // Check if Ctrl (or Command on Mac) + K is pressed
@@ -155,40 +140,42 @@ export default function NavBar() {
           // onClick={handleSearchModal}
           // onKeyDown={keyDownSearchModal}
         />
-        
-          <dialog id="my_modal_1" className="modal">
-              <div className="modal-box p-0 rounded" style={{ maxWidth: "50%"}}>
-                <input 
-                  type="text" 
-                  placeholder="Type to search..." 
-                  class="w-full py-4 px-10 rounded text-lg border-0 transition focus"
-                  ref={searchInputRef}
-                  value={inputValue}
-                  onChange={handleInputChange}
-                  onKeyDown={handleKeyDown}
-                />
+        {
+          showModal && (
+              <dialog id="my_modal_1" className="modal">
+                  <div className="modal-box p-0 rounded" style={{ maxWidth: "50%"}}>
+                    <input 
+                      type="text" 
+                      placeholder="Type to search..." 
+                      class="w-full py-4 px-10 rounded text-lg border-0 transition focus"
+                      ref={searchInputRef}
+                      value={inputValue}
+                      onChange={handleInputChange}
+                      onKeyDown={handleKeyDown}
+                    />
 
-                {inputValue && filteredSuggestions.length > 0 && (
-                    <ul className="suggestion-list h-fit">
-                      {filteredSuggestions.map((suggestion, index) => (
-                        <li
-                          key={index}
-                          onClick={() => handleSuggestionClick(suggestion)}
-                          // className={highlightedIndex === index ? "selected" : ""}
-                          className="text-lg px-10 py-4 hover:rounded cursor-pointer hover:bg-slate-100"
-                          onMouseEnter={() => handleMouseEnter(index)}
-                        >
-                          {suggestion}
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-              </div>
-              <form method="dialog" className="modal-backdrop">
-                <button>close</button>
-              </form>
-          </dialog>
-          
+                    {inputValue && filteredSuggestions.length > 0 && (
+                        <ul className="suggestion-list h-fit">
+                          {filteredSuggestions.map((suggestion, index) => (
+                            <li
+                              key={index}
+                              onClick={() => handleSuggestionClick(suggestion)}
+                              // className={highlightedIndex === index ? "selected" : ""}
+                              className="text-lg px-10 py-4 hover:rounded cursor-pointer hover:bg-slate-100"
+                              onMouseEnter={() => handleMouseEnter(index)}
+                            >
+                              {suggestion}
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                  </div>
+                  <form method="dialog" className="modal-backdrop">
+                    <button>close</button>
+                  </form>
+              </dialog>
+          )
+        }
       </div>
     </div>
   );

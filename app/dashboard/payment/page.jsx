@@ -28,6 +28,9 @@ export default function Payment() {
   const { orderId } = useContext(notificationContext);
   const router = useRouter();
   const { setLoading } = useContext(appContext);
+  const [slideAnimation, setSlideAnimation] = useState(
+    "slideOut 0.5s ease-in-out forwards"
+  );
   const {
     orders,
     setOrders,
@@ -40,6 +43,14 @@ export default function Payment() {
     selectedOrder,
     setSelectedOrder,
   } = useContext(paymentContext);
+
+  useEffect(() => {
+    if (selectedOrder != 0) {
+      setSlideAnimation("slideIn 0.3s ease-in-out forwards");
+    } else {
+      setSlideAnimation("slideOut 0.5s ease-in-out forwards");
+    }
+  }, [selectedOrder]);
 
   useEffect(() => {
     if (selectedOrder) {
@@ -149,12 +160,12 @@ export default function Payment() {
                   onChange={(e) => setSearch(e.target.value)}
                   type="text"
                   placeholder="Type to search..."
-                  className="w-full p-4 rounded-md border transition  focus"
+                  className="w-full p-4 rounded-md border transition focus"
                 />
               </div>
 
               {/* Card grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className="bg-transparent w-full p-4 grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-8 gap-4 ">
                 {/* Repeat this div for each card, use a map function for real data */}
                 {orders.map((order) => (
                   <OrderCard
@@ -181,23 +192,25 @@ export default function Payment() {
 
         {/* Right section */}
         <div
-          className="flex flex-col w-96 bg-gray-800 text-white py-8 fixed top-0 bottom-0 right-0 hidden-print"
+          className="w-96  text-black py-8 fixed top-0 bottom-0 right-0"
           style={{
             width: selectedOrder == 0 ? 0 : "24rem",
             maxWidth: selectedOrder == 0 ? 0 : "24rem",
             padding: selectedOrder == 0 ? 0 : "2rem 0",
             opacity: selectedOrder == 0 ? 0 : 1,
+            animation: slideAnimation,
             transition: "all 0.3s",
+            marginTop: "4.2rem",
+            backgroundColor: "var(--secondary-color)",
           }}
         >
           <div className="flex">
-            <div
-              className="absolute left-[-3%] pt-1% w-31 h-31  bg-gray-800  rounded-full p-1 w-6 h-6 shadow-md"
-              style={{ boxShadow: "0 0 2px 2px #696969" }}
-              onClick={() => {
-                setSelectedOrder(0);
-              }}
-            >
+          <div
+          className="absolute left-[-3%] pt-1%  p-1  shadow-md skeleton close-sidebar"
+          onClick={() => {
+            setSelectedOrder(0);
+          }}
+        >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
@@ -301,7 +314,7 @@ export default function Payment() {
           </div>
           <div className="px-8 mt-4">
             <button
-              className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              className="w-full view-history text-white font-bold py-2 px-4 rounded"
               onClick={() => {
                 handlePrint(), changeStatus(order.id);
               }}
