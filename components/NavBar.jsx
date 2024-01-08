@@ -76,18 +76,18 @@ export default function NavBar() {
         setInputValue(filteredSuggestions[highlightedIndex]);
         setFilteredSuggestions([]);
         setHighlightedIndex(-1);
+        // Perform any additional actions you want when a suggestion is selected
       } else if (filteredSuggestions.length > 0) {
         event.preventDefault();
         setInputValue(filteredSuggestions[0]);
         setFilteredSuggestions([]);
         setHighlightedIndex(0);
+        // Perform any additional actions you want when the first suggestion is selected
       }
     } else if (event.key === "ArrowUp" && filteredSuggestions.length > 0) {
       event.preventDefault();
       const newIndex =
-        highlightedIndex > 0
-          ? highlightedIndex - 1
-          : filteredSuggestions.length - 1;
+        highlightedIndex > 0 ? highlightedIndex - 1 : filteredSuggestions.length - 1;
       setHighlightedIndex(newIndex);
     } else if (event.key === "ArrowDown" && filteredSuggestions.length > 0) {
       event.preventDefault();
@@ -95,6 +95,7 @@ export default function NavBar() {
       setHighlightedIndex(newIndex);
     }
   };
+
   const handleMouseEnter = (index) => {
     setHighlightedIndex(index);
   };
@@ -181,8 +182,7 @@ export default function NavBar() {
                   <li
                     key={index}
                     onClick={() => handleSuggestionClick(suggestion)}
-                    // className={highlightedIndex === index ? "selected" : ""}
-                    className="text-lg px-10 py-4 hover:rounded cursor-pointer hover:bg-slate-100"
+                    className={highlightedIndex === index ? "selected text-lg px-10 py-4 hover:rounded cursor-pointer hover:bg-slate-100" : "text-lg px-10 py-4"}
                     onMouseEnter={() => handleMouseEnter(index)}
                   >
                     {suggestion}
