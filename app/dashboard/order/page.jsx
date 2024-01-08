@@ -51,7 +51,19 @@ const PosSystem = ({ items }) => {
     <div>
       {/* Display "All" option */}
       <div className="flex py-4 gap-3">
-        <div key="All" className="card">
+        <div
+          key="All"
+          className="card"
+          style={
+            selectedCategory == "All"
+              ? {
+                  color: "white",
+                  backgroundColor: "var(--buttom-color)",
+                  borderColor: "var(--buttom-color)",
+                }
+              : {}
+          }
+        >
           <strong
             onClick={() => setSelectedCategory("All")}
             style={{ cursor: "pointer" }}
@@ -63,7 +75,19 @@ const PosSystem = ({ items }) => {
         <div className="flex gap-3">
           {/* Display all categories */}
           {Object.keys(categorizedItems).map((categoryName) => (
-            <div key={categoryName} className="card">
+            <div
+              key={categoryName}
+              className="card"
+              style={
+                selectedCategory == categoryName
+                  ? {
+                      color: "white",
+                      backgroundColor: "var(--buttom-color)",
+                      borderColor: "var(--buttom-color)",
+                    }
+                  : {}
+              }
+            >
               <strong
                 onClick={() => setSelectedCategory(categoryName)}
                 style={{ cursor: "pointer" }}

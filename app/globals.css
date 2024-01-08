@@ -13,8 +13,8 @@
   --secondary-color: rgb(255, 255, 255);
   --third-color: rgb(30, 7, 95);
   --fourth-color: rgb(170, 136, 245);
-  --five-color:rgb(242, 237, 254);
-  --buttom-color:rgb(130, 78, 240);
+  --five-color: rgb(242, 237, 254);
+  --buttom-color: rgb(130, 78, 240);
 }
 
 body {
@@ -44,9 +44,8 @@ body {
 .sidebar-icon {
   @apply relative flex items-center justify-center h-12 w-12 mt-2 mb-2 mx-auto  text-gray-400 hover:bg-gray-700 hover:text-white rounded-3xl hover:rounded-xl transition-all duration-300 ease-linear cursor-pointer;
 }
-.sidebar-div
-{
-  position: fixed;   
+.sidebar-div {
+  position: fixed;
   left: 0;
   top: 0;
   bottom: 0;
@@ -181,42 +180,38 @@ p.receipt-time {
 .receipt-total {
   font-weight: bold;
 }
-.sidebar-icon
-{
+.sidebar-icon {
   min-height: 3rem;
   height: auto;
 }
-.close-sidebar
-{
+.close-sidebar {
   box-shadow: 0 0 2px 2px var(--secondary-color);
   background-color: var(--fourth-color);
   border-radius: 8px;
   width: 1.6rem;
-  height: 1.6rem
+  height: 1.6rem;
 }
-.view-history
-{
+.view-history {
   background-color: var(--buttom-color);
 }
-.view-history:hover{
+.view-history:hover {
   background-color: var(--fourth-color);
 }
-.back-key
-{
+.back-key {
   background-color: rgb(243 244 246);
 }
-.back-key:hover{
+.back-key:hover {
   background-color: var(--secondary-color);
 }
-.card
-{
+.card {
+  transition: all 0.3s;
   min-width: 50px;
-    text-align: center;
-    height: 40px;
-    /* padding: 10px; */
-    /* align-items: center; */
-    padding: 10px;
-    background: var(--secondary-color);
-    border-radius: 16px;
-    border: 1px solid #c4c4c4;
+  text-align: center;
+  height: 40px;
+  /* padding: 10px; */
+  /* align-items: center; */
+  padding: 10px;
+  background: var(--secondary-color);
+  border-radius: 16px;
+  border: 1px solid #c4c4c4;
 }
