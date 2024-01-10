@@ -134,7 +134,7 @@ export default function DailySaleReport() {
                 <table className="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
                     <thead className="bg-gray-200">
                         <tr className=" text-left">
-                            <th className="py-2 px-4 border-b">ID</th>
+                            <th className="py-2 px-4 border-b">Id</th>
                             <th className="py-2 px-4 border-b">Item Name</th>
                             <th className="py-2 px-4 border-b text-center">Quantity</th>
                             <th className="py-2 px-4 border-b text-center">Amount</th>
