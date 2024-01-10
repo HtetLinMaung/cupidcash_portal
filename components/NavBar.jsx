@@ -30,7 +30,7 @@ export default function NavBar() {
 
   const keyDownSearchModal = (event) => {
     if ((event.ctrlKey || event.metaKey) && event.key == "k") {
-      event.preventDefault();
+      // event.preventDefault();
       my_modal_1.showModal();
     }
   };
@@ -50,6 +50,7 @@ export default function NavBar() {
 
   const handleInputChange = (event) => {
     const value = event.target.value.toLowerCase();
+    console.log("onchange", value);
     setInputValue(value);
 
     // Update filtered suggestions based on the input value
@@ -67,15 +68,24 @@ export default function NavBar() {
     setFilteredSuggestions([]);
     setSelectedSuggestion(suggestion);
     setHighlightedIndex(index);
+    console.log("Selected Input Value:", suggestion);
   };
 
   const handleKeyDown = (event) => {
+    const modal = document.getElementById("my_modal_1");
     if (event.key === "Tab" || event.key === "Enter") {
       if (highlightedIndex !== -1) {
         event.preventDefault();
         setInputValue(filteredSuggestions[highlightedIndex]);
         setFilteredSuggestions([]);
         setHighlightedIndex(-1);
+        if (filteredSuggestions[highlightedIndex] == "home") {
+          router.push("/dashboard");
+          modal.close();
+        } else {
+          router.push(`/dashboard/${filteredSuggestions[highlightedIndex]}`);
+          modal.close();
+        }
         // Perform any additional actions you want when a suggestion is selected
       } else if (filteredSuggestions.length > 0) {
         event.preventDefault();
@@ -87,7 +97,9 @@ export default function NavBar() {
     } else if (event.key === "ArrowUp" && filteredSuggestions.length > 0) {
       event.preventDefault();
       const newIndex =
-        highlightedIndex > 0 ? highlightedIndex - 1 : filteredSuggestions.length - 1;
+        highlightedIndex > 0
+          ? highlightedIndex - 1
+          : filteredSuggestions.length - 1;
       setHighlightedIndex(newIndex);
     } else if (event.key === "ArrowDown" && filteredSuggestions.length > 0) {
       event.preventDefault();
@@ -182,7 +194,11 @@ export default function NavBar() {
                   <li
                     key={index}
                     onClick={() => handleSuggestionClick(suggestion)}
-                    className={highlightedIndex === index ? "selected text-lg px-10 py-4 hover:rounded cursor-pointer hover:bg-slate-100" : "text-lg px-10 py-4"}
+                    className={
+                      highlightedIndex === index
+                        ? "selected text-lg px-10 py-4 hover:rounded cursor-pointer hover:bg-slate-100"
+                        : "text-lg px-10 py-4"
+                    }
                     onMouseEnter={() => handleMouseEnter(index)}
                   >
                     {suggestion}

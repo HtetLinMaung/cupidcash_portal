@@ -82,7 +82,7 @@ export async function httpDelete(url, config = {}) {
 
 export const handleError = (err, router) => {
   console.log(err);
-  if (err.response && err.response.data) {
+  if (err.response && err.response.data && err.response.data.message) {
     const message = err.response.data.message.toLowerCase();
     if (
       message == "invalid token" ||

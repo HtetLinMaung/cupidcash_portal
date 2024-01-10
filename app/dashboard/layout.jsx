@@ -72,10 +72,21 @@ export default function DashboardLayout({ children }) {
     };
   }, []);
 
+  const keyDownSearchModal = (event) => {
+    if ((event.ctrlKey || event.metaKey) && event.key == "k") {
+      // event.preventDefault();
+      my_modal_1.showModal();
+    }
+  };
+
   return (
     <>
       {loading ? <LoadingBar /> : null}
-      <div className="w-full" style={{ height: "100%" }}>
+      <div
+        className="w-full"
+        style={{ height: "100%" }}
+        onKeyDown={keyDownSearchModal}
+      >
         <div className="flex " style={{ height: "100%" }}>
           <div className="hidden-print sidebar-div z-50">
             <Sidebar router={router} />
