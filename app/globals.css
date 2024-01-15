@@ -215,3 +215,10 @@ p.receipt-time {
   border-radius: 16px;
   border: 1px solid #c4c4c4;
 }
+
+.drawer-side
+{
+  margin-left: 4.01rem;
+  width: auto !important;
+}
+
