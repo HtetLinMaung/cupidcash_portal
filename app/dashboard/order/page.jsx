@@ -1,5 +1,6 @@
 "use client";
 
+import Pagination from "@/components/Pagination";
 import RightOrderCard from "@/components/RightOrderCard";
 import { server_domain } from "@/constants";
 import { appContext } from "@/providers/AppProvider";
@@ -128,7 +129,9 @@ const PosSystem = ({ items }) => {
               )}
             </div>
             <div style={{ padding: "8px" }}>{item.name}</div>
-            <div style={{ padding: "8px" }}>{money.format(item.price)} Ks</div>
+            <div style={{ padding: "8px" }}>
+              Price-{money.format(item.price)} Ks
+            </div>
           </div>
         ))}
       </div>
@@ -190,12 +193,15 @@ export default function AddOrder() {
   }, [search]);
 
   return (
-    <div className="flex">
+    <div className="flex h-full">
       <div
         className="flex-grow"
         style={{ paddingRight: selectItems.length === 0 ? 0 : "24rem" }}
       >
-        <div className="flex-grow overflow-auto">
+        <div
+          className="flex-grow overflow-auto"
+          style={{ height: "calc(100% - 44px)" }}
+        >
           <div>
             {/* Search bar */}
             <div>
@@ -212,6 +218,16 @@ export default function AddOrder() {
             <PosSystem items={items} />
           </div>
         </div>
+        <Pagination
+          page={page}
+          pageCounts={pageCounts}
+          onPageChange={setPage}
+          perPage={perPage}
+          onPerPageChange={(p) => {
+            setPerPage(p);
+            setPage(1);
+          }}
+        />
       </div>
 
       <RightOrderCard></RightOrderCard>

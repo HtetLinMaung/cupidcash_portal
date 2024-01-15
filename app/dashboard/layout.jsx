@@ -100,6 +100,7 @@ export default function DashboardLayout({ children }) {
               style={{
                 padding: "2%",
                 backgroundColor: "var(--primary-color)",
+                height: "calc(100% - 66px)",
               }}
             >
               {children}
