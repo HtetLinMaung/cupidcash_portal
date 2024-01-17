@@ -1,21 +1,21 @@
 "use client";
 
-import Breadcrumb from "@/components/Breadcrumb";
+import CustomModal from "@/components/CutomModal";
+import Pagination from "@/components/Pagination";
+import PurchaseDetail from "@/components/PurchaseDetails";
+import { appContext } from "@/providers/AppProvider";
+import { purchaseContext } from "@/providers/PurchaseProvider";
+import { handleError, httpGet } from "@/utils/rest-client";
+import moment from "moment";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useCallback, useContext, useEffect } from "react";
-import moment from "moment";
-import Pagination from "@/components/Pagination";
-import { handleError, httpDelete, httpGet } from "@/utils/rest-client";
-import Swal from "sweetalert2";
-import { categoryContext } from "@/providers/CategoryProvider";
-import { appContext } from "@/providers/AppProvider";
+import { useCallback, useContext, useEffect, useState } from "react";
 
-export default function CategoriesList() {
+export default function PurchaseList() {
   const { setLoading } = useContext(appContext);
   const {
-    categories,
-    setCategories,
+    purchases,
+    setPurchases,
     search,
     setSearch,
     page,
@@ -26,12 +26,13 @@ export default function CategoriesList() {
     setPageCounts,
     total,
     setTotal,
-  } = useContext(categoryContext);
+  } = useContext(purchaseContext);
+  const [selectedPurchaseDetails, setSelectedPurchaseDetails] = useState(null);
   const router = useRouter();
 
   const fetchCategories = useCallback(() => {
     setLoading(true);
-    httpGet("/api/categories", {
+    httpGet("/api/purchases", {
       params: {
         page,
         per_page: perPage,
@@ -42,11 +43,12 @@ export default function CategoriesList() {
         setLoading(false);
         setTotal(res.data.total);
         setPageCounts(res.data.page_counts);
-        setCategories(res.data.data);
+        setPurchases(res.data.data);
       })
       .catch((err) => {
         setLoading(false);
         handleError(err, router);
+        console.log(err);
       });
   }, [page, perPage, router, search]);
 
@@ -58,7 +60,7 @@ export default function CategoriesList() {
     fetchCategories();
   }, [page, perPage, search, router, fetchCategories]);
 
-  const handleDelete = (category_id) => {
+  const handleDelete = (purchase_id) => {
     Swal.fire({
       text: "Are you sure you want to delete?",
       icon: "warning",
@@ -69,7 +71,7 @@ export default function CategoriesList() {
     }).then((result) => {
       if (result.isConfirmed) {
         setLoading(true);
-        httpDelete(`/api/categories/${category_id}`)
+        httpDelete(`/api/purchases/${purchase_id}`)
           .then((res) => {
             setLoading(false);
             Swal.fire({
@@ -102,50 +104,64 @@ export default function CategoriesList() {
           />
         </div>
         {/* Create Category Button */}
-        <Link href="/dashboard/category/create">
+        <Link href="/dashboard/purchase/create">
           <button className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
-            Create Category
+            Create Purchase
           </button>
         </Link>
       </div>
       {/* Total Rows Section */}
       <div className="my-4">
-        <span className="text-gray-600 font-medium">Total Categories: </span>
+        <span className="text-gray-600 font-medium">Total Purchases: </span>
         <span className="text-black font-bold">{total}</span>
       </div>
       <table className="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
         <thead className="bg-gray-200">
           <tr className=" text-left">
             <th className="py-2 px-4 border-b">ID</th>
-            <th className="py-2 px-4 border-b">Name</th>
-            <th className="py-2 px-4 border-b">Description</th>
-            <th className="py-2 px-4 border-b">Shop Name</th>
+            <th className="py-2 px-4 border-b">Total Cost</th>
+            <th className="py-2 px-4 border-b">Purchase Date</th>
+            <th className="py-2 px-4 border-b">Shop Id</th>
             <th className="py-2 px-4 border-b">Time</th>
+            <th className="py-2 px-4 border-b">Purchase Details</th>
             <th className="py-2 px-4 border-b">Actions</th>
           </tr>
         </thead>
         <tbody>
-          {categories.map((category) => (
-            <tr key={category.id} className="hover:bg-gray-50">
-              <td className="py-2 px-4 border-b">{category.id}</td>
-              <td className="py-2 px-4 border-b">{category.name}</td>
-              <td className="py-2 px-4 border-b">{category.description}</td>
-              <td className="py-2 px-4 border-b">{category.shop_name}</td>
+          {purchases.map((purchase) => (
+            <tr key={purchase.id} className="hover:bg-gray-50">
+              <td className="py-2 px-4 border-b">{purchase.purchase_id}</td>
+              <td className="py-2 px-4 border-b">{purchase.total_cost}</td>
               <td className="py-2 px-4 border-b">
-                {moment(category.created_at).format("DD/MM/YYYY hh:mm:ss A")}
+                {moment(purchase.purchase_date).format("DD/MM/YYYY hh:mm:ss A")}
+              </td>
+              <td className="py-2 px-4 border-b">{purchase.shop_id}</td>
+              <td className="py-2 px-4 border-b">
+                {moment(purchase.created_at).format("DD/MM/YYYY hh:mm:ss A")}
+              </td>
+              <td className="py-2 px-4 border-b">
+                <div
+                  className="text-blue-500 hover:underline flex-1"
+                  onClick={() => {
+                    setSelectedPurchaseDetails(purchase.purchase_details);
+                    document.getElementById("my_modal_2").showModal();
+                  }}
+                >
+                  Details
+                </div>
               </td>
               <td className="py-2 px-4 border-b">
                 <div className="flex">
                   <Link
                     className="text-blue-500 hover:underline flex-1"
-                    href={`/dashboard/category/edit?category_id=${category.id}`}
+                    href={`/dashboard/category/edit?category_id=${purchase.purchase_id}`}
                   >
                     Edit
                   </Link>
                   {/* Add delete functionality */}
                   <button
                     className="ml-2 text-red-500 hover:underline flex-1"
-                    onClick={() => handleDelete(category.id)}
+                    onClick={() => handleDelete(purchase.purchase_id)}
                   >
                     Delete
                   </button>
@@ -166,6 +182,10 @@ export default function CategoriesList() {
           setPage(1);
         }}
       />
+
+      <CustomModal>
+        <PurchaseDetail details={selectedPurchaseDetails} />
+      </CustomModal>
     </div>
   );
 }
