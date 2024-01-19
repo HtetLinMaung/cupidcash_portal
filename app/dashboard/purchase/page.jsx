@@ -5,11 +5,12 @@ import Pagination from "@/components/Pagination";
 import PurchaseDetail from "@/components/PurchaseDetails";
 import { appContext } from "@/providers/AppProvider";
 import { purchaseContext } from "@/providers/PurchaseProvider";
-import { handleError, httpGet } from "@/utils/rest-client";
+import { handleError, httpDelete, httpGet } from "@/utils/rest-client";
 import moment from "moment";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback, useContext, useEffect, useState } from "react";
+import Swal from "sweetalert2";
 
 export default function PurchaseList() {
   const { setLoading } = useContext(appContext);
