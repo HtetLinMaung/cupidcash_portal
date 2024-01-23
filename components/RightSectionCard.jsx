@@ -57,9 +57,7 @@ export default function RightSectionCard({ order, children }) {
           <p>Waiter: {order.waiter_name}</p>
           <p>Table: {order.table_number}</p>
           <p>Time: {moment(order.created_at).format("DD/MM/YYYY hh:mm A")}</p>
-          <div>
-            <p>Status: {order.status}</p>
-          </div>
+          <div>Status: {order.status}</div>
         </div>
       </div>
       {children}

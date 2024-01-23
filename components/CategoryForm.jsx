@@ -73,7 +73,7 @@ function CategoryForm({ category = {}, shops = [], onSubmit, onBackClick }) {
               Shop
             </label>
             <select
-              className="w-full p-2 border rounded-lg select select-bordered w-full  focus:border-white focus:outline-none focus:ring-2 focus:ring-c4c4c4"
+              className=" p-2 border rounded-lg select select-bordered w-full  focus:border-white focus:outline-none focus:ring-2 focus:ring-c4c4c4"
               id="shop_id"
               name="shop_id"
               value={formData.shop_id}

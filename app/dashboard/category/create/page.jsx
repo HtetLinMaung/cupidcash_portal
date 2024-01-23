@@ -9,12 +9,6 @@ import { getShops } from "@/services/shop";
 import { categoryContext } from "@/providers/CategoryProvider";
 import { appContext } from "@/providers/AppProvider";
 
-const breadcrumbItems = [
-  { label: "Home", href: "/dashboard" },
-  { label: "Category", href: "/dashboard/category" },
-  { label: "Category Form" },
-];
-
 export default function CategoryCreateForm() {
   const { setLoading } = useContext(appContext);
   const router = useRouter();
@@ -61,9 +55,7 @@ export default function CategoryCreateForm() {
 
   return (
     <div className="px-2 pr-6 pb-6">
-      <div className="flex-grow bg-gray-100 pt-8 mb-6">
-        <Breadcrumb items={breadcrumbItems} />
-      </div>
+      <div className="flex-grow bg-gray-100 pt-8 mb-6"></div>
       <CategoryForm
         shops={shops}
         onSubmit={createCategory}
