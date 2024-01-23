@@ -35,6 +35,11 @@ const Setup = () => {
           description="Table"
           href="/dashboard/table"
         />
+        <SetupCard
+          icon={<TableIcon />}
+          description="Ingredient"
+          href="/dashboard/ingredient"
+        />
       </div>
     </div>
   );

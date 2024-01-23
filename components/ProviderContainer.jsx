@@ -9,6 +9,7 @@ import NotificationProvider from "@/providers/NotificationProvider";
 import DashboardProvider from "@/providers/DashboardProvider";
 import NavProvider from "@/providers/navProvider";
 import OrderProvider from "@/providers/OrderProvider";
+import IngredientProvider from "@/providers/IngredientProvider";
 export default function ProviderContainer({ children }) {
   return (
     <AppProvider>
@@ -21,7 +22,9 @@ export default function ProviderContainer({ children }) {
                   <DashboardProvider>
                     <ShopProvider>
                       <TableProvider>
-                        <ItemProvider>{children}</ItemProvider>
+                        <ItemProvider>
+                          <IngredientProvider>{children}</IngredientProvider>
+                        </ItemProvider>
                       </TableProvider>
                     </ShopProvider>
                   </DashboardProvider>
