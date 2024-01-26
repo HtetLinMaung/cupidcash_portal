@@ -11,11 +11,6 @@ import Swal from "sweetalert2";
 import { ingredientContext } from "@/providers/IngredientProvider";
 import { appContext } from "@/providers/AppProvider";
 
-const breadcrumbItems = [
-  { label: "Home", href: "/dashboard" },
-  { label: "Ingredient" },
-];
-
 export default function IngredientsList() {
   const { setLoading } = useContext(appContext);
   const {
@@ -95,9 +90,6 @@ export default function IngredientsList() {
 
   return (
     <div className="px-2 pr-6 pb-6">
-      <div className="flex-grow bg-gray-100 pt-8 mb-6">
-        <Breadcrumb items={breadcrumbItems} />
-      </div>
       {/* Search Box */}
       <div className="flex mb-4 justify-between">
         <div>
