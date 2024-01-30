@@ -11,11 +11,6 @@ import Swal from "sweetalert2";
 import { shopContext } from "@/providers/ShopProvider";
 import { appContext } from "@/providers/AppProvider";
 
-const breadcrumbItems = [
-  { label: "Home", href: "/dashboard" },
-  { label: "Shop" },
-];
-
 export default function ShopsList() {
   const { setLoading } = useContext(appContext);
   const {

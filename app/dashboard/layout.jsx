@@ -96,11 +96,10 @@ export default function DashboardLayout({ children }) {
               <NavBar />
             </div>
             <div
-              className="flex-grow bg-gray-100  w-full "
+              className="flex-grow bg-gray-100 h-full w-full "
               style={{
                 padding: "2%",
                 backgroundColor: "var(--primary-color)",
-                height: "calc(100% - 66px)",
               }}
             >
               {children}

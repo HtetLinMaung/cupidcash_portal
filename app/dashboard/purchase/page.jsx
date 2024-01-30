@@ -136,7 +136,7 @@ export default function PurchaseList() {
               <td className="py-2 px-4 border-b">
                 {moment(purchase.purchase_date).format("DD/MM/YYYY hh:mm:ss A")}
               </td>
-              <td className="py-2 px-4 border-b">{purchase.shop_id}</td>
+              <td className="py-2 px-4 border-b">{purchase.shop_name}</td>
               <td className="py-2 px-4 border-b">
                 {moment(purchase.created_at).format("DD/MM/YYYY hh:mm:ss A")}
               </td>

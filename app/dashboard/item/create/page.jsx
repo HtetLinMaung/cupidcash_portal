@@ -21,8 +21,14 @@ const breadcrumbItems = [
 export default function ItemCreateForm() {
   const { setLoading } = useContext(appContext);
   const router = useRouter();
-  const { shops, setShops, categories, setCategories, discount_types, setDiscount_types } =
-    useContext(itemContext);
+  const {
+    shops,
+    setShops,
+    categories,
+    setCategories,
+    discount_types,
+    setDiscount_types,
+  } = useContext(itemContext);
 
   useEffect(() => {
     // const token = localStorage.getItem("cupidcash_token");
@@ -40,8 +46,11 @@ export default function ItemCreateForm() {
           categoryRes.data.data.map((c) => ({ value: c.id, label: c.name }))
         );
         setDiscount_types(
-          discountTypeRes.data.data.map((d) => ({ value: d.id, label: d.description }))
-        )
+          discountTypeRes.data.data.map((d) => ({
+            value: d.id,
+            label: d.description,
+          }))
+        );
       })
       .catch((err) => {
         setLoading(false);
@@ -65,7 +74,8 @@ export default function ItemCreateForm() {
         data.discounted_price.toString().replaceAll("[a-zA-Z]+", "")
       );
       if (data.discount_expiration)
-        data.discount_expiration = data.discount_expiration.split("T")[0] + "T23:59:59";
+        data.discount_expiration =
+          data.discount_expiration.split("T")[0] + "T23:59:59";
       if (!data.shop_id) {
         throw new Error("Invalid shop!");
       }
@@ -106,9 +116,7 @@ export default function ItemCreateForm() {
 
   return (
     <div className="px-2 pr-6 pb-6 overflow-hidden">
-      <div className="flex-grow bg-gray-100 pt-8 mb-6">
-        <Breadcrumb items={breadcrumbItems} />
-      </div>
+      <div className="flex-grow bg-gray-100 pt-8 mb-6"></div>
       <ItemForm
         categories={categories}
         shops={shops}
