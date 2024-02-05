@@ -29,7 +29,6 @@ export default function Sidebar() {
         }}
       >
         <div className=" rounded-full flex mg-auto">
-          {" "}
           <img src="/pos_logo.png" alt="Default Product Image" />
         </div>
       </div>
@@ -71,7 +70,9 @@ function SidebarIcon({ icon, text = "tooltip 💡", href = "/" }) {
     <a href={href}>
       <div className="sidebar-icon group w-full ">
         {icon}
-        <span className="sidebar-tooltip group-hover:scale-100">{text}</span>
+        <span className="sidebar-tooltip group-hover:scale-100 z-50">
+          {text}
+        </span>
       </div>
     </a>
   );
