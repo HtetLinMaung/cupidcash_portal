@@ -19,9 +19,10 @@ function PurchaseForm({
   });
 
   const [itemDetail, setItemDetail] = useState({
+    purchase_detail_id: purchases.purchase_detail_id || 0,
     ingredient_id: purchases.ingredient_id || "0",
     quantity_purchased: purchases.quantity_purchased || "0.00",
-    unit: purchases.unit || "Kg",
+    unit: purchases.unit || "kg",
     buying_price_per_unit: purchases.buying_price_per_unit || "0.00",
   });
   const handleChange = (e) => {
@@ -42,21 +43,21 @@ function PurchaseForm({
 
   console.log("ingredients", ingredients);
   const addItem = () => {
-    // if (
-    //   !itemDetail.ingredient_id ||
-    //   itemDetail.ingredient_id === "0" ||
-    //   !itemDetail.quantity_purchased ||
-    //   itemDetail.quantity_purchased === "0.00" ||
-    //   !itemDetail.buying_price_per_unit ||
-    //   itemDetail.buying_price_per_unit === "0.00"
-    // ) {
-    //   return Swal.fire({
-    //     icon: "error",
-    //     text: "Please Fill All Forms",
-    //     showConfirmButton: false,
-    //     timer: 5000,
-    //   });
-    // }
+    // Check if any of the required fields are empty or have invalid values
+    if (
+      itemDetail.ingredient_id === "0" ||
+      itemDetail.quantity_purchased === "0.00" ||
+      itemDetail.buying_price_per_unit === "0.00"
+    ) {
+      return Swal.fire({
+        icon: "error",
+        text: "Please fill all fields correctly",
+        showConfirmButton: false,
+        timer: 5000,
+      });
+    }
+
+    // If all fields are valid, add the item to the purchase details
     setFormData((prevData) => {
       const updatedData = {
         ...prevData,
@@ -64,12 +65,35 @@ function PurchaseForm({
       };
       return updatedData;
     });
+
+    // Reset itemDetail to default values
+    setItemDetail({
+      ingredient_id: "0",
+      quantity_purchased: "0.00",
+      unit: "kg",
+      buying_price_per_unit: "0.00",
+    });
+
     console.log("itemDetail", formData);
   };
 
   useEffect(() => {
-    // Your useEffect logic goes here (if needed)
-  }, []);
+    // Calculate total cost when purchase details change
+    const calculateTotalCost = () => {
+      let totalCost = 0;
+      formData.purchase_details.forEach((detail) => {
+        totalCost +=
+          parseFloat(detail.quantity_purchased) *
+          parseFloat(detail.buying_price_per_unit);
+      });
+      setFormData((prevData) => ({
+        ...prevData,
+        total_cost: totalCost.toFixed(2), // Round to 2 decimal places
+      }));
+    };
+
+    calculateTotalCost();
+  }, [formData.purchase_details]);
 
   const handleSubmit = () => {
     const formattedData = {
@@ -77,6 +101,7 @@ function PurchaseForm({
       purchase_date: formData.purchase_date,
       shop_id: parseInt(formData.shop_id),
       purchase_details: formData.purchase_details.map((detail) => ({
+        purchase_detail_id: parseFloat(detail.purchase_detail_id),
         ingredient_id: parseInt(detail.ingredient_id),
         quantity_purchased: parseFloat(detail.quantity_purchased),
         unit: detail.unit,
@@ -104,6 +129,24 @@ function PurchaseForm({
     return ingredient ? ingredient.name : "Unknown Shop";
   };
 
+  const handleItemClick = (detail, index) => {
+    setItemDetail(detail);
+
+    // Remove the clicked item from formData.purchase_details
+    const updatedPurchaseDetails = formData.purchase_details.filter(
+      (item, i) => i !== index
+    );
+    setFormData((prevData) => ({
+      ...prevData,
+      purchase_details: updatedPurchaseDetails,
+    }));
+  };
+
+  const handleDeleteClick = (e, index) => {
+    e.stopPropagation(); // Prevents the row click event from being triggered
+    deleteItem(index);
+  };
+
   return (
     <div className="w-full mx-auto mt-5 p-6 bg-white shadow-md rounded-lg">
       <form className="space-y-6">
@@ -116,18 +159,19 @@ function PurchaseForm({
               Total Cost
             </label>
             <input
-              onBlur={(e) =>
-                setFormData({
-                  ...formData,
-                  total_cost: money.format(e.target.value),
-                })
-              }
+              // onBlur={(e) =>
+              //   setFormData({
+              //     ...formData,
+              //     total_cost: money.format(e.target.value),
+              //   })
+              // }
               className="w-full p-2 rounded-lg border transition focus:border-white focus:outline-none focus:ring-2 focus:ring-c4c4c4"
               id="total_cost"
               type="text"
               name="total_cost"
               value={formData.total_cost}
               onChange={handleChange}
+              disabled
             />
           </div>
           <div className="flex-1">
@@ -208,7 +252,7 @@ function PurchaseForm({
             </thead>
             <tbody>
               {formData.purchase_details.map((detail, index) => (
-                <tr key={index}>
+                <tr key={index} onClick={() => handleItemClick(detail, index)}>
                   <td style={{ padding: "8px" }}>
                     {showshop(detail.ingredient_id)}
                   </td>
@@ -222,7 +266,7 @@ function PurchaseForm({
                   <td style={{ padding: "8px" }}>
                     <button
                       className="text-red-500"
-                      onClick={() => deleteItem(index)}
+                      onClick={(e) => handleDeleteClick(e, index)}
                     >
                       Delete
                     </button>
@@ -271,7 +315,7 @@ function PurchaseForm({
               onBlur={(e) =>
                 setItemDetail({
                   ...itemDetail,
-                  quantity_purchased: money.format(e.target.value),
+                  quantity_purchased: e.target.value,
                 })
               }
               className="w-full p-2 rounded-lg border transition focus:border-white focus:outline-none focus:ring-2 focus:ring-c4c4c4"
@@ -285,6 +329,7 @@ function PurchaseForm({
                   quantity_purchased: e.target.value,
                 })
               }
+              required
             />
           </div>
         </div>
@@ -300,7 +345,7 @@ function PurchaseForm({
             <input
               onBlur={(e) =>
                 setItemDetail({
-                  ...formData,
+                  ...itemDetail,
                   unit: e.target.value,
                 })
               }
@@ -315,6 +360,7 @@ function PurchaseForm({
                   unit: e.target.value,
                 })
               }
+              required
             />
           </div>
           <div className="flex-1">
@@ -342,6 +388,7 @@ function PurchaseForm({
                   buying_price_per_unit: e.target.value,
                 })
               }
+              required
             />
           </div>
         </div>

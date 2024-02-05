@@ -200,7 +200,7 @@ export default function AddOrder() {
       >
         <div
           className="flex-grow overflow-auto"
-          style={{ height: "calc(100% - 110px)" }}
+          style={{ height: "calc(100% - 36px)" }}
         >
           <div>
             {/* Search bar */}

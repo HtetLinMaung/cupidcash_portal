@@ -73,7 +73,7 @@ export default function PurchaseEditForm() {
   const updatePurchase = async (data) => {
     try {
       setLoading(true);
-      console.log(data);
+      console.log("Update Purchases", data);
       data.shop_id = parseInt(data.shop_id);
 
       const res = await httpPut(
@@ -87,7 +87,7 @@ export default function PurchaseEditForm() {
         showConfirmButton: false,
         timer: 5000,
       });
-      router.push("/dashboard/ingredient");
+      router.push("/dashboard/purchase");
     } catch (err) {
       setLoading(false);
       handleError(err, router);

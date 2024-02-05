@@ -98,6 +98,7 @@ export default function DashboardLayout({ children }) {
             <div
               className="flex-grow bg-gray-100 h-full w-full "
               style={{
+                height: "calc(100% - 66px)",
                 padding: "2%",
                 backgroundColor: "var(--primary-color)",
               }}
