@@ -155,7 +155,7 @@ export default function PurchaseList() {
                 <div className="flex">
                   <Link
                     className="text-blue-500 hover:underline flex-1"
-                    href={`/dashboard/category/edit?category_id=${purchase.purchase_id}`}
+                    href={`/dashboard/purchase/edit?purchase_id=${purchase.purchase_id}`}
                   >
                     Edit
                   </Link>

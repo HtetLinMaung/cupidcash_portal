@@ -2,7 +2,13 @@ import React, { useState, useEffect, useContext } from "react";
 import moment from "moment";
 import Swal from "sweetalert2";
 import money from "mm-money";
-function PurchaseForm({ purchases = {}, shops = [], onSubmit, onBackClick }) {
+function PurchaseForm({
+  purchases = {},
+  shops = [],
+  ingredients = {},
+  onSubmit,
+  onBackClick,
+}) {
   const [formData, setFormData] = useState({
     total_cost: purchases.total_cost || "0.00",
     purchase_date: purchases.purchase_date
@@ -34,6 +40,7 @@ function PurchaseForm({ purchases = {}, shops = [], onSubmit, onBackClick }) {
     }
   };
 
+  console.log("ingredients", ingredients);
   const addItem = () => {
     // if (
     //   !itemDetail.ingredient_id ||
@@ -91,8 +98,10 @@ function PurchaseForm({ purchases = {}, shops = [], onSubmit, onBackClick }) {
     });
   };
   const showshop = (ingredientId) => {
-    const shop = shops.find((shop) => shop.value == ingredientId);
-    return shop ? shop.label : "Unknown Shop";
+    const ingredient = ingredients.find(
+      (ingredient) => ingredient.ingredient_id == ingredientId
+    );
+    return ingredient ? ingredient.name : "Unknown Shop";
   };
 
   return (
@@ -187,27 +196,41 @@ function PurchaseForm({ purchases = {}, shops = [], onSubmit, onBackClick }) {
           </div>
         </div>
         <div>
-          {formData.purchase_details.map((detail, index) => (
-            <div key={index} className="flex items-center mb-2">
-              <div className="mr-2 text-gray-500">
-                {showshop(detail.ingredient_id)}
-              </div>
-
-              <div className="mr-2 text-gray-500">
-                {detail.quantity_purchased}
-              </div>
-              <div className="mr-2 text-gray-500">{detail.unit}</div>
-              <div className="mr-2 text-gray-500">
-                {detail.buying_price_per_unit}
-              </div>
-              <button
-                className="text-red-500"
-                onClick={() => deleteItem(index)}
-              >
-                Delete
-              </button>
-            </div>
-          ))}
+          <table className="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
+            <thead className="bg-gray-200">
+              <tr className=" text-left">
+                <th style={{ padding: "8px" }}>Ingredient Name</th>
+                <th style={{ padding: "8px" }}>Quantity Purchased</th>
+                <th style={{ padding: "8px" }}>Unit</th>
+                <th style={{ padding: "8px" }}>Buying Price Per Unit</th>
+                <th style={{ padding: "8px" }}>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {formData.purchase_details.map((detail, index) => (
+                <tr key={index}>
+                  <td style={{ padding: "8px" }}>
+                    {showshop(detail.ingredient_id)}
+                  </td>
+                  <td style={{ padding: "8px" }}>
+                    {detail.quantity_purchased}
+                  </td>
+                  <td style={{ padding: "8px" }}>{detail.unit}</td>
+                  <td style={{ padding: "8px" }}>
+                    {detail.buying_price_per_unit}
+                  </td>
+                  <td style={{ padding: "8px" }}>
+                    <button
+                      className="text-red-500"
+                      onClick={() => deleteItem(index)}
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
         <div className="flex space-x-6">
           <div className="flex-1">
@@ -226,9 +249,13 @@ function PurchaseForm({ purchases = {}, shops = [], onSubmit, onBackClick }) {
               required
             >
               <option value="0">Select a Ingredient</option>
-              {shops.map((shop) => (
-                <option key={shop.value} value={shop.value}>
-                  {shop.label}
+
+              {ingredients.map((ingredient) => (
+                <option
+                  key={ingredient.ingredient_id}
+                  value={ingredient.ingredient_id}
+                >
+                  {ingredient.name}
                 </option>
               ))}
             </select>
@@ -244,9 +271,7 @@ function PurchaseForm({ purchases = {}, shops = [], onSubmit, onBackClick }) {
               onBlur={(e) =>
                 setItemDetail({
                   ...itemDetail,
-                  quantity_purchased: money.format(
-                    itemDetail.quantity_purchased
-                  ),
+                  quantity_purchased: money.format(e.target.value),
                 })
               }
               className="w-full p-2 rounded-lg border transition focus:border-white focus:outline-none focus:ring-2 focus:ring-c4c4c4"
@@ -338,7 +363,7 @@ function PurchaseForm({ purchases = {}, shops = [], onSubmit, onBackClick }) {
             handleSubmit();
           }}
         >
-          {purchases.id ? "Update" : "Create"}
+          {purchases.purchase_id ? "Update" : "Create"}
         </button>
       </div>
     </div>

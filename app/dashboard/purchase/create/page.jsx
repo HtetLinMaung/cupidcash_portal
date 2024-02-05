@@ -2,18 +2,49 @@
 import { appContext } from "@/providers/AppProvider";
 import { categoryContext } from "@/providers/CategoryProvider";
 import { getShops } from "@/services/shop";
-import { handleError, httpPost } from "@/utils/rest-client";
+import { handleError, httpGet, httpPost } from "@/utils/rest-client";
 import { useRouter } from "next/navigation";
-import { useContext, useEffect } from "react";
+import { useCallback, useContext, useEffect } from "react";
 import Swal from "sweetalert2";
 import PurchaseForm from "@/components/PurchaseForm";
-import { purchaseContext } from "@/providers/PurchaseProvider";
+import { ingredientContext } from "@/providers/IngredientProvider";
 export default function CreatePurchase() {
   const { setLoading } = useContext(appContext);
   const router = useRouter();
   const { shops, setShops } = useContext(categoryContext);
+  const {
+    ingredients,
+    setIngredients,
+    search,
+    page,
+    perPage,
+    setPageCounts,
+    setTotal,
+  } = useContext(ingredientContext);
+  const fetchIngredients = useCallback(() => {
+    setLoading(true);
+    httpGet("/api/ingredients", {
+      params: {
+        page,
+        per_page: perPage,
+        search,
+      },
+    })
+      .then((res) => {
+        setLoading(false);
+        setTotal(res.data.total);
+        setPageCounts(res.data.page_counts);
+        setIngredients(res.data.data);
+      })
+      .catch((err) => {
+        setLoading(false);
+        handleError(err, router);
+      });
+  }, [page, perPage, router, search]);
+
   useEffect(() => {
     setLoading(true);
+    fetchIngredients();
     getShops()
       .then((res) => {
         setLoading(false);
@@ -58,6 +89,7 @@ export default function CreatePurchase() {
     <div className="px-2 pr-6 pb-6">
       <div className="flex-grow bg-gray-100 pt-8 mb-6"></div>
       <PurchaseForm
+        ingredients={ingredients}
         shops={shops}
         onSubmit={CreatePurchase}
         onBackClick={handleBackClick}
